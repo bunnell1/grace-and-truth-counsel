@@ -620,6 +620,36 @@ const counselingIssues = [
         <li>Distinguish between forgiveness and reconciliation or restored trust.</li>
       </ul>
     `
+  },
+  {
+    id: "parenting-alienation",
+    title: "Parenting & Parental Alienation",
+    summary: "Guiding parents through conflict, loss of relationship with children, and the pain of alienation.",
+    dsm: "May relate to adjustment, trauma, or relational categories",
+    content: `
+      <h2>Parenting & Parental Alienation</h2>
+      <p>Parenting is a high calling and a source of both deep joy and real suffering. When conflict, divorce, or other pressures lead to a child rejecting one parent (sometimes called parental alienation), the pain is profound. Biblical counseling addresses both the heart issues of all involved and the reality of suffering, while pointing to God’s care for the brokenhearted and His ultimate authority over families.</p>
+      <div class="verse">“Fathers, do not provoke your children to anger, but bring them up in the discipline and instruction of the Lord.” — Ephesians 6:4</div>
+      <div class="verse">“The Lord is near to the brokenhearted and saves the crushed in spirit.” — Psalm 34:18</div>
+      <div class="verse">“Train up a child in the way he should go; even when he is old he will not depart from it.” — Proverbs 22:6</div>
+      <div class="verse">“Children, obey your parents in the Lord, for this is right. ‘Honor your father and mother’…” — Ephesians 6:1-2</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Parents are stewards, not owners, of their children. The ultimate goal is to point them to Christ.</li>
+        <li>God cares deeply for the brokenhearted and the unjustly treated (Psalm 34:18; Isaiah 61:1-3).</li>
+        <li>Sin (bitterness, control, partiality, failure to honor) can be present on all sides and must be addressed honestly.</li>
+        <li>Hope rests in God’s power to soften hearts and restore what is broken, not in human strategies alone (Joel 2:25; Romans 8:28).</li>
+        <li>Parents are called to continue in prayer, faithfulness, and godly character even when relationship is limited or absent.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Help the alienated parent grieve the loss while entrusting the child and the situation to the Lord.</li>
+        <li>Examine any personal contributions (anger, criticism, inconsistent discipline, etc.) with humility and repentance where needed.</li>
+        <li>Discourage retaliatory speech or behavior; encourage consistent love, prayer, and appropriate boundaries.</li>
+        <li>Support wise, limited contact that prioritizes the child’s well-being and does not further entrench division.</li>
+        <li>Point to Christ’s own experience of rejection and His sufficient grace for the long road of waiting and faithfulness.</li>
+      </ul>
+    `
   }
 ];
 
@@ -669,11 +699,24 @@ function renderModuleList() {
   list.classList.remove('hidden');
 }
 
+function linkifyVerses(html) {
+  // Turn common Scripture references into Bible Gateway links
+  return html.replace(
+    /([1-3]?\s?[A-Za-z]+\s+\d+:\d+(?:-\d+)?)/g,
+    (match) => {
+      const encoded = encodeURIComponent(match.trim());
+      const url = `https://www.biblegateway.com/passage/?search=${encoded}&version=ESV`;
+      return `<a href="${url}" target="_blank" rel="noopener" title="Open ${match.trim()} in Bible Gateway">${match}</a>`;
+    }
+  );
+}
+
 function showModule(id) {
   const mod = modules.find(m => m.id === id);
   document.getElementById('module-list').classList.add('hidden');
   const detail = document.getElementById('module-detail');
-  detail.innerHTML = `<div class="card">${mod.content}<button class="btn secondary" onclick="renderModuleList()">← Back to Modules</button></div>`;
+  const linkedContent = linkifyVerses(mod.content);
+  detail.innerHTML = `<div class="card">${linkedContent}<button class="btn secondary" onclick="renderModuleList()">← Back to Modules</button></div>`;
   detail.classList.remove('hidden');
 }
 
@@ -699,7 +742,8 @@ function showIssue(id) {
   const issue = counselingIssues.find(m => m.id === id);
   document.getElementById('issue-list').classList.add('hidden');
   const detail = document.getElementById('issue-detail');
-  detail.innerHTML = `<div class="card">${issue.content}<button class="btn secondary" onclick="renderIssueList()">← Back to Issues</button></div>`;
+  const linkedContent = linkifyVerses(issue.content);
+  detail.innerHTML = `<div class="card">${linkedContent}<button class="btn secondary" onclick="renderIssueList()">← Back to Issues</button></div>`;
   detail.classList.remove('hidden');
 }
 
@@ -718,7 +762,11 @@ function renderScripture(filter = '') {
     <div class="scripture-item">
       <strong>${item.topic}</strong>
       <ul style="margin-top:0.4rem;">
-        ${item.verses.map(v => `<li>${v}</li>`).join('')}
+        ${item.verses.map(v => {
+          const encoded = encodeURIComponent(v);
+          const url = `https://www.biblegateway.com/passage/?search=${encoded}&version=ESV`;
+          return `<li><a href="${url}" target="_blank" rel="noopener" title="Open ${v} in Bible Gateway">${v}</a></li>`;
+        }).join('')}
       </ul>
     </div>
   `).join('') || '<p>No matches found.</p>';
