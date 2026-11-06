@@ -147,6 +147,52 @@
     font-style: italic;
     margin-top: 1rem;
   }
+  .favorite-btn {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: #ccc;
+    float: right;
+    margin-top: -0.25rem;
+  }
+  .favorite-btn.active { color: #d4a017; }
+  .related {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+  .related a {
+    display: inline-block;
+    margin: 0.25rem 0.5rem 0.25rem 0;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--accent);
+  }
+  .notes-area {
+    width: 100%;
+    min-height: 80px;
+    margin-top: 0.5rem;
+    padding: 0.65rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.95rem;
+  }
+  .print-btn { margin-left: 0.5rem; }
+  mark { background: #fff3cd; padding: 0 0.1em; }
+  @media (max-width: 640px) {
+    header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    nav button { padding: 0.6rem 0.9rem; margin: 0.2rem; }
+    .btn { display: block; width: 100%; margin: 0.4rem 0; }
+    .btn.secondary { margin-left: 0; }
+    main { padding: 1.25rem 1rem 3rem; }
+  }
+  @media print {
+    header, nav, footer, .btn, .favorite-btn, .notes-area, .related { display: none !important; }
+    body { background: white; }
+    .card { border: none; box-shadow: none; }
+  }
 </style>
 </head>
 <body>
@@ -171,6 +217,7 @@
       <button class="btn" onclick="showSection('assessment')">Take the Self-Assessment</button>
       <button class="btn secondary" onclick="showSection('modules')" style="margin-left:0.5rem;">Browse Modules</button>
       <button class="btn secondary" onclick="showSection('issues')" style="margin-left:0.5rem;">Counseling Issues</button>
+      <button class="btn secondary" onclick="showSection('scripture')" style="margin-left:0.5rem;">Scripture Resources</button>
     </div>
     <div class="card">
       <h3>What’s Inside</h3>
@@ -227,7 +274,8 @@
 </main>
 
 <footer>
-  Grace & Truth Counsel • Prototype for biblical counselors • Built for reflection and growth • Not a substitute for personal study, prayer, or wise counsel
+  Grace & Truth Counsel • Prototype for biblical counselors • Built for reflection and growth • Not a substitute for personal study, prayer, or wise counsel<br>
+  <span style="font-size:0.8rem;">Last updated: November 6, 2026</span>
 </footer>
 
 <script>
@@ -650,6 +698,305 @@ const counselingIssues = [
         <li>Point to Christ’s own experience of rejection and His sufficient grace for the long road of waiting and faithfulness.</li>
       </ul>
     `
+  },
+  {
+    id: "grief",
+    title: "Grief & Loss",
+    summary: "Walking with those who mourn, offering the comfort of the God of all comfort.",
+    dsm: "May relate to adjustment or trauma-related categories",
+    content: `
+      <h2>Grief & Loss</h2>
+      <p>Grief is a normal, painful response to loss. Biblical counseling neither rushes people past sorrow nor leaves them without hope. The Psalms model honest lament, and the gospel promises that death and loss do not have the final word.</p>
+      <div class="verse">“Blessed are those who mourn, for they shall be comforted.” — Matthew 5:4</div>
+      <div class="verse">“The Lord is near to the brokenhearted and saves the crushed in spirit.” — Psalm 34:18</div>
+      <div class="verse">“We do not want you to be uninformed… about those who are asleep, that you may not grieve as others do who have no hope.” — 1 Thessalonians 4:13</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Lament is a biblical response; God invites honest expression of pain.</li>
+        <li>Hope in the resurrection does not eliminate grief but transforms it.</li>
+        <li>Community and the presence of others matter deeply in mourning.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Give space for sorrow without demanding quick resolution.</li>
+        <li>Point gently to the God who knows suffering and who will wipe every tear.</li>
+        <li>Help the person continue ordinary faithfulness while grieving.</li>
+      </ul>
+    `
+  },
+  {
+    id: "sexual-sin",
+    title: "Sexual Sin / Pornography",
+    summary: "Addressing sexual brokenness with gospel hope, repentance, and practical freedom.",
+    dsm: "May relate to impulse-control or other categories",
+    content: `
+      <h2>Sexual Sin & Pornography</h2>
+      <p>Sexual sin, including pornography, is a common and deeply enslaving struggle. Biblical counseling treats it as idolatry and slavery from which Christ sets free, while offering practical steps and accountable community.</p>
+      <div class="verse">“Flee from sexual immorality… You are not your own, for you were bought with a price.” — 1 Corinthians 6:18-20</div>
+      <div class="verse">“If the Son sets you free, you will be free indeed.” — John 8:36</div>
+      <div class="verse">“Put to death therefore what is earthly in you: sexual immorality, impurity, passion…” — Colossians 3:5</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Sexual sin is serious, but the gospel offers full forgiveness and real power for change.</li>
+        <li>Freedom comes through repentance, the Spirit, and the body of Christ—not willpower alone.</li>
+        <li>Honest confession and accountability are essential.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Explore the heart desires and triggers behind the behavior.</li>
+        <li>Encourage concrete steps: filters, accountability partners, Scripture meditation.</li>
+        <li>Point repeatedly to the sufficiency of Christ and the hope of progressive freedom.</li>
+      </ul>
+    `
+  },
+  {
+    id: "fear-of-man",
+    title: "Fear of Man / People-Pleasing",
+    summary: "Moving from the fear of others to the fear of the Lord and freedom in Christ.",
+    dsm: "May relate to social anxiety or other categories",
+    content: `
+      <h2>Fear of Man & People-Pleasing</h2>
+      <p>The fear of man is a snare. When approval or avoidance of conflict controls decisions, biblical counseling redirects the heart to the fear of the Lord and identity in Christ.</p>
+      <div class="verse">“The fear of man lays a snare, but whoever trusts in the Lord is safe.” — Proverbs 29:25</div>
+      <div class="verse">“Am I now seeking the approval of man, or of God?” — Galatians 1:10</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>The fear of the Lord is the beginning of wisdom and true freedom.</li>
+        <li>Identity in Christ frees us from living for the opinions of others.</li>
+        <li>Love and truth can coexist; people-pleasing often sacrifices one.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Identify specific situations where fear of man drives behavior.</li>
+        <li>Practice speaking truth in love in small, safe steps.</li>
+        <li>Meditate on God’s acceptance and the sufficiency of Christ.</li>
+      </ul>
+    `
+  },
+  {
+    id: "conflict",
+    title: "Conflict & Peacemaking",
+    summary: "Biblical principles for resolving conflict and pursuing peace.",
+    dsm: "Relational issues",
+    content: `
+      <h2>Conflict & Peacemaking</h2>
+      <p>Conflict is inevitable in a fallen world. Biblical counseling equips people to pursue peace through humility, truth-telling, forgiveness, and the gospel.</p>
+      <div class="verse">“If possible, so far as it depends on you, live peaceably with all.” — Romans 12:18</div>
+      <div class="verse">“Blessed are the peacemakers, for they shall be called sons of God.” — Matthew 5:9</div>
+      <div class="verse">“A soft answer turns away wrath, but a harsh word stirs up anger.” — Proverbs 15:1</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Peacemaking begins with examining one’s own heart (Matthew 7:3-5).</li>
+        <li>Truth and love must be held together (Ephesians 4:15).</li>
+        <li>Forgiveness and reconciliation are distinct but related callings.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Help identify logs in one’s own eye before addressing others.</li>
+        <li>Practice soft answers and clear, loving communication.</li>
+        <li>Distinguish between peace-faking and genuine peacemaking.</li>
+      </ul>
+    `
+  },
+  {
+    id: "identity",
+    title: "Identity in Christ",
+    summary: "Rooting identity in who God says we are rather than performance, feelings, or others’ opinions.",
+    dsm: "May relate to various categories",
+    content: `
+      <h2>Identity in Christ</h2>
+      <p>Many struggles flow from misplaced identity. Biblical counseling anchors the person in the unchanging reality of union with Christ.</p>
+      <div class="verse">“Therefore, if anyone is in Christ, he is a new creation.” — 2 Corinthians 5:17</div>
+      <div class="verse">“I have been crucified with Christ. It is no longer I who live, but Christ who lives in me.” — Galatians 2:20</div>
+      <div class="verse">“You are not your own, for you were bought with a price.” — 1 Corinthians 6:19-20</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Identity is received, not achieved.</li>
+        <li>Feelings and failures do not define the believer; Christ does.</li>
+        <li>Living from identity leads to obedience rather than striving for it.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Help the person name false identities they have embraced.</li>
+        <li>Regularly return to gospel indicatives before imperatives.</li>
+        <li>Encourage Scripture meditation on who they are in Christ.</li>
+      </ul>
+    `
+  },
+  {
+    id: "worry-control",
+    title: "Worry & Control",
+    summary: "Addressing anxiety rooted in the desire to control outcomes.",
+    dsm: "Anxiety-related",
+    content: `
+      <h2>Worry & Control</h2>
+      <p>Worry often masks a demand for control. Biblical counseling redirects trust from self to the sovereign, good God.</p>
+      <div class="verse">“Do not be anxious about tomorrow…” — Matthew 6:34</div>
+      <div class="verse">“Cast all your anxiety on him because he cares for you.” — 1 Peter 5:7</div>
+      <div class="verse">“Trust in the Lord with all your heart, and do not lean on your own understanding.” — Proverbs 3:5-6</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>God is sovereign; our control is limited and often idolatrous.</li>
+        <li>Prayer is the God-ordained alternative to anxious control.</li>
+        <li>Peace comes from entrusting outcomes to the Father.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Identify specific areas where control is demanded.</li>
+        <li>Practice casting cares through concrete prayer.</li>
+        <li>Encourage small acts of trust and release.</li>
+      </ul>
+    `
+  },
+  {
+    id: "shame-guilt",
+    title: "Shame & Guilt",
+    summary: "Distinguishing true guilt from shame and applying the gospel of forgiveness.",
+    dsm: "May relate to depressive or trauma categories",
+    content: `
+      <h2>Shame & Guilt</h2>
+      <p>True guilt responds to the gospel with repentance and forgiveness. Shame often lingers even after forgiveness and must be addressed with the truth of Christ’s covering.</p>
+      <div class="verse">“There is therefore now no condemnation for those who are in Christ Jesus.” — Romans 8:1</div>
+      <div class="verse">“If we confess our sins, he is faithful and just to forgive us our sins and to cleanse us from all unrighteousness.” — 1 John 1:9</div>
+      <div class="verse">“As far as the east is from the west, so far does he remove our transgressions from us.” — Psalm 103:12</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Guilt for actual sin is resolved at the cross.</li>
+        <li>Shame that remains after confession often reflects unbelief in the finished work of Christ.</li>
+        <li>God covers and clothes His people; we do not remain naked or exposed.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Help distinguish conviction from condemnation.</li>
+        <li>Repeatedly apply specific promises of forgiveness and cleansing.</li>
+        <li>Encourage confession where needed and resting where already forgiven.</li>
+      </ul>
+    `
+  },
+  {
+    id: "singleness",
+    title: "Singleness & Marriage Desire",
+    summary: "Biblical perspective on contentment, desire for marriage, and living faithfully in either state.",
+    dsm: "Relational / life-stage",
+    content: `
+      <h2>Singleness & Desire for Marriage</h2>
+      <p>Both singleness and marriage are gifts from God. Biblical counseling helps people live faithfully in their current season while entrusting desires to the Lord.</p>
+      <div class="verse">“I wish that all were as I myself am. But each has his own gift from God…” — 1 Corinthians 7:7</div>
+      <div class="verse">“Delight yourself in the Lord, and he will give you the desires of your heart.” — Psalm 37:4</div>
+      <div class="verse">“For I have learned in whatever situation I am to be content.” — Philippians 4:11</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Contentment is learned and rooted in Christ, not circumstances.</li>
+        <li>Desire for marriage is legitimate; it must be held loosely before God.</li>
+        <li>Faithfulness in the present season is the calling.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Explore whether contentment or idolatry is present.</li>
+        <li>Encourage community, service, and growth in the current season.</li>
+        <li>Point to Christ’s sufficiency in every life stage.</li>
+      </ul>
+    `
+  },
+  {
+    id: "church-hurt",
+    title: "Church Hurt / Spiritual Abuse",
+    summary: "Helping those wounded by churches or leaders process pain while remaining anchored in Christ and His true body.",
+    dsm: "May relate to trauma or adjustment",
+    content: `
+      <h2>Church Hurt & Spiritual Abuse</h2>
+      <p>Wounds inflicted by those who claim Christ’s name are especially painful. Biblical counseling acknowledges real harm, calls for justice where appropriate, and points to the true Shepherd who never fails.</p>
+      <div class="verse">“The Lord is my shepherd; I shall not want.” — Psalm 23:1</div>
+      <div class="verse">“He heals the brokenhearted and binds up their wounds.” — Psalm 147:3</div>
+      <div class="verse">“Woe to the shepherds who destroy and scatter the sheep of my pasture!” — Jeremiah 23:1</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Christ is the true and good Shepherd; human leaders are fallible under-shepherds.</li>
+        <li>Real harm can occur in the church; it does not nullify the church’s calling.</li>
+        <li>Forgiveness and wisdom about future involvement can coexist.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Give space to name the harm without minimizing it.</li>
+        <li>Distinguish between the failures of people and the character of Christ.</li>
+        <li>Help discern wise next steps regarding church involvement and boundaries.</li>
+      </ul>
+    `
+  },
+  {
+    id: "aging-parents",
+    title: "End-of-Life & Aging Parents",
+    summary: "Caring for aging parents with wisdom, honor, and realistic limits.",
+    dsm: "Caregiver stress / life transition",
+    content: `
+      <h2>Aging Parents & End-of-Life Care</h2>
+      <p>Honoring parents includes practical care in later years. Biblical counseling helps adult children navigate responsibility, limits, guilt, and the approaching reality of death.</p>
+      <div class="verse">“Honor your father and your mother…” — Exodus 20:12</div>
+      <div class="verse">“But if anyone does not provide for his relatives… he has denied the faith.” — 1 Timothy 5:8</div>
+      <div class="verse">“Precious in the sight of the Lord is the death of his saints.” — Psalm 116:15</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Honor continues into adulthood and includes practical care within limits.</li>
+        <li>Adult children are not called to sacrifice their own households without wisdom.</li>
+        <li>Death is an enemy, yet for the believer it is gain.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Clarify realistic responsibilities and healthy boundaries.</li>
+        <li>Address guilt that arises from imperfect caregiving.</li>
+        <li>Prepare hearts for loss while encouraging present faithfulness.</li>
+      </ul>
+    `
+  },
+  {
+    id: "ministry-burnout",
+    title: "Work, Calling & Ministry Burnout",
+    summary: "Sustaining long-term faithfulness without self-reliance or exhaustion.",
+    dsm: "Burnout / adjustment",
+    content: `
+      <h2>Work, Calling & Ministry Burnout</h2>
+      <p>Those who serve others are especially vulnerable to depletion. Biblical counseling addresses both the heart (savior complex, fear of man) and practical rhythms of rest.</p>
+      <div class="verse">“Come to me, all who labor and are heavy laden, and I will give you rest.” — Matthew 11:28</div>
+      <div class="verse">“My grace is sufficient for you, for my power is made perfect in weakness.” — 2 Corinthians 12:9</div>
+      <div class="verse">“Unless the Lord builds the house, those who build it labor in vain.” — Psalm 127:1</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>We are finite; God is not. Rest is an act of trust.</li>
+        <li>Fruitfulness is the Spirit’s work, not ours alone.</li>
+        <li>Boundaries protect both the servant and the work.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Identify unsustainable patterns and savior complexes.</li>
+        <li>Encourage Sabbath, delegation, and dependence on God.</li>
+        <li>Reaffirm identity in Christ apart from ministry productivity.</li>
+      </ul>
+    `
+  },
+  {
+    id: "child-anxiety",
+    title: "Anxiety in Children & Teens (Parent’s Perspective)",
+    summary: "Helping parents respond wisely to a child’s anxiety with both compassion and biblical truth.",
+    dsm: "Anxiety Disorders (pediatric)",
+    content: `
+      <h2>Anxiety in Children & Teens</h2>
+      <p>Parents often feel helpless when a child struggles with anxiety. Biblical counseling equips parents to offer both comfort and gentle redirection toward trust in God, while remaining aware of possible medical factors.</p>
+      <div class="verse">“Do not be anxious about anything, but in everything by prayer…” — Philippians 4:6</div>
+      <div class="verse">“Cast all your anxiety on him because he cares for you.” — 1 Peter 5:7</div>
+      <div class="verse">“Fathers, do not provoke your children to anger, but bring them up in the discipline and instruction of the Lord.” — Ephesians 6:4</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Parents model trust; children learn more from what is caught than taught.</li>
+        <li>Anxiety is real suffering; it is also an opportunity to learn dependence on God.</li>
+        <li>Over-protection and dismissiveness are both unhelpful extremes.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Help parents respond with calm presence rather than matching the child’s anxiety.</li>
+        <li>Encourage age-appropriate truth-telling about God’s care.</li>
+        <li>Support practical steps and, when needed, professional medical evaluation.</li>
+      </ul>
+    `
   }
 ];
 
@@ -723,17 +1070,21 @@ function showModule(id) {
 // Counseling Issues (searchable)
 function renderIssueList(filter = '') {
   const list = document.getElementById('issue-list');
+  const q = filter.toLowerCase();
   const filtered = counselingIssues.filter(item =>
-    item.title.toLowerCase().includes(filter.toLowerCase()) ||
-    item.summary.toLowerCase().includes(filter.toLowerCase()) ||
-    (item.dsm && item.dsm.toLowerCase().includes(filter.toLowerCase()))
+    item.title.toLowerCase().includes(q) ||
+    item.summary.toLowerCase().includes(q) ||
+    (item.dsm && item.dsm.toLowerCase().includes(q))
   );
-  list.innerHTML = filtered.map(m => `
+  list.innerHTML = filtered.map(m => {
+    const title = q ? m.title.replace(new RegExp(`(${filter})`, 'gi'), '<mark>$1</mark>') : m.title;
+    const summary = q ? m.summary.replace(new RegExp(`(${filter})`, 'gi'), '<mark>$1</mark>') : m.summary;
+    return `
     <div class="module-item" onclick="showIssue('${m.id}')">
-      <strong>${m.title}</strong>
-      <span style="color:var(--muted);font-size:0.95rem;">${m.summary}</span>
-    </div>
-  `).join('') || '<p>No matching issues found.</p>';
+      <strong>${title}</strong>
+      <span style="color:var(--muted);font-size:0.95rem;">${summary}</span>
+    </div>`;
+  }).join('') || '<p>No matching issues found.</p>';
   document.getElementById('issue-detail').classList.add('hidden');
   list.classList.remove('hidden');
 }
@@ -743,8 +1094,42 @@ function showIssue(id) {
   document.getElementById('issue-list').classList.add('hidden');
   const detail = document.getElementById('issue-detail');
   const linkedContent = linkifyVerses(issue.content);
-  detail.innerHTML = `<div class="card">${linkedContent}<button class="btn secondary" onclick="renderIssueList()">← Back to Issues</button></div>`;
+  const isFav = localStorage.getItem('fav-' + id) === 'true';
+  const notes = localStorage.getItem('notes-' + id) || '';
+  const related = counselingIssues
+    .filter(i => i.id !== id)
+    .slice(0, 3)
+    .map(i => `<a href="#" onclick="showIssue('${i.id}'); return false;">${i.title}</a>`)
+    .join('');
+
+  detail.innerHTML = `
+    <div class="card">
+      <button class="favorite-btn ${isFav ? 'active' : ''}" onclick="toggleFavorite('${id}', this)" title="Favorite">★</button>
+      ${linkedContent}
+      <div class="related">
+        <strong>Related topics:</strong><br>
+        ${related}
+      </div>
+      <h3 style="margin-top:1.5rem;">Personal Notes</h3>
+      <textarea class="notes-area" id="notes-${id}" placeholder="Private notes (stored only in this browser)…">${notes}</textarea>
+      <button class="btn secondary" onclick="saveNotes('${id}')">Save Notes</button>
+      <button class="btn secondary print-btn" onclick="window.print()">Print / Save as PDF</button>
+      <button class="btn secondary" onclick="renderIssueList()">← Back to Issues</button>
+    </div>`;
   detail.classList.remove('hidden');
+}
+
+function toggleFavorite(id, btn) {
+  const key = 'fav-' + id;
+  const isFav = localStorage.getItem(key) === 'true';
+  localStorage.setItem(key, (!isFav).toString());
+  btn.classList.toggle('active');
+}
+
+function saveNotes(id) {
+  const val = document.getElementById('notes-' + id).value;
+  localStorage.setItem('notes-' + id, val);
+  alert('Notes saved locally in this browser.');
 }
 
 document.getElementById('issue-search').addEventListener('input', (e) => {
