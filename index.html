@@ -189,9 +189,17 @@
     main { padding: 1.25rem 1rem 3rem; }
   }
   @media print {
-    header, nav, footer, .btn, .favorite-btn, .notes-area, .related { display: none !important; }
+    header, nav, footer, .btn, .favorite-btn, .related { display: none !important; }
     body { background: white; }
     .card { border: none; box-shadow: none; }
+    .notes-area {
+      display: block !important;
+      border: 1px solid #ccc;
+      min-height: auto;
+      margin-top: 1rem;
+      padding: 0.5rem;
+      white-space: pre-wrap;
+    }
   }
 </style>
 </head>
