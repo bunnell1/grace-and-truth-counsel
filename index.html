@@ -292,6 +292,10 @@ const modules = [
     id: "burnout",
     title: "Burnout & Compassion Fatigue",
     summary: "When bearing others’ burdens leaves you depleted.",
+    furtherReading: [
+      { title: "Instruments in the Redeemer’s Hands", url: "https://www.amazon.com/Instruments-Redeemers-Hands-People-Change/dp/0875526071", note: "Paul Tripp" },
+      { title: "The Biblical Counseling Coalition", url: "https://www.biblicalcounselingcoalition.org/", note: "Articles and resources" }
+    ],
     content: `
       <h2>Burnout & Compassion Fatigue</h2>
       <p>Caring for souls is costly. Galatians 6:2 calls us to bear one another’s burdens, yet we are finite. When rest, spiritual nourishment, and boundaries are neglected, compassion can turn to exhaustion.</p>
@@ -408,6 +412,10 @@ const counselingIssues = [
     title: "Anxiety Disorders (GAD, Panic, Phobias, Social Anxiety)",
     summary: "Excessive fear, worry, and avoidance. DSM categories describe symptom clusters; biblical counseling addresses the heart’s trust and desires.",
     dsm: "Anxiety Disorders",
+    furtherReading: [
+      { title: "Running Scared", url: "https://www.amazon.com/Running-Scared-Fear-Worry-God/dp/0978556709", note: "Edward Welch (CCEF)" },
+      { title: "CCEF Resources on Anxiety", url: "https://www.ccef.org/topic/anxiety/", note: "Articles and books" }
+    ],
     content: `
       <h2>Anxiety Disorders</h2>
       <p>DSM-5 anxiety disorders (Generalized Anxiety, Panic, Specific Phobia, Social Anxiety, etc.) describe clusters of excessive fear, worry, physical symptoms, and avoidance. Biblical counseling explores what the heart is trusting, fearing, or worshiping, while acknowledging that physical factors may contribute and warrant medical evaluation.</p>
@@ -1071,7 +1079,11 @@ function showModule(id) {
   document.getElementById('module-list').classList.add('hidden');
   const detail = document.getElementById('module-detail');
   const linkedContent = linkifyVerses(mod.content);
-  detail.innerHTML = `<div class="card">${linkedContent}<button class="btn secondary" onclick="renderModuleList()">← Back to Modules</button></div>`;
+  const further = (mod.furtherReading || []).map(r => 
+    `<li><a href="${r.url}" target="_blank" rel="noopener">${r.title}</a>${r.note ? ' — ' + r.note : ''}</li>`
+  ).join('');
+  const furtherHtml = further ? `<h3>For Further Reading</h3><ul>${further}</ul>` : '';
+  detail.innerHTML = `<div class="card">${linkedContent}${furtherHtml}<button class="btn secondary" onclick="renderModuleList()">← Back to Modules</button></div>`;
   detail.classList.remove('hidden');
 }
 
@@ -1110,10 +1122,16 @@ function showIssue(id) {
     .map(i => `<a href="#" onclick="showIssue('${i.id}'); return false;">${i.title}</a>`)
     .join('');
 
+  const further = (issue.furtherReading || []).map(r => 
+    `<li><a href="${r.url}" target="_blank" rel="noopener">${r.title}</a>${r.note ? ' — ' + r.note : ''}</li>`
+  ).join('');
+  const furtherHtml = further ? `<h3>For Further Reading</h3><ul>${further}</ul>` : '';
+
   detail.innerHTML = `
     <div class="card">
       <button class="favorite-btn ${isFav ? 'active' : ''}" onclick="toggleFavorite('${id}', this)" title="Favorite">★</button>
       ${linkedContent}
+      ${furtherHtml}
       <div class="related">
         <strong>Related topics:</strong><br>
         ${related}
