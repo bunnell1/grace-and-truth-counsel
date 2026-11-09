@@ -419,6 +419,84 @@ const modules = [
         <li>What simple boundary would help me remain present and sustainable?</li>
       </ol>
     `
+  },
+  {
+    id: "fear-of-man-counselor",
+    title: "Fear of Man in Counseling",
+    summary: "When concern about others’ opinions shapes how you counsel.",
+    furtherReading: [
+      { title: "When People Are Big and God Is Small", url: "https://www.amazon.com/When-People-Are-Big-Small/dp/0875526004", note: "Edward Welch" },
+      { title: "The Peacemaker", url: "https://www.amazon.com/Peacemaker-Biblical-Resolving-Personal-Conflict/dp/0801064856", note: "Ken Sande" }
+    ],
+    content: `
+      <h2>Fear of Man in Counseling</h2>
+      <p>Counselors are not immune to the fear of man. Concern about being liked, looking competent, or avoiding conflict can quietly shape what we say and what we leave unsaid.</p>
+      <div class="verse">“The fear of man lays a snare, but whoever trusts in the Lord is safe.” — Proverbs 29:25</div>
+      <div class="verse">“Am I now seeking the approval of man, or of God?” — Galatians 1:10</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Your primary audience is the Lord; faithfulness matters more than approval.</li>
+        <li>Fear of man often reveals a heart that values human opinion over God’s.</li>
+        <li>Truth spoken in love serves the counselee better than silence born of fear.</li>
+      </ul>
+      <h3>Reflection Questions</h3>
+      <ol>
+        <li>Where am I tempted to soften or withhold truth to protect my image?</li>
+        <li>Whose approval am I seeking in difficult conversations?</li>
+      </ol>
+    `
+  },
+  {
+    id: "self-examination",
+    title: "Guarding Your Own Heart",
+    summary: "Regularly examining personal sin patterns that affect counseling.",
+    furtherReading: [
+      { title: "Instruments in the Redeemer’s Hands", url: "https://www.amazon.com/Instruments-Redeemers-Hands-People-Change/dp/0875526071", note: "Paul Tripp" },
+      { title: "A Theology of Biblical Counseling", url: "https://www.amazon.com/Theology-Biblical-Counseling-Doctrinal-Foundations/dp/031051817X", note: "Heath Lambert" }
+    ],
+    content: `
+      <h2>Guarding Your Own Heart</h2>
+      <p>Counselors help others with their hearts while remaining responsible for their own. Unaddressed sin, pride, or discouragement in the counselor can hinder effective ministry.</p>
+      <div class="verse">“Keep your heart with all vigilance, for from it flow the springs of life.” — Proverbs 4:23</div>
+      <div class="verse">“Search me, O God, and know my heart!” — Psalm 139:23</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>You cannot give what you do not have; your walk with Christ matters.</li>
+        <li>Pride, bitterness, or unconfessed sin can distort how you listen and speak.</li>
+        <li>Accountability and self-examination protect both you and those you counsel.</li>
+      </ul>
+      <h3>Reflection Questions</h3>
+      <ol>
+        <li>What sin patterns in my life could affect how I counsel others?</li>
+        <li>Who helps me examine my own heart regularly?</li>
+      </ol>
+    `
+  },
+  {
+    id: "criticism",
+    title: "Handling Criticism & Difficult Sessions",
+    summary: "Responding wisely when sessions go poorly or you face pushback.",
+    furtherReading: [
+      { title: "The Peacemaker", url: "https://www.amazon.com/Peacemaker-Biblical-Resolving-Personal-Conflict/dp/0801064856", note: "Ken Sande" },
+      { title: "Counseling the Hard Cases", url: "https://www.amazon.com/Counseling-Hard-Cases-Stuart-Scott/dp/1433537119", note: "Stuart Scott & Heath Lambert" }
+    ],
+    content: `
+      <h2>Handling Criticism & Difficult Sessions</h2>
+      <p>Not every session goes well. Criticism, resistance, or a sense of failure can tempt counselors toward defensiveness, withdrawal, or self-condemnation.</p>
+      <div class="verse">“A soft answer turns away wrath, but a harsh word stirs up anger.” — Proverbs 15:1</div>
+      <div class="verse">“If possible, so far as it depends on you, live peaceably with all.” — Romans 12:18</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Your identity is in Christ, not in session outcomes or others’ opinions.</li>
+        <li>Listen carefully to criticism; some of it may be the Lord’s correction.</li>
+        <li>Process difficult moments with trusted mentors rather than in isolation.</li>
+      </ul>
+      <h3>Reflection Questions</h3>
+      <ol>
+        <li>How do I typically respond when a session feels unsuccessful?</li>
+        <li>Who can help me process criticism or discouragement wisely?</li>
+      </ol>
+    `
   }
 ];
 
@@ -1289,7 +1367,10 @@ const questions = [
   { q: "Do you find yourself giving advice before fully understanding the person’s story?", options: ["Rarely", "Sometimes", "Often"] },
   { q: "When a counselee shows little change, how do you typically respond?", options: ["I trust God with the outcome", "I feel mildly discouraged", "I question my competence", "I feel significant pressure to fix it"] },
   { q: "How well do you balance addressing personal sin and acknowledging real suffering?", options: ["I carefully consider both", "I lean more toward one", "I often struggle with the balance"] },
-  { q: "Do you regularly protect time for your own spiritual rest and nourishment?", options: ["Yes, consistently", "Most of the time", "Occasionally", "Rarely"] }
+  { q: "Do you regularly protect time for your own spiritual rest and nourishment?", options: ["Yes, consistently", "Most of the time", "Occasionally", "Rarely"] },
+  { q: "How often does fear of what others think affect how you counsel or what you say?", options: ["Rarely", "Sometimes", "Often"] },
+  { q: "When you face criticism or a difficult session, how do you usually respond?", options: ["I process it with the Lord and others", "I feel discouraged but move on", "I tend to withdraw or doubt myself"] },
+  { q: "Are you regularly examining your own heart for sin patterns that could affect your counseling?", options: ["Yes, intentionally", "Occasionally", "Rarely"] }
 ];
 
 function renderQuiz() {
