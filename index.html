@@ -212,6 +212,7 @@
     <button data-section="modules">Modules</button>
     <button data-section="issues">Counseling Issues</button>
     <button data-section="scripture">Scripture</button>
+    <button data-section="prayer">Prayer Guide</button>
   </nav>
 </header>
 
@@ -226,6 +227,7 @@
       <button class="btn secondary" onclick="showSection('modules')" style="margin-left:0.5rem;">Browse Modules</button>
       <button class="btn secondary" onclick="showSection('issues')" style="margin-left:0.5rem;">Counseling Issues</button>
       <button class="btn secondary" onclick="showSection('scripture')" style="margin-left:0.5rem;">Scripture Resources</button>
+      <button class="btn secondary" onclick="showSection('prayer')" style="margin-left:0.5rem;">Prayer Guide</button>
     </div>
     <div class="card">
       <h3>What’s Inside</h3>
@@ -279,6 +281,43 @@
       <div id="scripture-list"></div>
     </div>
   </section>
+
+  
+
+  <section id="prayer" class="hidden">
+    <div class="card">
+      <h2>Prayer Guide for Counselors</h2>
+      <p>Short, Scripture-based prayers for before, during, and after counseling.</p>
+      <div class="card">
+        <h3>Before a Session</h3>
+        <p>“Lord, give me wisdom and a listening heart today. Help me to be quick to hear and slow to speak. Guard me from relying on my own understanding or from seeking the approval of others. May I speak the truth in love and point this person to You. (James 1:5; Proverbs 18:13; Galatians 1:10)”</p>
+      </div>
+      <div class="card">
+        <h3>When Feeling Inadequate</h3>
+        <p>“Father, I feel weak and insufficient for this task. Thank You that Your power is made perfect in weakness. Use me as an instrument in the Redeemer’s hands. Give me the words and the patience I need, and keep me dependent on Your Spirit rather than my own skill. (2 Corinthians 12:9; 2 Corinthians 3:5)”</p>
+      </div>
+      <div class="card">
+        <h3>After a Difficult Session</h3>
+        <p>“Lord, I cast this burden on You because You care for me. Guard my heart from discouragement, self-pity, or the temptation to take responsibility for outcomes that belong to You. Help me trust Your timing and Your work in this person’s life. Refresh me as I rest in You. (1 Peter 5:7; Philippians 4:6-7)”</p>
+      </div>
+      <div class="card">
+        <h3>For Personal Renewal</h3>
+        <p>“Search me, O God, and know my heart. Try me and know my thoughts. See if there is any grievous way in me, and lead me in the way everlasting. Restore my soul and draw me near to You so that I may serve others from a full and humble heart. (Psalm 139:23-24; Psalm 23:3)”</p>
+      </div>
+      <div class="card">
+        <h3>For Wisdom in a Hard Case</h3>
+        <p>“Lord, this situation is complex. Give me discernment to distinguish between sin and suffering, and between what I can address and what must be left in Your hands. Help me ask good questions and wait on You for insight. (Proverbs 2:6; James 1:5)”</p>
+      </div>
+      <div class="card">
+        <h3>For Humility and Dependence</h3>
+        <p>“Father, keep me from pride in any progress I see or from despair when change is slow. Remind me that You alone change hearts. May I decrease so that Christ may increase in this person’s life. (John 3:30; 1 Corinthians 3:6-7)”</p>
+      </div>
+      <div class="card">
+        <h3>When Facing Criticism</h3>
+        <p>“Lord, help me receive feedback with humility rather than defensiveness. Show me what is true and what I should lay aside. Guard my heart from the fear of man and keep my identity secure in Christ. (Proverbs 15:31-32; Galatians 1:10)”</p>
+      </div>
+    </div>
+  </section>
 </main>
 
 <footer>
@@ -314,6 +353,19 @@ const modules = [
         <li>What rhythms of rest and Word intake have I neglected?</li>
         <li>Who can help share the load of difficult cases?</li>
       </ol>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “You’ve described feeling low for a while. What does a hard day typically look like for you?”</p>
+      <p><strong>Counselee:</strong> “I just don’t want to get out of bed. Nothing seems worth it.”</p>
+      <p><strong>Counselor:</strong> “When you feel that way, what thoughts tend to run through your mind about yourself or God?”</p>
+      <p><strong>Counselee:</strong> “That I’m failing and that God must be disappointed.”</p>
+      <p><strong>Counselor:</strong> “How does the gospel speak to those thoughts?”</p>
     `
   },
   {
@@ -340,6 +392,19 @@ const modules = [
         <li>In recent sessions, have I been more eager to teach than to understand?</li>
         <li>What questions help me enter the person’s experience rather than jump to solutions?</li>
       </ol>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “When conflict happens between you and your spouse, what usually follows?”</p>
+      <p><strong>Counselee:</strong> “We both shut down. Neither of us wants to talk about it.”</p>
+      <p><strong>Counselor:</strong> “What are you protecting yourself from in those moments?”</p>
+      <p><strong>Counselee:</strong> “From more hurt or from saying something I’ll regret.”</p>
+      <p><strong>Counselor:</strong> “How might speaking the truth in love look different from shutting down?”</p>
     `
   },
   {
@@ -366,6 +431,19 @@ const modules = [
         <li>Where am I measuring my worth by a counselee’s progress?</li>
         <li>How can I return responsibility for change to the Lord and the person?</li>
       </ol>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Losing your parent has been incredibly hard. What do you miss most right now?”</p>
+      <p><strong>Counselee:</strong> “Just being able to call them. The silence feels so heavy.”</p>
+      <p><strong>Counselor:</strong> “How has this loss affected the way you see God’s goodness?”</p>
+      <p><strong>Counselee:</strong> “I know He’s good, but it doesn’t always feel that way.”</p>
+      <p><strong>Counselor:</strong> “That’s an honest place to be. How might we bring that honesty to the Lord?”</p>
     `
   },
   {
@@ -392,6 +470,19 @@ const modules = [
         <li>In this case, have I given adequate attention to both sin and suffering?</li>
         <li>Am I more comfortable with one than the other?</li>
       </ol>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “You’ve been honest about the struggle with sexual sin. What typically happens right before you give in?”</p>
+      <p><strong>Counselee:</strong> “I feel lonely or stressed, and then it just seems like the easiest escape.”</p>
+      <p><strong>Counselor:</strong> “What are you hoping that escape will give you in the moment?”</p>
+      <p><strong>Counselee:</strong> “Comfort or relief, even if it’s temporary.”</p>
+      <p><strong>Counselor:</strong> “How does the gospel offer something better than that temporary relief?”</p>
     `
   },
   {
@@ -418,6 +509,19 @@ const modules = [
         <li>What cases or times of day most drain me?</li>
         <li>What simple boundary would help me remain present and sustainable?</li>
       </ol>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “The distance with your adult children has been painful. What do you most long for in those relationships right now?”</p>
+      <p><strong>Counselee:</strong> “Just to be able to talk without everything blowing up.”</p>
+      <p><strong>Counselor:</strong> “When conversations do happen, what tends to go wrong?”</p>
+      <p><strong>Counselee:</strong> “I feel defensive, and they shut down.”</p>
+      <p><strong>Counselor:</strong> “How might humility and patience shape the next conversation differently?”</p>
     `
   },
   {
@@ -444,6 +548,19 @@ const modules = [
         <li>Where am I tempted to soften or withhold truth to protect my image?</li>
         <li>Whose approval am I seeking in difficult conversations?</li>
       </ol>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “You’ve been wrestling with this addiction for a while. What usually leads up to a relapse?”</p>
+      <p><strong>Counselee:</strong> “Stress at work or feeling like I’ve already failed that day.”</p>
+      <p><strong>Counselor:</strong> “In those moments, what are you believing about God or about yourself?”</p>
+      <p><strong>Counselee:</strong> “That He won’t help me, or that I’ve already blown it.”</p>
+      <p><strong>Counselor:</strong> “How does the gospel speak to that sense of failure?”</p>
     `
   },
   {
@@ -470,6 +587,19 @@ const modules = [
         <li>What sin patterns in my life could affect how I counsel others?</li>
         <li>Who helps me examine my own heart regularly?</li>
       </ol>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “You’ve been hurt by someone close to you. What has been hardest about the idea of forgiving them?”</p>
+      <p><strong>Counselee:</strong> “It feels like I’d be saying what they did was okay.”</p>
+      <p><strong>Counselor:</strong> “Forgiveness doesn’t mean the offense was small. What would it look like to entrust justice to God while still releasing the debt?”</p>
+      <p><strong>Counselee:</strong> “I don’t know if I can do that yet.”</p>
+      <p><strong>Counselor:</strong> “That’s honest. How has God forgiven you, and how might that shape this?”</p>
     `
   },
   {
@@ -496,6 +626,19 @@ const modules = [
         <li>How do I typically respond when a session feels unsuccessful?</li>
         <li>Who can help me process criticism or discouragement wisely?</li>
       </ol>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “You’ve carried a lot of shame about past choices. What do you believe that shame says about you?”</p>
+      <p><strong>Counselee:</strong> “That I’m damaged and that God is disappointed in me.”</p>
+      <p><strong>Counselor:</strong> “How does the gospel speak to someone who feels damaged?”</p>
+      <p><strong>Counselee:</strong> “I know Jesus died for me, but it doesn’t always feel real.”</p>
+      <p><strong>Counselor:</strong> “What would it look like to bring that feeling of unreality to the Lord?”</p>
     `
   },
   {
@@ -553,6 +696,19 @@ const modules = [
         <li>Do I have a trusted mentor or supervisor I can consult?</li>
         <li>When would I encourage a counselee to see a physician?</li>
       </ol>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “You’ve said you feel like your worth depends on how well you perform. Where does that pressure show up most?”</p>
+      <p><strong>Counselee:</strong> “At work and with my family. If I’m not succeeding, I feel worthless.”</p>
+      <p><strong>Counselor:</strong> “What would it mean for your identity to rest in Christ rather than in your performance?”</p>
+      <p><strong>Counselee:</strong> “It sounds freeing, but I’m not sure how to live that way.”</p>
+      <p><strong>Counselor:</strong> “What’s one small way you could remind yourself of who you are in Christ this week?”</p>
     `
   }
 ];
@@ -625,6 +781,19 @@ const counselingIssues = [
         <li>Identify patterns of thinking or isolation that deepen despair.</li>
         <li>Point consistently to the gospel; coordinate with medical care when indicated.</li>
       </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “You’ve noticed that you often hold back from saying what you think is true. What are you afraid might happen if you speak up?”</p>
+      <p><strong>Counselee:</strong> “That people will think less of me or get upset.”</p>
+      <p><strong>Counselor:</strong> “Whose opinion feels most weighty to you in those moments?”</p>
+      <p><strong>Counselee:</strong> “Honestly, almost everyone’s.”</p>
+      <p><strong>Counselor:</strong> “How does the fear of man compete with the fear of the Lord for you?”</p>
     `
   },
   {
@@ -654,6 +823,19 @@ const counselingIssues = [
         <li>Point to Christ’s presence and ultimate restoration.</li>
         <li>Address any resulting idolatry of control, bitterness, or fear with grace and truth.</li>
       </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Conflict with your coworker has been draining. What do you want most when the tension rises?”</p>
+      <p><strong>Counselee:</strong> “To be understood and for them to stop criticizing me.”</p>
+      <p><strong>Counselor:</strong> “How have you been responding when you feel misunderstood?”</p>
+      <p><strong>Counselee:</strong> “I either withdraw or get sharp.”</p>
+      <p><strong>Counselor:</strong> “What would a peacemaking response look like instead?”</p>
     `
   },
   {
@@ -683,6 +865,19 @@ const counselingIssues = [
         <li>Encourage gradual resistance to compulsions while clinging to God’s promises.</li>
         <li>Recommend medical or specialized help when symptoms severely impair functioning.</li>
       </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Being hurt by people in the church has been deeply painful. How has that affected your view of the body of Christ?”</p>
+      <p><strong>Counselee:</strong> “It’s hard to trust anyone there anymore.”</p>
+      <p><strong>Counselor:</strong> “What do you still believe is true about Jesus, even in the middle of this hurt?”</p>
+      <p><strong>Counselee:</strong> “That He is good, even if His people aren’t always.”</p>
+      <p><strong>Counselor:</strong> “How might you hold onto that truth while still processing the pain?”</p>
     `
   },
   {
@@ -712,6 +907,19 @@ const counselingIssues = [
         <li>Encourage confession, repentance, and replacement with godly practices.</li>
         <li>Support medical detox or treatment when physically necessary; emphasize the church’s role.</li>
       </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Singleness has felt lonely for you. What do you most long for in this season?”</p>
+      <p><strong>Counselee:</strong> “Companionship and the sense that I’m not missing out.”</p>
+      <p><strong>Counselor:</strong> “How has that longing shaped the way you view God’s goodness right now?”</p>
+      <p><strong>Counselee:</strong> “Sometimes it feels like He’s withholding something good.”</p>
+      <p><strong>Counselor:</strong> “What would it look like to trust His timing while still being honest about the ache?”</p>
     `
   },
   {
@@ -741,6 +949,19 @@ const counselingIssues = [
         <li>Call to specific repentance and practice of Christlike love and humility.</li>
         <li>Emphasize identity in Christ rather than the diagnostic label.</li>
       </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Caring for your aging parent has been exhausting. What has been the hardest part?”</p>
+      <p><strong>Counselee:</strong> “Watching them decline and feeling like I’m never doing enough.”</p>
+      <p><strong>Counselor:</strong> “How has that burden affected your own walk with the Lord?”</p>
+      <p><strong>Counselee:</strong> “I feel guilty when I take time for myself.”</p>
+      <p><strong>Counselor:</strong> “What would healthy stewardship of your own soul look like in the middle of this?”</p>
     `
   },
   {
@@ -765,6 +986,19 @@ const counselingIssues = [
         <li>Help the person interpret experiences through Scripture rather than solely through the diagnosis.</li>
         <li>Offer gospel hope and practical support for seasons of both elevation and depression.</li>
       </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Help me understand what this has been like for you.”</p>
+      <p><strong>Counselee:</strong> “It feels overwhelming. I’m not sure where to start.”</p>
+      <p><strong>Counselor:</strong> “What do you most want right now in the middle of this?”</p>
+      <p><strong>Counselee:</strong> “To feel some relief and to know God is with me.”</p>
+      <p><strong>Counselor:</strong> “How might the gospel speak to that desire?”</p>
     `
   },
   {
@@ -789,6 +1023,19 @@ const counselingIssues = [
         <li>Explore the heart desires and fears driving the behaviors.</li>
         <li>Point to identity in Christ and the freedom of trusting God’s care for the body.</li>
       </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Help me understand what this has been like for you.”</p>
+      <p><strong>Counselee:</strong> “It feels overwhelming. I’m not sure where to start.”</p>
+      <p><strong>Counselor:</strong> “What do you most want right now in the middle of this?”</p>
+      <p><strong>Counselee:</strong> “To feel some relief and to know God is with me.”</p>
+      <p><strong>Counselor:</strong> “How might the gospel speak to that desire?”</p>
     `
   },
   {
@@ -859,6 +1106,19 @@ const counselingIssues = [
         <li>Teach biblical communication and forgiveness practices.</li>
         <li>Point to Christ’s love as the foundation for change.</li>
       </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Help me understand what this has been like for you.”</p>
+      <p><strong>Counselee:</strong> “It feels overwhelming. I’m not sure where to start.”</p>
+      <p><strong>Counselor:</strong> “What do you most want right now in the middle of this?”</p>
+      <p><strong>Counselee:</strong> “To feel some relief and to know God is with me.”</p>
+      <p><strong>Counselor:</strong> “How might the gospel speak to that desire?”</p>
     `
   },
   {
@@ -888,6 +1148,19 @@ const counselingIssues = [
         <li>Practice specific prayers of forgiveness and entrusting to God.</li>
         <li>Distinguish between forgiveness and reconciliation or restored trust.</li>
       </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Help me understand what this has been like for you.”</p>
+      <p><strong>Counselee:</strong> “It feels overwhelming. I’m not sure where to start.”</p>
+      <p><strong>Counselor:</strong> “What do you most want right now in the middle of this?”</p>
+      <p><strong>Counselee:</strong> “To feel some relief and to know God is with me.”</p>
+      <p><strong>Counselor:</strong> “How might the gospel speak to that desire?”</p>
     `
   },
   {
@@ -922,6 +1195,19 @@ const counselingIssues = [
         <li>Support wise, limited contact that prioritizes the child’s well-being and does not further entrench division.</li>
         <li>Point to Christ’s own experience of rejection and His sufficient grace for the long road of waiting and faithfulness.</li>
       </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Help me understand what this has been like for you.”</p>
+      <p><strong>Counselee:</strong> “It feels overwhelming. I’m not sure where to start.”</p>
+      <p><strong>Counselor:</strong> “What do you most want right now in the middle of this?”</p>
+      <p><strong>Counselee:</strong> “To feel some relief and to know God is with me.”</p>
+      <p><strong>Counselor:</strong> “How might the gospel speak to that desire?”</p>
     `
   },
   {
@@ -951,6 +1237,19 @@ const counselingIssues = [
         <li>Point gently to the God who knows suffering and who will wipe every tear.</li>
         <li>Help the person continue ordinary faithfulness while grieving.</li>
       </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Help me understand what this has been like for you.”</p>
+      <p><strong>Counselee:</strong> “It feels overwhelming. I’m not sure where to start.”</p>
+      <p><strong>Counselor:</strong> “What do you most want right now in the middle of this?”</p>
+      <p><strong>Counselee:</strong> “To feel some relief and to know God is with me.”</p>
+      <p><strong>Counselor:</strong> “How might the gospel speak to that desire?”</p>
     `
   },
   {
@@ -980,6 +1279,19 @@ const counselingIssues = [
         <li>Encourage concrete steps: filters, accountability partners, Scripture meditation.</li>
         <li>Point repeatedly to the sufficiency of Christ and the hope of progressive freedom.</li>
       </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Help me understand what this has been like for you.”</p>
+      <p><strong>Counselee:</strong> “It feels overwhelming. I’m not sure where to start.”</p>
+      <p><strong>Counselor:</strong> “What do you most want right now in the middle of this?”</p>
+      <p><strong>Counselee:</strong> “To feel some relief and to know God is with me.”</p>
+      <p><strong>Counselor:</strong> “How might the gospel speak to that desire?”</p>
     `
   },
   {
@@ -1008,6 +1320,19 @@ const counselingIssues = [
         <li>Practice speaking truth in love in small, safe steps.</li>
         <li>Meditate on God’s acceptance and the sufficiency of Christ.</li>
       </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Help me understand what this has been like for you.”</p>
+      <p><strong>Counselee:</strong> “It feels overwhelming. I’m not sure where to start.”</p>
+      <p><strong>Counselor:</strong> “What do you most want right now in the middle of this?”</p>
+      <p><strong>Counselee:</strong> “To feel some relief and to know God is with me.”</p>
+      <p><strong>Counselor:</strong> “How might the gospel speak to that desire?”</p>
     `
   },
   {
@@ -1037,6 +1362,19 @@ const counselingIssues = [
         <li>Practice soft answers and clear, loving communication.</li>
         <li>Distinguish between peace-faking and genuine peacemaking.</li>
       </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Help me understand what this has been like for you.”</p>
+      <p><strong>Counselee:</strong> “It feels overwhelming. I’m not sure where to start.”</p>
+      <p><strong>Counselor:</strong> “What do you most want right now in the middle of this?”</p>
+      <p><strong>Counselee:</strong> “To feel some relief and to know God is with me.”</p>
+      <p><strong>Counselor:</strong> “How might the gospel speak to that desire?”</p>
     `
   },
   {
@@ -1066,6 +1404,19 @@ const counselingIssues = [
         <li>Regularly return to gospel indicatives before imperatives.</li>
         <li>Encourage Scripture meditation on who they are in Christ.</li>
       </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Help me understand what this has been like for you.”</p>
+      <p><strong>Counselee:</strong> “It feels overwhelming. I’m not sure where to start.”</p>
+      <p><strong>Counselor:</strong> “What do you most want right now in the middle of this?”</p>
+      <p><strong>Counselee:</strong> “To feel some relief and to know God is with me.”</p>
+      <p><strong>Counselor:</strong> “How might the gospel speak to that desire?”</p>
     `
   },
   {
@@ -1095,6 +1446,19 @@ const counselingIssues = [
         <li>Practice casting cares through concrete prayer.</li>
         <li>Encourage small acts of trust and release.</li>
       </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Help me understand what this has been like for you.”</p>
+      <p><strong>Counselee:</strong> “It feels overwhelming. I’m not sure where to start.”</p>
+      <p><strong>Counselor:</strong> “What do you most want right now in the middle of this?”</p>
+      <p><strong>Counselee:</strong> “To feel some relief and to know God is with me.”</p>
+      <p><strong>Counselor:</strong> “How might the gospel speak to that desire?”</p>
     `
   },
   {
@@ -1124,6 +1488,19 @@ const counselingIssues = [
         <li>Repeatedly apply specific promises of forgiveness and cleansing.</li>
         <li>Encourage confession where needed and resting where already forgiven.</li>
       </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Help me understand what this has been like for you.”</p>
+      <p><strong>Counselee:</strong> “It feels overwhelming. I’m not sure where to start.”</p>
+      <p><strong>Counselor:</strong> “What do you most want right now in the middle of this?”</p>
+      <p><strong>Counselee:</strong> “To feel some relief and to know God is with me.”</p>
+      <p><strong>Counselor:</strong> “How might the gospel speak to that desire?”</p>
     `
   },
   {
@@ -1153,6 +1530,19 @@ const counselingIssues = [
         <li>Encourage community, service, and growth in the current season.</li>
         <li>Point to Christ’s sufficiency in every life stage.</li>
       </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Help me understand what this has been like for you.”</p>
+      <p><strong>Counselee:</strong> “It feels overwhelming. I’m not sure where to start.”</p>
+      <p><strong>Counselor:</strong> “What do you most want right now in the middle of this?”</p>
+      <p><strong>Counselee:</strong> “To feel some relief and to know God is with me.”</p>
+      <p><strong>Counselor:</strong> “How might the gospel speak to that desire?”</p>
     `
   },
   {
@@ -1182,6 +1572,19 @@ const counselingIssues = [
         <li>Distinguish between the failures of people and the character of Christ.</li>
         <li>Help discern wise next steps regarding church involvement and boundaries.</li>
       </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Help me understand what this has been like for you.”</p>
+      <p><strong>Counselee:</strong> “It feels overwhelming. I’m not sure where to start.”</p>
+      <p><strong>Counselor:</strong> “What do you most want right now in the middle of this?”</p>
+      <p><strong>Counselee:</strong> “To feel some relief and to know God is with me.”</p>
+      <p><strong>Counselor:</strong> “How might the gospel speak to that desire?”</p>
     `
   },
   {
@@ -1207,6 +1610,19 @@ const counselingIssues = [
         <li>Address guilt that arises from imperfect caregiving.</li>
         <li>Prepare hearts for loss while encouraging present faithfulness.</li>
       </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Help me understand what this has been like for you.”</p>
+      <p><strong>Counselee:</strong> “It feels overwhelming. I’m not sure where to start.”</p>
+      <p><strong>Counselor:</strong> “What do you most want right now in the middle of this?”</p>
+      <p><strong>Counselee:</strong> “To feel some relief and to know God is with me.”</p>
+      <p><strong>Counselor:</strong> “How might the gospel speak to that desire?”</p>
     `
   },
   {
@@ -1236,6 +1652,19 @@ const counselingIssues = [
         <li>Encourage Sabbath, delegation, and dependence on God.</li>
         <li>Reaffirm identity in Christ apart from ministry productivity.</li>
       </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Help me understand what this has been like for you.”</p>
+      <p><strong>Counselee:</strong> “It feels overwhelming. I’m not sure where to start.”</p>
+      <p><strong>Counselor:</strong> “What do you most want right now in the middle of this?”</p>
+      <p><strong>Counselee:</strong> “To feel some relief and to know God is with me.”</p>
+      <p><strong>Counselor:</strong> “How might the gospel speak to that desire?”</p>
     `
   },
   {
@@ -1265,6 +1694,19 @@ const counselingIssues = [
         <li>Encourage age-appropriate truth-telling about God’s care.</li>
         <li>Support practical steps and, when needed, professional medical evaluation.</li>
       </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Help me understand what this has been like for you.”</p>
+      <p><strong>Counselee:</strong> “It feels overwhelming. I’m not sure where to start.”</p>
+      <p><strong>Counselor:</strong> “What do you most want right now in the middle of this?”</p>
+      <p><strong>Counselee:</strong> “To feel some relief and to know God is with me.”</p>
+      <p><strong>Counselor:</strong> “How might the gospel speak to that desire?”</p>
     `
   }
 ];
