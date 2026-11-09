@@ -222,6 +222,7 @@
     <div class="card">
       <h2>Welcome, Counselor</h2>
       <p>This is a prototype support tool designed for biblical counselors. It offers self-assessment, growth modules on counselor challenges, a searchable database of counseling issues, Scripture resources, a prayer guide, sample dialogues, and suggested homework for counselees.</p>
+      <p class="note"><strong>How to use this:</strong> Start with the Self-Assessment if you want personal reflection, browse Growth Modules for counselor care, or search Counseling Issues for specific struggles. Everything is meant to be tested against Scripture and used alongside wise supervision.</p>
       <p>Biblical counseling addresses people’s struggles through the lens of Scripture—sin, suffering, the heart, and the gospel of Christ—while remaining aware that some symptoms may involve medical factors best evaluated by a physician.</p>
       <button class="btn" onclick="showSection('assessment')">Take the Self-Assessment</button>
       <button class="btn secondary" onclick="showSection('modules')" style="margin-left:0.5rem;">Browse Modules</button>
@@ -238,7 +239,7 @@
         <li><strong>Scripture Library</strong> — Verses organized by counseling themes for quick reference.</li>
         <li><strong>Prayer Guide</strong> — Scripture-based prayers for before sessions, difficult cases, personal renewal, and more.</li>
       </ul>
-      <p class="note">This is a working prototype. Content is sample material based on common themes in biblical counseling literature. Always test everything against Scripture and seek wisdom from trusted mentors. We do not necessarily agree with the classifications used by psychologists in the DSM. The issues below have been categorized using commonly used terms that describe clusters of related symptoms. These labels are for reference only; they do not define the person or exhaustively explain the heart. Biblical counseling focuses on Scripture, the heart, and the gospel.</p>
+      <p class="note">This is a working prototype. Content is sample material based on common themes in biblical counseling literature and resources aligned with the Association of Certified Biblical Counselors (ACBC). Always test everything against Scripture and seek wisdom from trusted mentors. We do not necessarily agree with the classifications used by psychologists in the DSM. The issues below have been categorized using commonly used terms that describe clusters of related symptoms. These labels are for reference only; they do not define the person or exhaustively explain the heart. Biblical counseling focuses on Scripture, the heart, and the gospel. This tool is not a substitute for personal study, prayer, supervision, or formal training.</p>
     </div>
   </section>
 
@@ -322,8 +323,9 @@
 </main>
 
 <footer>
-  Grace & Truth Counsel • Prototype for biblical counselors • Built for reflection and growth • Not a substitute for personal study, prayer, or wise counsel<br>
-  <span style="font-size:0.8rem;">Last updated: November 6, 2026</span>
+  Grace & Truth Counsel • Prototype for biblical counselors • Built for reflection and growth • Not a substitute for personal study, prayer, supervision, or wise counsel<br>
+  Content draws on common biblical counseling themes and ACBC-aligned resources. Always test against Scripture.<br>
+  <span style="font-size:0.8rem;">Last updated: November 9, 2026</span>
 </footer>
 
 <script>
@@ -1800,7 +1802,7 @@ function renderIssueList(filter = '') {
       <strong>${title}</strong>
       <span style="color:var(--muted);font-size:0.95rem;">${summary}</span>
     </div>`;
-  }).join('') || '<p>No matching issues found.</p>';
+  }).join('') || '<p>No matching issues found. Try a different keyword (e.g., anxiety, anger, marriage, grief).</p>';
   document.getElementById('issue-detail').classList.add('hidden');
   list.classList.remove('hidden');
 }
@@ -1936,6 +1938,13 @@ document.getElementById('submit-quiz').addEventListener('click', () => {
 
 // Init
 showSection('home');
+</script>
+<button id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="position:fixed;bottom:1.5rem;right:1.5rem;padding:0.6rem 1rem;background:var(--accent);color:white;border:none;border-radius:8px;cursor:pointer;display:none;z-index:100;">↑ Top</button>
+<script>
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('back-to-top');
+  btn.style.display = window.scrollY > 300 ? 'block' : 'none';
+});
 </script>
 </body>
 </html>
