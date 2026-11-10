@@ -1,0 +1,1917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grace & Truth Counsel</title>
+<style>
+  :root {
+    --bg: #f7f5f2;
+    --surface: #ffffff;
+    --text: #2c3e50;
+    --muted: #5a6a7a;
+    --accent: #3d5a4c;
+    --accent-light: #e8f0ec;
+    --border: #e0dcd7;
+    --radius: 12px;
+    --shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.68;
+  }
+  h1, h2, h3, h4, nav button, .btn {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  header h1 {
+    font-size: 1.35rem;
+    font-weight: 500;
+    color: var(--accent);
+  }
+  header {
+    background: #f7f5f2;
+    color: #2c3e3a;
+    border-bottom: 1px solid #e0ddd6;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  header h1 {
+    font-size: 1.3rem;
+    font-weight: normal;
+    color: #2c3e3a;
+  }
+  nav button {
+    background: none;
+    border: 1px solid transparent;
+    font-family: inherit;
+    font-size: 0.95rem;
+    padding: 0.5rem 0.75rem;
+    margin-left: 0.25rem;
+    cursor: pointer;
+    color: #3d524e;
+    border-radius: 6px;
+  }
+  nav button.active, nav button:hover {
+    background: #e8efe9;
+    color: #2c3e3a;
+    border-color: #d0ddd4;
+  }
+  main {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.75rem 1.85rem;
+    margin-bottom: 1.4rem;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  }
+  .verse {
+    background: var(--accent-light);
+    border-left: 4px solid var(--accent);
+    padding: 0.9rem 1.1rem;
+    margin: 1rem 0;
+    font-style: italic;
+    border-radius: 0 8px 8px 0;
+  }
+  .module-item:hover, .scripture-item:hover {
+    background: #faf8f5;
+  }
+  h2 { font-size: 1.5rem; margin-bottom: 0.75rem; font-weight: normal; }
+  h3 { font-size: 1.15rem; margin: 1.25rem 0 0.5rem; color: var(--accent); }
+  p, li { margin-bottom: 0.6rem; }
+  ul, ol { padding-left: 1.25rem; margin-bottom: 1rem; }
+  .verse {
+    background: var(--accent-light);
+    border-left: 3px solid var(--accent);
+    padding: 0.75rem 1rem;
+    margin: 0.75rem 0;
+    font-style: italic;
+  }
+  .btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 0.65rem 1.25rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+  }
+  .btn:hover { opacity: 0.9; }
+  .btn.secondary {
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+  }
+  .module-list { display: grid; gap: 0.75rem; }
+  .module-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .module-item:hover { border-color: var(--accent); }
+  .module-item strong { display: block; margin-bottom: 0.25rem; }
+  .hidden { display: none; }
+  .question { margin-bottom: 1.25rem; }
+  .options label {
+    display: block;
+    padding: 0.5rem 0.75rem;
+    margin: 0.35rem 0;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .options label:hover { background: var(--accent-light); }
+  .scripture-item {
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .search {
+    width: 100%;
+    padding: 0.65rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  footer {
+    text-align: center;
+    padding: 1.5rem;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+  .result-box {
+    background: var(--accent-light);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+  }
+  .note {
+    font-size: 0.9rem;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 1rem;
+  }
+  .favorite-btn {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: #ccc;
+    float: right;
+    margin-top: -0.25rem;
+  }
+  .favorite-btn.active { color: #d4a017; }
+  .related {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+  .related a {
+    display: inline-block;
+    margin: 0.25rem 0.5rem 0.25rem 0;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--accent);
+  }
+  .notes-area {
+    width: 100%;
+    min-height: 80px;
+    margin-top: 0.5rem;
+    padding: 0.65rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.95rem;
+  }
+  .print-btn { margin-left: 0.5rem; }
+  mark { background: #fff3cd; padding: 0 0.1em; }
+  @media (max-width: 640px) {
+    header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    nav button { padding: 0.6rem 0.9rem; margin: 0.2rem; }
+    .btn { display: block; width: 100%; margin: 0.4rem 0; }
+    .btn.secondary { margin-left: 0; }
+    main { padding: 1.25rem 1rem 3rem; }
+  }
+  @media print {
+    header, nav, footer, .btn, .favorite-btn, .related { display: none !important; }
+    body { background: white; }
+    .card { border: none; box-shadow: none; }
+    .notes-area {
+      display: block !important;
+      border: 1px solid #ccc;
+      min-height: auto;
+      margin-top: 1rem;
+      padding: 0.5rem;
+      white-space: pre-wrap;
+    }
+  }
+
+.module-card.recommended {
+  border-left: 4px solid var(--accent);
+  background: #f4f9f6;
+  box-shadow: 0 2px 8px rgba(44,62,58,0.08);
+}
+</style>
+</head>
+<body>
+<header>
+  <div style="display:flex;align-items:center;gap:0.75rem;">
+    <img src="logo.png" alt="Grace & Truth Counsel" style="height:64px;width:auto;filter:contrast(1.15) brightness(1.05);" onerror="this.style.display='none'">
+    <h1>Grace & Truth Counsel</h1>
+  </div>
+  <nav>
+    <button class="active" data-section="home">🏠 Home</button>
+    <button data-section="assessment">📋 Assessment</button>
+    <button data-section="modules">📚 Modules</button>
+    <button data-section="issues">💬 Counseling Issues</button>
+    <button data-section="scripture">📖 Scripture</button>
+    <button data-section="prayer">🙏 Prayer Guide</button>
+    <button data-section="stuck">🧭 When You're Stuck</button>
+  </nav>
+</header>
+
+<main>
+  <!-- HOME -->
+  <section id="home">
+    <div class="card">
+      <img src="logo.png" alt="Grace & Truth Counsel" style="display:block;margin:0 auto 1.25rem;height:120px;width:auto;filter:contrast(1.15) brightness(1.05);" onerror="this.style.display='none'">
+      <h2>Welcome, Counselor</h2>
+      <p>This is a prototype support tool designed for biblical counselors. It offers self-assessment, growth modules on counselor challenges, a searchable database of counseling issues, Scripture resources, a prayer guide, sample dialogues, and suggested homework for counselees.</p>
+      <p class="note"><strong>How to use this:</strong> Start with the Self-Assessment if you want personal reflection, browse Growth Modules for counselor care, or search Counseling Issues for specific struggles. Everything is meant to be tested against Scripture and used alongside wise supervision. No tool replaces prayer, the local church, or a living relationship with Christ.</p>
+      <p>Biblical counseling addresses people’s struggles through the lens of Scripture—sin, suffering, the heart, and the gospel of Christ—while remaining aware that some symptoms may involve medical factors best evaluated by a physician.</p>
+      <button class="btn" onclick="showSection('assessment')">Take the Self-Assessment</button>
+      <button class="btn secondary" onclick="showSection('modules')" style="margin-left:0.5rem;">Browse Modules</button>
+      <button class="btn secondary" onclick="showSection('issues')" style="margin-left:0.5rem;">Counseling Issues</button>
+      <button class="btn secondary" onclick="showSection('scripture')" style="margin-left:0.5rem;">Scripture Resources</button>
+      <button class="btn secondary" onclick="showSection('prayer')" style="margin-left:0.5rem;">Prayer Guide</button>
+      <button class="btn secondary" onclick="showSection('stuck')" style="margin-left:0.5rem;">When You're Stuck</button>
+    </div>
+    <div class="card">
+      <h3>What’s Inside</h3>
+      <ul>
+        <li><strong>Self-Assessment</strong> — Identify current growth areas with a short interactive quiz focused on counselor challenges.</li>
+        <li><strong>Growth Modules</strong> — Guidance on burnout, listening well, fear of man, guarding your heart, handling criticism, session process, supervision, boundaries, and more.</li>
+        <li><strong>Counseling Issues (Searchable)</strong> — Biblical principles, Scriptures, suggested homework, and sample dialogues for common struggles (categorized using common descriptive terms for reference).</li>
+        <li><strong>Scripture Library</strong> — Verses organized by counseling themes for quick reference.</li>
+        <li><strong>Prayer Guide</strong> — Scripture-based prayers for before sessions, difficult cases, personal renewal, and more.</li>
+      </ul>
+      <p class="note">This is a working prototype. Content is sample material based on common themes in biblical counseling literature and resources aligned with the Association of Certified Biblical Counselors (ACBC). Always test everything against Scripture and seek wisdom from trusted mentors. We do not necessarily agree with the classifications used by psychologists in the DSM. The issues below have been categorized using commonly used terms that describe clusters of related symptoms. These labels are for reference only; they do not define the person or exhaustively explain the heart. Biblical counseling focuses on Scripture, the heart, and the gospel. This tool is not a substitute for personal study, prayer, supervision, or formal training.</p>
+    </div>
+  </section>
+
+  <!-- ASSESSMENT -->
+  <section id="assessment" class="hidden">
+  <h2>Counselor Self-Assessment</h2>
+  <p>Rate each statement from 1 (rarely true) to 5 (usually true). This is for personal reflection, not diagnosis.</p>
+  <form id="assessment-form">
+    <div class="card">
+      <p><strong>Burnout & Compassion Fatigue</strong></p>
+      <p>I regularly protect time for rest and spiritual nourishment.</p>
+      <div class="rating">1 <input type="radio" name="q1" value="1" required> 2 <input type="radio" name="q1" value="2"> 3 <input type="radio" name="q1" value="3"> 4 <input type="radio" name="q1" value="4"> 5 <input type="radio" name="q1" value="5"></div>
+      <p>I remember that I am not the Savior of those I counsel.</p>
+      <div class="rating">1 <input type="radio" name="q2" value="1" required> 2 <input type="radio" name="q2" value="2"> 3 <input type="radio" name="q2" value="3"> 4 <input type="radio" name="q2" value="4"> 5 <input type="radio" name="q2" value="5"></div>
+    </div>
+    <div class="card">
+      <p><strong>Listening Before Speaking</strong></p>
+      <p>I ask clarifying questions before offering counsel.</p>
+      <div class="rating">1 <input type="radio" name="q3" value="1" required> 2 <input type="radio" name="q3" value="2"> 3 <input type="radio" name="q3" value="3"> 4 <input type="radio" name="q3" value="4"> 5 <input type="radio" name="q3" value="5"></div>
+      <p>I seek to understand the person’s story before applying Scripture.</p>
+      <div class="rating">1 <input type="radio" name="q4" value="1" required> 2 <input type="radio" name="q4" value="2"> 3 <input type="radio" name="q4" value="3"> 4 <input type="radio" name="q4" value="4"> 5 <input type="radio" name="q4" value="5"></div>
+    </div>
+    <div class="card">
+      <p><strong>When People Don’t Change</strong></p>
+      <p>I measure faithfulness by dependence on God rather than visible results.</p>
+      <div class="rating">1 <input type="radio" name="q5" value="1" required> 2 <input type="radio" name="q5" value="2"> 3 <input type="radio" name="q5" value="3"> 4 <input type="radio" name="q5" value="4"> 5 <input type="radio" name="q5" value="5"></div>
+      <p>I return responsibility for change to the Lord and the person.</p>
+      <div class="rating">1 <input type="radio" name="q6" value="1" required> 2 <input type="radio" name="q6" value="2"> 3 <input type="radio" name="q6" value="3"> 4 <input type="radio" name="q6" value="4"> 5 <input type="radio" name="q6" value="5"></div>
+    </div>
+    <div class="card">
+      <p><strong>Session Process & Boundaries</strong></p>
+      <p>I follow a clear process in sessions (listen, apply, assign).</p>
+      <div class="rating">1 <input type="radio" name="q7" value="1" required> 2 <input type="radio" name="q7" value="2"> 3 <input type="radio" name="q7" value="3"> 4 <input type="radio" name="q7" value="4"> 5 <input type="radio" name="q7" value="5"></div>
+      <p>I maintain wise boundaries around availability and after-hours care.</p>
+      <div class="rating">1 <input type="radio" name="q8" value="1" required> 2 <input type="radio" name="q8" value="2"> 3 <input type="radio" name="q8" value="3"> 4 <input type="radio" name="q8" value="4"> 5 <input type="radio" name="q8" value="5"></div>
+    </div>
+    <div class="card">
+      <p><strong>Guarding Your Own Heart</strong></p>
+      <p>I regularly examine my own heart and seek accountability.</p>
+      <div class="rating">1 <input type="radio" name="q9" value="1" required> 2 <input type="radio" name="q9" value="2"> 3 <input type="radio" name="q9" value="3"> 4 <input type="radio" name="q9" value="4"> 5 <input type="radio" name="q9" value="5"></div>
+      <p>I respond to criticism or difficult sessions with humility.</p>
+      <div class="rating">1 <input type="radio" name="q10" value="1" required> 2 <input type="radio" name="q10" value="2"> 3 <input type="radio" name="q10" value="3"> 4 <input type="radio" name="q10" value="4"> 5 <input type="radio" name="q10" value="5"></div>
+    </div>
+    <button type="submit" class="btn">Submit Assessment</button>
+  </form>
+  <div id="assessment-result" class="card" style="display:none; margin-top:1.5rem;"></div>
+</section>
+
+  <!-- MODULES -->
+  <section id="modules" class="hidden">
+    <div class="card">
+      <h2>Growth Modules</h2>
+      <p>Select a topic to explore biblical principles, key Scriptures, and practical reflection questions for your own growth as a counselor.</p>
+      <div class="module-list" id="module-list"></div>
+    </div>
+    <div id="module-detail" class="hidden"></div>
+  </section>
+
+  <!-- COUNSELING ISSUES -->
+  <section id="issues" class="hidden">
+    <div class="card">
+      <h2>Counseling Issues Database</h2>
+      <p>Searchable guidance for common struggles. Issues are grouped using commonly used descriptive terms (including those often associated with DSM categories) for ease of reference. We do not necessarily endorse the DSM classification system. Each entry offers biblical principles and Scripture for counselors.</p>
+      <input type="text" class="search" id="issue-search" placeholder="Search issues (e.g., anxiety, trauma, OCD, addiction, personality)...">
+      <div class="module-list" id="issue-list"></div>
+    </div>
+    <div id="issue-detail" class="hidden"></div>
+  </section>
+
+  <!-- SCRIPTURE -->
+  <section id="scripture" class="hidden">
+    <div class="card">
+      <h2>Scripture Resources</h2>
+      <input type="text" class="search" id="scripture-search" placeholder="Search topics or keywords (e.g., burnout, listening, grace)...">
+      <div id="scripture-list"></div>
+    </div>
+  </section>
+
+  
+
+  <section id="prayer" class="hidden">
+    <div class="card">
+      <h2>Prayer Guide for Counselors</h2>
+      <p>Short, Scripture-based prayers for before, during, and after counseling.</p>
+      <div class="card">
+        <h3>Before a Session</h3>
+        <p>“Lord, give me wisdom and a listening heart today. Help me to be quick to hear and slow to speak. Guard me from relying on my own understanding or from seeking the approval of others. May I speak the truth in love and point this person to You. (James 1:5; Proverbs 18:13; Galatians 1:10)”</p>
+      </div>
+      <div class="card">
+        <h3>When Feeling Inadequate</h3>
+        <p>“Father, I feel weak and insufficient for this task. Thank You that Your power is made perfect in weakness. Use me as an instrument in the Redeemer’s hands. Give me the words and the patience I need, and keep me dependent on Your Spirit rather than my own skill. (2 Corinthians 12:9; 2 Corinthians 3:5)”</p>
+      </div>
+      <div class="card">
+        <h3>After a Difficult Session</h3>
+        <p>“Lord, I cast this burden on You because You care for me. Guard my heart from discouragement, self-pity, or the temptation to take responsibility for outcomes that belong to You. Help me trust Your timing and Your work in this person’s life. Refresh me as I rest in You. (1 Peter 5:7; Philippians 4:6-7)”</p>
+      </div>
+      <div class="card">
+        <h3>For Personal Renewal</h3>
+        <p>“Search me, O God, and know my heart. Try me and know my thoughts. See if there is any grievous way in me, and lead me in the way everlasting. Restore my soul and draw me near to You so that I may serve others from a full and humble heart. (Psalm 139:23-24; Psalm 23:3)”</p>
+      </div>
+      <div class="card">
+        <h3>For Wisdom in a Hard Case</h3>
+        <p>“Lord, this situation is complex. Give me discernment to distinguish between sin and suffering, and between what I can address and what must be left in Your hands. Help me ask good questions and wait on You for insight. (Proverbs 2:6; James 1:5)”</p>
+      </div>
+      <div class="card">
+        <h3>For Humility and Dependence</h3>
+        <p>“Father, keep me from pride in any progress I see or from despair when change is slow. Remind me that You alone change hearts. May I decrease so that Christ may increase in this person’s life. (John 3:30; 1 Corinthians 3:6-7)”</p>
+      </div>
+      <div class="card">
+        <h3>When Facing Criticism</h3>
+        <p>“Lord, help me receive feedback with humility rather than defensiveness. Show me what is true and what I should lay aside. Guard my heart from the fear of man and keep my identity secure in Christ. (Proverbs 15:31-32; Galatians 1:10)”</p>
+      </div>
+    </div>
+  </section>
+  <section id="stuck" class="hidden">
+    <div class="card">
+      <h2>When You're Stuck</h2>
+      <p>Slow progress, resistance, or feeling out of your depth is common. These are not signs of failure.</p>
+      <h3>Slow or No Progress</h3>
+      <p>Change is usually slower than we hope. Keep listening, keep pointing to Christ, and resist the urge to push harder. Ask the Lord for patience and for eyes to see what He is doing even when it is not yet visible.</p>
+      <h3>Resistance or Defensiveness</h3>
+      <p>Resistance often protects something precious or painful. Instead of confronting it directly, try asking gentle questions about what feels at stake. Pray for humility on both sides.</p>
+      <h3>Medical or Complex Issues</h3>
+      <p>Some struggles involve physical factors that need a physician’s care. Do not hesitate to encourage medical evaluation. Biblical counseling and medical care are not in competition.</p>
+      <h3>When You Feel Out of Your Depth</h3>
+      <p>This is a good time to seek supervision or a more experienced counselor. You do not have to carry every case alone. The body of Christ includes people who can help you think clearly and care well.</p>
+      <p class="note">The biggest variable in the room is often the counselor’s own heart. When you feel stuck, pause and ask what this situation is stirring in you.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  Grace & Truth Counsel • Prototype for biblical counselors • Built for reflection and growth • Not a substitute for personal study, prayer, supervision, or wise counsel<br>
+  Content draws on common biblical counseling themes and ACBC-aligned resources. Always test against Scripture.<br>
+  <span style="font-size:0.8rem;">Last updated: November 9, 2026</span>
+</footer>
+
+<script>
+const modules = [
+  {
+    id: "burnout",
+    title: "Burnout & Compassion Fatigue",
+    summary: "When bearing others’ burdens leaves you depleted.",
+    furtherReading: [
+      { title: "Instruments in the Redeemer’s Hands", url: "https://www.amazon.com/Instruments-Redeemers-Hands-People-Change/dp/0875526071", note: "Paul Tripp" },
+      { title: "How to Help People Change", url: "https://www.amazon.com/How-Help-People-Change-Four-Step-ebook/dp/B003TFE8K6/", note: "Jay Adams" }
+    ],
+    content: `
+      <h2>Burnout & Compassion Fatigue</h2>
+      <p>Caring for souls is costly. Galatians 6:2 calls us to bear one another’s burdens, yet we are finite. When rest, spiritual nourishment, and boundaries are neglected, compassion can turn to exhaustion.</p>
+      <div class="verse">“Come to me, all who labor and are heavy laden, and I will give you rest.” — Matthew 11:28</div>
+      <div class="verse">“My grace is sufficient for you, for my power is made perfect in weakness.” — 2 Corinthians 12:9</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>You are not the Savior. Point people to Christ; do not try to be Christ for them.</li>
+        <li>God models rest (Genesis 2; Mark 2:27). Sabbath is a gift and an act of trust.</li>
+        <li>Jesus withdrew to pray even when needs were pressing (Luke 5:16).</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read Matthew 11:28–30 and Exodus 18. Note one way you can receive rest or share the load this week.</li>
+        <li>Identify one boundary or rhythm of rest you will protect and write it down.</li>
+      </ul>
+    `
+  },
+  {
+    id: "listening",
+    title: "Listening Before Speaking",
+    summary: "Entering the person’s story before applying God’s story.",
+    furtherReading: [
+      { title: "Instruments in the Redeemer’s Hands", url: "https://www.amazon.com/Instruments-Redeemers-Hands-People-Change/dp/0875526071", note: "Paul Tripp" },
+      { title: "Learning to Listen", url: "https://www.amazon.com/Learning-Listen-Essential-Skills-Counselor-ebook/dp/B0F54BJGB4", note: "Essential Skills for the Counselor" }
+    ],
+    content: `
+      <h2>Listening Before Speaking</h2>
+      <p>Proverbs 18:13 warns against answering before hearing. Good counseling begins with careful listening that seeks to understand the heart, not just the presenting problem.</p>
+      <div class="verse">“If one gives an answer before he hears, it is his folly and shame.” — Proverbs 18:13</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Listen to understand the person’s story before applying God’s story.</li>
+        <li>Questions that explore the heart often matter more than quick solutions.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>In your next conversation, ask one clarifying question before offering any counsel.</li>
+        <li>Note one time this week when listening first changed the direction of the conversation.</li>
+      </ul>
+    `
+  },
+  {
+    id: "change",
+    title: "When People Don’t Change",
+    summary: "Faithfulness when visible progress is slow.",
+    furtherReading: [
+      { title: "How to Help People Change", url: "https://www.amazon.com/How-Help-People-Change-Four-Step-ebook/dp/B003TFE8K6/", note: "Jay Adams" }
+    ],
+    content: `
+      <h2>When People Don’t Change</h2>
+      <p>Counselors can be tempted to measure their worth by a counselee’s progress. Scripture calls us to faithfulness and to leave the results with God.</p>
+      <div class="verse">“I planted, Apollos watered, but God gave the growth.” — 1 Corinthians 3:6</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Your calling is to speak truth in love and point to Christ, not to force transformation.</li>
+        <li>God is patient; His timing is often different from ours.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read 1 Corinthians 3:6–9. Write one sentence about what faithfulness looks like when change is slow.</li>
+        <li>Identify one way you can return responsibility for change to the Lord and the person.</li>
+      </ul>
+    `
+  },
+  {
+    id: "session-process",
+    title: "A Simple Session Process",
+    summary: "A practical framework for conducting a counseling session.",
+    furtherReading: [
+      { title: "Instruments in the Redeemer’s Hands", url: "https://www.amazon.com/Instruments-Redeemers-Hands-People-Change/dp/0875526071", note: "Paul Tripp" }
+    ],
+    content: `
+      <h2>A Simple Session Process</h2>
+      <p>A clear process helps both counselor and counselee stay focused on heart issues and gospel application rather than drifting into mere advice-giving.</p>
+      <div class="verse">“The heart of the wise makes his speech judicious and adds persuasiveness to his lips.” — Proverbs 16:23</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Begin with prayer and dependence on the Holy Spirit.</li>
+        <li>Listen carefully before speaking (Proverbs 18:13).</li>
+        <li>Apply Scripture to the heart, not only to behavior.</li>
+        <li>Give clear, doable homework that points back to Christ.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Review your last session notes. Identify one place where you could have listened longer or applied Scripture more specifically.</li>
+        <li>Write a simple session outline you will use next time (pray, listen, apply, assign).</li>
+      </ul>
+    `
+  },
+  {
+    id: "supervision",
+    title: "Supervision & Medical Referral",
+    summary: "Knowing your limits and seeking help wisely.",
+    furtherReading: [
+      { title: "A Theology of Biblical Counseling", url: "https://www.amazon.com/Theology-Biblical-Counseling-Doctrinal-Foundations-ebook/dp/B010R2U5AA/", note: "Heath Lambert" }
+    ],
+    content: `
+      <h2>Supervision & Medical Referral</h2>
+      <p>Biblical counselors are not all-sufficient. Wisdom includes recognizing when a case requires supervision, collaboration, or medical attention.</p>
+      <div class="verse">“Where there is no guidance, a people falls, but in an abundance of counselors there is safety.” — Proverbs 11:14</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Humility recognizes limits (Romans 12:3).</li>
+        <li>Seeking counsel is wise, not a failure (Proverbs 15:22).</li>
+        <li>Medical issues should be treated by those qualified to do so, while the heart is still addressed biblically.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Identify one current or recent case where supervision or medical referral might be wise. Write one sentence about why.</li>
+        <li>Note the name of one trusted supervisor or physician you could consult if needed.</li>
+      </ul>
+    `
+  },
+  {
+    id: "heart-care",
+    title: "Guarding Your Own Heart",
+    summary: "Protecting your soul while caring for others.",
+    furtherReading: [
+      { title: "Instruments in the Redeemer’s Hands", url: "https://www.amazon.com/Instruments-Redeemers-Hands-People-Change/dp/0875526071", note: "Paul Tripp" }
+    ],
+    content: `
+      <h2>Guarding Your Own Heart</h2>
+      <p>Counselors are vulnerable to the same heart issues they address in others. Regular self-examination and dependence on Christ are essential.</p>
+      <div class="verse">“Keep your heart with all vigilance, for from it flow the springs of life.” — Proverbs 4:23</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Examine your own heart before addressing another’s (Matthew 7:3-5).</li>
+        <li>Daily intake of the Word guards against drift.</li>
+        <li>Confession and accountability protect against isolation.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read Proverbs 4:23 and Psalm 139:23-24. Write one area of your heart that needs attention this week.</li>
+        <li>Identify one person with whom you can be honest about your own struggles.</li>
+      </ul>
+    `
+  },
+  {
+    id: "criticism",
+    title: "Handling Criticism & Difficult Sessions",
+    summary: "Responding wisely when counseling is hard or opposed.",
+    furtherReading: [
+      { title: "The Peacemaker", url: "https://www.amazon.com/Peacemaker-Biblical-Resolving-Personal-Conflict/dp/0801064856", note: "Ken Sande" }
+    ],
+    content: `
+      <h2>Handling Criticism & Difficult Sessions</h2>
+      <p>Not every session will go smoothly. Criticism, resistance, or strong emotion can tempt the counselor toward defensiveness or withdrawal.</p>
+      <div class="verse">“A soft answer turns away wrath, but a harsh word stirs up anger.” — Proverbs 15:1</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Respond with humility rather than self-justification (James 1:19-20).</li>
+        <li>Distinguish between helpful feedback and personal attack.</li>
+        <li>Point the conversation back to Scripture and the gospel.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Recall one difficult session. Write what you wish you had said or done differently.</li>
+        <li>Identify one soft-answer response you can practice next time tension arises.</li>
+      </ul>
+    `
+  },
+  {
+    id: "boundaries",
+    title: "Boundaries & After-Hours Care",
+    summary: "Serving well without neglecting rest or family.",
+    furtherReading: [
+      { title: "Instruments in the Redeemer’s Hands", url: "https://www.amazon.com/Instruments-Redeemers-Hands-People-Change/dp/0875526071", note: "Paul Tripp" }
+    ],
+    content: `
+      <h2>Boundaries & After-Hours Care</h2>
+      <p>Compassion can blur into over-availability. Wise boundaries protect both the counselor and the counselee.</p>
+      <div class="verse">“For everything there is a season, and a time for every matter under heaven.” — Ecclesiastes 3:1</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Jesus modeled both availability and withdrawal (Mark 1:35; Luke 5:16).</li>
+        <li>Boundaries are an expression of stewardship, not selfishness.</li>
+        <li>Clear expectations help both parties.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Write one boundary you will keep this week (e.g., no counseling calls after a certain hour).</li>
+        <li>Identify one way to communicate that boundary kindly to those you serve.</li>
+      </ul>
+    `
+  }
+];
+
+const counselingIssues = [
+  {
+    id: "anxiety",
+    title: "Anxiety Disorders (GAD, Panic, Phobias, Social Anxiety)",
+    summary: "Excessive fear, worry, and avoidance. DSM categories describe symptom clusters; biblical counseling addresses the heart’s trust and desires.",
+    dsm: "Anxiety Disorders",
+    furtherReading: [
+      { title: "Anxious for Nothing", url: "https://www.amazon.com/Anxious-Nothing-Cares-Macarthur-Study/dp/1434702979/", note: "John MacArthur" },
+      { title: "Courage: Fighting Fear with Fear", url: "https://www.amazon.com/Courage-Fighting-Fear-Wayne-Mack/dp/1596389265/", note: "Wayne Mack" }
+    ],
+    content: `
+      <h2>Anxiety Disorders</h2>
+      <p>DSM-5 anxiety disorders (Generalized Anxiety, Panic, Specific Phobia, Social Anxiety, etc.) describe clusters of excessive fear, worry, physical symptoms, and avoidance. Biblical counseling explores what the heart is trusting, fearing, or worshiping, while acknowledging that physical factors may contribute and warrant medical evaluation.</p>
+      <div class="verse">“Do not be anxious about anything, but in everything by prayer and supplication with thanksgiving let your requests be made known to God. And the peace of God… will guard your hearts and your minds in Christ Jesus.” — Philippians 4:6-7</div>
+      <div class="verse">“Cast all your anxiety on him because he cares for you.” — 1 Peter 5:7</div>
+      <div class="verse">“Therefore do not be anxious about tomorrow…” — Matthew 6:34</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Anxiety often reveals misplaced trust or demands for control.</li>
+        <li>God invites honest prayer and promises peace that guards heart and mind.</li>
+        <li>Address both heart beliefs and any bodily contributors.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Explore specific fears and what they reveal about beliefs concerning God.</li>
+        <li>Practice casting cares through prayer and Scripture meditation.</li>
+        <li>Encourage small steps of obedience; recommend medical check when symptoms are severe.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read Philippians 4:4-9 and 1 Peter 5:6-7 daily this week. Write one sentence each day about a specific care you are casting on the Lord.</li>
+        <li>List three recurring worries. For each, identify a related biblical truth and one small step of trust.</li>
+        <li>Pray with a trusted friend or spouse about one area of anxiety.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “You’ve described a lot of worry about your children. What are you most afraid might happen?”</p>
+      <p><strong>Counselee:</strong> “That something bad will happen and I won’t be able to protect them.”</p>
+      <p><strong>Counselor:</strong> “That desire to protect them is understandable. How does that fear shape the way you relate to God when you’re anxious?”</p>
+      <p class="note">DSM labels describe observations; they do not exhaustively explain the heart or replace the gospel.</p>
+    `
+  },
+  {
+    id: "depression",
+    title: "Depressive Disorders",
+    summary: "Persistent low mood, loss of interest, and related symptoms. Offer gospel hope amid real suffering.",
+    dsm: "Depressive Disorders",
+    furtherReading: [
+      { title: "Out of the Blues", url: "https://www.amazon.com/Out-Blues-Dealing-Depression-Loneliness/dp/1885904592/", note: "Wayne Mack" },
+      { title: "Spiritual Depression", url: "https://www.amazon.com/Spiritual-Depression-Causes-Cure-Lloyd-Jones/dp/0802813879", note: "Martyn Lloyd-Jones" }
+    ],
+    content: `
+      <h2>Depressive Disorders</h2>
+      <p>Major Depressive Disorder and related conditions involve persistent sadness, loss of pleasure, changes in sleep/appetite, and feelings of worthlessness. Biblical counsel offers the hope of Christ while being sensitive to real suffering and the body-soul connection. Medical evaluation is often appropriate.</p>
+      <div class="verse">“Why are you cast down, O my soul… Hope in God; for I shall again praise him.” — Psalm 42:11</div>
+      <div class="verse">“The Lord is near to the brokenhearted and saves the crushed in spirit.” — Psalm 34:18</div>
+      <div class="verse">“I can do all things through him who strengthens me.” — Philippians 4:13</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>The Psalms model honest lament; God is present in suffering.</li>
+        <li>Hope is rooted in Christ and His finished work, not circumstances.</li>
+        <li>Small steps of obedience and community matter even when feelings lag.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Encourage honest prayer and Scripture that speaks to the downcast.</li>
+        <li>Identify patterns of thinking or isolation that deepen despair.</li>
+        <li>Point consistently to the gospel; coordinate with medical care when indicated.</li>
+      </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “You’ve described feeling low for a while. What does a hard day typically look like for you?”</p>
+      <p><strong>Counselee:</strong> “That people will think less of me or get upset.”</p>
+      <p><strong>Counselor:</strong> “Whose opinion feels most weighty to you in those moments?”</p>
+      <p><strong>Counselee:</strong> “Honestly, almost everyone’s.”</p>
+      <p><strong>Counselor:</strong> “How does the fear of man compete with the fear of the Lord for you?”</p>
+    `
+  },
+  {
+    id: "trauma",
+    title: "Trauma- and Stressor-Related Disorders (PTSD, Acute Stress)",
+    summary: "Responses to overwhelming events. Comfort the suffering and address any resulting heart issues.",
+    dsm: "Trauma- and Stressor-Related Disorders",
+    furtherReading: [
+      { title: "Counseling the Hard Cases", url: "https://www.amazon.com/Counseling-Hard-Cases-Illustrating-Sufficiency/dp/1433685795/", note: "Stuart Scott & Heath Lambert" },
+      { title: "A Theology of Biblical Counseling", url: "https://www.amazon.com/Theology-Biblical-Counseling-Doctrinal-Foundations-ebook/dp/B010R2U5AA/", note: "Heath Lambert" }
+    ],
+    content: `
+      <h2>Trauma and Stressor-Related Disorders</h2>
+      <p>PTSD and related conditions involve intrusive memories, avoidance, negative changes in mood/thinking, and hyperarousal following trauma. Biblical counseling offers the comfort of the God of all comfort while carefully addressing both suffering and any sinful responses that may have developed.</p>
+      <div class="verse">“Blessed be the God and Father of our Lord Jesus Christ, the Father of mercies and God of all comfort, who comforts us in all our affliction…” — 2 Corinthians 1:3-4</div>
+      <div class="verse">“The Lord is near to the brokenhearted…” — Psalm 34:18</div>
+      <div class="verse">“He heals the brokenhearted and binds up their wounds.” — Psalm 147:3</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>God is the God of all comfort; suffering is real and not always the result of personal sin.</li>
+        <li>Trauma can produce both deep pain and patterns of fear, anger, or distrust that need gospel care.</li>
+        <li>Safety, patience, and truthful hope are essential.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Listen carefully to the story of suffering before moving to application.</li>
+        <li>Point to Christ’s presence and ultimate restoration.</li>
+        <li>Address any resulting idolatry of control, bitterness, or fear with grace and truth.</li>
+      </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Conflict with your coworker has been draining. What do you want most when the tension rises?”</p>
+      <p><strong>Counselee:</strong> “To be understood and for them to stop criticizing me.”</p>
+      <p><strong>Counselor:</strong> “How have you been responding when you feel misunderstood?”</p>
+      <p><strong>Counselee:</strong> “I either withdraw or get sharp.”</p>
+      <p><strong>Counselor:</strong> “What would a peacemaking response look like instead?”</p>
+    `
+  },
+  {
+    id: "ocd",
+    title: "Obsessive-Compulsive and Related Disorders",
+    summary: "Intrusive thoughts and repetitive behaviors. Address heart desires and trust in God’s control.",
+    dsm: "Obsessive-Compulsive and Related Disorders",
+    furtherReading: [
+      { title: "Anxious for Nothing", url: "https://www.amazon.com/Anxious-Nothing-Cares-Macarthur-Study/dp/1434702979/", note: "John MacArthur" },
+      { title: "Courage: Fighting Fear with Fear", url: "https://www.amazon.com/Courage-Fighting-Fear-Wayne-Mack/dp/1596389265/", note: "Wayne Mack" }
+    ],
+    content: `
+      <h2>Obsessive-Compulsive and Related Disorders</h2>
+      <p>OCD involves obsessions (intrusive, unwanted thoughts) and compulsions (repetitive behaviors or mental acts). Biblical counseling explores the heart’s desire for certainty, control, or moral perfection while recognizing the distressing nature of the experience.</p>
+      <div class="verse">“Trust in the Lord with all your heart, and do not lean on your own understanding.” — Proverbs 3:5</div>
+      <div class="verse">“Do not be anxious about anything…” — Philippians 4:6</div>
+      <div class="verse">“There is therefore now no condemnation for those who are in Christ Jesus.” — Romans 8:1</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Obsessions often reveal a heart seeking certainty or perfection apart from resting in Christ.</li>
+        <li>Compulsions are attempts to manage anxiety that ultimately fail to bring lasting peace.</li>
+        <li>The gospel frees from condemnation and invites trust in God’s sufficient care.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Help the person identify the desires driving the obsessions and compulsions.</li>
+        <li>Encourage gradual resistance to compulsions while clinging to God’s promises.</li>
+        <li>Recommend medical or specialized help when symptoms severely impair functioning.</li>
+      </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “You’ve described thoughts that feel intrusive and hard to dismiss. What usually happens when one of those thoughts comes?”</p>
+      <p><strong>Counselee:</strong> “I feel like I have to do something to make it go away, or something bad will happen.”</p>
+      <p><strong>Counselor:</strong> “What do you believe will happen if you don’t act on the urge?”</p>
+      <p><strong>Counselee:</strong> “That I’m responsible for whatever goes wrong.”</p>
+      <p><strong>Counselor:</strong> “How does the gospel speak to that sense of responsibility?”</p>
+    `
+  },
+  {
+    id: "addiction",
+    title: "Substance-Related and Addictive Disorders",
+    summary: "Bondage to substances or behaviors. Call to repentance, community, and gospel freedom.",
+    dsm: "Substance-Related and Addictive Disorders",
+    furtherReading: [
+      { title: "Finally Free", url: "https://www.amazon.com/Finally-Free-Fighting-Purity-Power/dp/0310499232/", note: "Heath Lambert" },
+      { title: "The Heart of Addiction", url: "https://www.amazon.com/Heart-Addiction-Biblical-Perspective-ebook/dp/B00IZO6EMQ/", note: "Mark Shaw" }
+    ],
+    content: `
+      <h2>Substance-Related and Addictive Disorders</h2>
+      <p>Addiction involves compulsive use of substances or behaviors despite harmful consequences. Biblical counseling treats it as a form of idolatry and slavery from which Christ sets free, while supporting practical steps and community accountability.</p>
+      <div class="verse">“Everyone who practices sin is a slave to sin… If the Son sets you free, you will be free indeed.” — John 8:34, 36</div>
+      <div class="verse">“No temptation has overtaken you that is not common to man. God is faithful… he will also provide the way of escape.” — 1 Corinthians 10:13</div>
+      <div class="verse">“Therefore, if anyone is in Christ, he is a new creation.” — 2 Corinthians 5:17</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Addiction is both a physiological reality and a spiritual issue of worship and control.</li>
+        <li>Freedom comes through repentance, faith in Christ, and ongoing dependence on Him.</li>
+        <li>Community, accountability, and practical safeguards are essential.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Address the heart idols that the substance or behavior is serving.</li>
+        <li>Encourage confession, repentance, and replacement with godly practices.</li>
+        <li>Support medical detox or treatment when physically necessary; emphasize the church’s role.</li>
+      </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “You’ve been wrestling with this addiction. What usually happens right before you turn to it?”</p>
+      <p><strong>Counselee:</strong> “I feel stressed or empty, and it seems like the quickest way to feel better.”</p>
+      <p><strong>Counselor:</strong> “What are you hoping it will give you in that moment?”</p>
+      <p><strong>Counselee:</strong> “Relief. Or at least a break from how I feel.”</p>
+      <p><strong>Counselor:</strong> “How does the gospel speak to that longing for relief?”</p>
+    `
+  },
+  {
+    id: "personality",
+    title: "Personality Disorders (Borderline, Narcissistic, Avoidant, etc.)",
+    summary: "Pervasive patterns of thinking, relating, and behaving. Address heart motives and relational patterns with gospel truth.",
+    dsm: "Personality Disorders",
+    furtherReading: [
+      { title: "Counseling the Hard Cases", url: "https://www.amazon.com/Counseling-Hard-Cases-Illustrating-Sufficiency/dp/1433685795/", note: "Stuart Scott & Heath Lambert" },
+      { title: "Instruments in the Redeemer’s Hands", url: "https://www.amazon.com/Instruments-Redeemers-Hands-People-Change/dp/0875526071", note: "Paul Tripp" }
+    ],
+    content: `
+      <h2>Personality Disorders</h2>
+      <p>DSM-5 personality disorders describe enduring patterns of inner experience and behavior that deviate markedly from cultural expectations and cause distress or impairment (e.g., Borderline, Narcissistic, Avoidant, Obsessive-Compulsive Personality). Biblical counseling looks beneath the label to heart motives, relational sin patterns, and the transforming power of the gospel.</p>
+      <div class="verse">“The heart is deceitful above all things, and desperately sick; who can understand it?” — Jeremiah 17:9</div>
+      <div class="verse">“Put off your old self… and put on the new self, created after the likeness of God in true righteousness and holiness.” — Ephesians 4:22-24</div>
+      <div class="verse">“Love is patient and kind… it does not insist on its own way.” — 1 Corinthians 13:4-5</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Labels describe patterns; they do not define identity or limit the Spirit’s work.</li>
+        <li>Many patterns reflect deep-seated desires for control, significance, comfort, or approval.</li>
+        <li>Change is possible through the renewing of the mind and the power of the gospel in community.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Patiently explore the relational history and heart desires beneath the patterns.</li>
+        <li>Call to specific repentance and practice of Christlike love and humility.</li>
+        <li>Emphasize identity in Christ rather than the diagnostic label.</li>
+      </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “You’ve described patterns in relationships that keep causing pain. What usually happens when conflict arises?”</p>
+      <p><strong>Counselee:</strong> “I either withdraw completely or I become intense and push people away.”</p>
+      <p><strong>Counselor:</strong> “What are you protecting yourself from in those moments?”</p>
+      <p><strong>Counselee:</strong> “From being hurt or from feeling rejected.”</p>
+      <p><strong>Counselor:</strong> “How might the gospel reshape the way you approach those relationships?”</p>
+    `
+  },
+  {
+    id: "bipolar",
+    furtherReading: [
+      { title: "Counseling the Hard Cases", author: "Stuart Scott & Heath Lambert", url: "https://www.amazon.com/Counseling-Hard-Cases-Illustrating-Sufficiency/dp/1433685795/" }
+    ],
+    title: "Bipolar and Related Disorders",
+    summary: "Cycles of elevated and depressed mood. Coordinate with medical care while addressing heart responses.",
+    dsm: "Bipolar and Related Disorders",
+    content: `
+      <h2>Bipolar and Related Disorders</h2>
+      <p>Bipolar disorders involve episodes of mania/hypomania and often depression. These have significant biological components and typically require medical management. Biblical counseling supports the person in stewarding their responses, maintaining spiritual disciplines, and finding hope in Christ amid the cycles.</p>
+      <div class="verse">“My grace is sufficient for you, for my power is made perfect in weakness.” — 2 Corinthians 12:9</div>
+      <div class="verse">“The Lord is my shepherd; I shall not want.” — Psalm 23:1</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Some conditions have strong physical components; medical care is wise and loving.</li>
+        <li>Even amid biological vulnerability, the heart’s responses (trust, worship, obedience) remain relevant.</li>
+        <li>God’s presence and grace are sufficient in weakness.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Encourage consistent medical follow-up and healthy rhythms.</li>
+        <li>Help the person interpret experiences through Scripture rather than solely through the diagnosis.</li>
+        <li>Offer gospel hope and practical support for seasons of both elevation and depression.</li>
+      </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “You’ve described thoughts that feel intrusive and hard to dismiss. What usually happens when one of those thoughts comes?”</p>
+      <p><strong>Counselee:</strong> “I feel like I have to do something to make it go away, or something bad will happen.”</p>
+      <p><strong>Counselor:</strong> “What do you believe will happen if you don’t act on the urge?”</p>
+      <p><strong>Counselee:</strong> “That I’m responsible for whatever goes wrong.”</p>
+      <p><strong>Counselor:</strong> “How does the gospel speak to that sense of responsibility?”</p>
+    `
+  },
+  {
+    id: "eating",
+    furtherReading: [
+      { title: "Counseling the Hard Cases", author: "Stuart Scott & Heath Lambert", url: "https://www.amazon.com/Counseling-Hard-Cases-Illustrating-Sufficiency/dp/1433685795/" }
+    ],
+    title: "Feeding and Eating Disorders",
+    summary: "Distorted relationship with food, body, and control. Address heart desires and body stewardship.",
+    dsm: "Feeding and Eating Disorders",
+    content: `
+      <h2>Feeding and Eating Disorders</h2>
+      <p>Anorexia, bulimia, binge-eating, and related conditions involve severe disturbance in eating behavior and body image. Biblical counseling addresses the heart’s pursuit of control, significance, or comfort while strongly encouraging medical and nutritional care.</p>
+      <div class="verse">“Do you not know that your body is a temple of the Holy Spirit…? You are not your own, for you were bought with a price. So glorify God in your body.” — 1 Corinthians 6:19-20</div>
+      <div class="verse">“Man shall not live by bread alone, but by every word that comes from the mouth of God.” — Matthew 4:4</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>The body is a gift to be stewarded for God’s glory, not controlled or punished.</li>
+        <li>Eating disorders often involve idolatry of control, appearance, or emotional regulation.</li>
+        <li>True satisfaction is found in Christ, not in the body or food.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Coordinate closely with medical and nutritional professionals.</li>
+        <li>Explore the heart desires and fears driving the behaviors.</li>
+        <li>Point to identity in Christ and the freedom of trusting God’s care for the body.</li>
+      </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Food has become a complicated part of your life. What thoughts tend to show up around meals?”</p>
+      <p><strong>Counselee:</strong> “I either feel completely out of control or I’m constantly restricting.”</p>
+      <p><strong>Counselor:</strong> “What are you hoping food will give you in those moments?”</p>
+      <p><strong>Counselee:</strong> “Comfort, or a sense of control when everything else feels chaotic.”</p>
+      <p><strong>Counselor:</strong> “How does the gospel offer something more lasting than that temporary comfort or control?”</p>
+    `
+  },
+  {
+    id: "anger",
+    title: "Anger",
+    summary: "Addressing sinful anger and righteous responses.",
+    dsm: "May relate to various categories",
+    furtherReading: [
+      { title: "Uprooting Anger", url: "https://www.amazon.com/Uprooting-Anger-Biblical-Common-Problem-ebook/dp/B01COCPKI8/", note: "Robert Jones" },
+      { title: "The Peacemaker", url: "https://www.amazon.com/Peacemaker-Biblical-Resolving-Personal-Conflict/dp/0801064856", note: "Ken Sande" }
+    ],
+    content: `
+      <h2>Anger</h2>
+      <p>Anger is not always sinful (God is angry at sin), but human anger is frequently rooted in self-centeredness, unmet desires, or failure to trust God’s justice. Counsel aims at the heart while teaching constructive responses.</p>
+      <div class="verse">“Be angry and do not sin; do not let the sun go down on your anger.” — Ephesians 4:26</div>
+      <div class="verse">“Let every person be quick to hear, slow to speak, slow to anger…” — James 1:19-20</div>
+      <div class="verse">“A soft answer turns away wrath, but a harsh word stirs up anger.” — Proverbs 15:1</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Distinguish between righteous indignation and sinful anger.</li>
+        <li>Anger often reveals desires that have become demands (James 4:1-3).</li>
+        <li>Repentance, forgiveness, and speaking truth in love are central.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Identify triggers and underlying desires or beliefs.</li>
+        <li>Practice “slow to speak” responses and confession when anger is sinful.</li>
+        <li>Explore forgiveness and entrusting justice to God.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read James 1:19-20 and Ephesians 4:25-32. Note one way you can be “quick to hear” this week.</li>
+        <li>When anger arises, pause and ask: “What desire is being threatened right now?” Write it down.</li>
+        <li>If you sinned in anger, confess it specifically to the Lord and, if appropriate, to the person involved.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “When your spouse said that, what did you feel in the moment?”</p>
+      <p><strong>Counselee:</strong> “Angry. Like she wasn’t listening to me at all.”</p>
+      <p><strong>Counselor:</strong> “What were you wanting in that moment that felt threatened?”</p>
+      <p><strong>Counselee:</strong> “To be respected.”</p>
+      <p><strong>Counselor:</strong> “How did that desire for respect turn into the way you spoke?”</p>
+    `
+  },
+  {
+    id: "marriage",
+    title: "Marriage Conflict",
+    summary: "Helping couples pursue unity, grace, and biblical roles.",
+    dsm: "Relational issues",
+    furtherReading: [
+      { title: "Marriage Matters", url: "https://www.amazon.com/Marriage-Matters-Extraordinary-Through-Ordinary/dp/1935273612/", note: "Winston Smith" },
+      { title: "When Sinners Say I Do", url: "https://www.amazon.com/When-Sinners-Say-I-Do-ebook/dp/B004EHZVGI/", note: "Dave Harvey" }
+    ],
+    content: `
+      <h2>Marriage Conflict</h2>
+      <p>Marriage conflict typically involves both partners’ sin patterns, communication failures, and unmet expectations. Biblical counsel calls both to Christlike love, repentance, and mutual service rather than focusing solely on the other person.</p>
+      <div class="verse">“Husbands, love your wives, as Christ loved the church and gave himself up for her.” — Ephesians 5:25</div>
+      <div class="verse">“Wives, submit to your own husbands, as to the Lord.” — Ephesians 5:22</div>
+      <div class="verse">“Be kind to one another, tenderhearted, forgiving one another, as God in Christ forgave you.” — Ephesians 4:32</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Both spouses are called to Christlike love and sacrifice.</li>
+        <li>Conflict often reveals pride, selfishness, or failure to forgive.</li>
+        <li>The gospel provides the model and power for reconciliation.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Help each person examine their own contribution first (Matthew 7:3-5).</li>
+        <li>Teach biblical communication and forgiveness practices.</li>
+        <li>Point to Christ’s love as the foundation for change.</li>
+      </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “When conflict happens between you and your spouse, what usually follows?”</p>
+      <p><strong>Counselee:</strong> “I either feel completely out of control or I’m constantly restricting.”</p>
+      <p><strong>Counselor:</strong> “What are you hoping food will give you in those moments?”</p>
+      <p><strong>Counselee:</strong> “Comfort, or a sense of control when everything else feels chaotic.”</p>
+      <p><strong>Counselor:</strong> “How does the gospel offer something more lasting than that temporary comfort or control?”</p>
+    `
+  },
+  {
+    id: "forgiveness",
+    title: "Forgiveness & Bitterness",
+    summary: "Moving from resentment to gospel-powered release.",
+    dsm: "May relate to various categories",
+    furtherReading: [
+      { title: "Unpacking Forgiveness", url: "https://www.amazon.com/Unpacking-Forgiveness-Biblical-Answers-Questions/dp/1581349807/", note: "Chris Brauns" },
+      { title: "The Peacemaker", url: "https://www.amazon.com/Peacemaker-Biblical-Resolving-Personal-Conflict/dp/0801064856", note: "Ken Sande" }
+    ],
+    content: `
+      <h2>Forgiveness & Bitterness</h2>
+      <p>Unforgiveness keeps people in bondage. Biblical forgiveness is a decision to release the debt, trusting God with justice, and is possible because we have been forgiven much.</p>
+      <div class="verse">“Be kind to one another, tenderhearted, forgiving one another, as God in Christ forgave you.” — Ephesians 4:32</div>
+      <div class="verse">“For if you forgive others their trespasses, your heavenly Father will also forgive you.” — Matthew 6:14</div>
+      <div class="verse">“See to it that no one fails to obtain the grace of God; that no ‘root of bitterness’ springs up…” — Hebrews 12:15</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Forgiveness is commanded and modeled by Christ.</li>
+        <li>It is a process of the heart that may involve repeated decisions.</li>
+        <li>We forgive because we have been forgiven an infinitely greater debt.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Help the person count the cost of unforgiveness versus the freedom of release.</li>
+        <li>Practice specific prayers of forgiveness and entrusting to God.</li>
+        <li>Distinguish between forgiveness and reconciliation or restored trust.</li>
+      </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Forgiving this person has felt especially difficult. What makes it hard to release the offense?”</p>
+      <p><strong>Counselee:</strong> “It feels like I’d be saying what they did was okay.”</p>
+      <p><strong>Counselor:</strong> “Forgiveness doesn’t mean the offense was small. What would it look like to entrust justice to God while still releasing the debt?”</p>
+      <p><strong>Counselee:</strong> “I don’t know if I can do that yet.”</p>
+      <p><strong>Counselor:</strong> “That’s honest. How has God forgiven you, and how might that shape this?”</p>
+    `
+  },
+  {
+    id: "parenting-alienation",
+    title: "Parenting & Parental Alienation",
+    summary: "Guiding parents through conflict, loss of relationship with children, and the pain of alienation.",
+    dsm: "May relate to adjustment, trauma, or relational categories",
+    furtherReading: [
+      { title: "Parenting", url: "https://www.amazon.com/Parenting-Gospel-Principles-Radically-Questions/dp/1433593602", note: "Paul Tripp" },
+      { title: "Shepherding a Child’s Heart", url: "https://www.amazon.com/Shepherding-Childs-Heart-Tedd-Tripp/dp/0966378601", note: "Tedd Tripp" },
+      { title: "Alienation in the Bible", url: "https://www.amazon.com/Alienation-Bible-Reflections-Parental-Loss-ebook/dp/B0DX4BNSF4", note: "Reflections on parental loss" },
+      { title: "Dealing with Parental Alienation and Healing Through the Pain", url: "https://www.amazon.com/Exs-Ohs-Dealing-Parental-Alienation-ebook/dp/B07R3XYJ35", note: "Practical help for alienation" }
+    ],
+    content: `
+      <h2>Parenting & Parental Alienation</h2>
+      <p>Parenting is a high calling and a source of both deep joy and real suffering. When conflict, divorce, or other pressures lead to a child rejecting one parent (sometimes called parental alienation), the pain is profound. Biblical counseling addresses both the heart issues of all involved and the reality of suffering, while pointing to God’s care for the brokenhearted and His ultimate authority over families.</p>
+      <div class="verse">“Fathers, do not provoke your children to anger, but bring them up in the discipline and instruction of the Lord.” — Ephesians 6:4</div>
+      <div class="verse">“The Lord is near to the brokenhearted and saves the crushed in spirit.” — Psalm 34:18</div>
+      <div class="verse">“Train up a child in the way he should go; even when he is old he will not depart from it.” — Proverbs 22:6</div>
+      <div class="verse">“Children, obey your parents in the Lord, for this is right. ‘Honor your father and mother’…” — Ephesians 6:1-2</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Parents are stewards, not owners, of their children. The ultimate goal is to point them to Christ.</li>
+        <li>God cares deeply for the brokenhearted and the unjustly treated (Psalm 34:18; Isaiah 61:1-3).</li>
+        <li>Sin (bitterness, control, partiality, failure to honor) can be present on all sides and must be addressed honestly.</li>
+        <li>Hope rests in God’s power to soften hearts and restore what is broken, not in human strategies alone (Joel 2:25; Romans 8:28).</li>
+        <li>Parents are called to continue in prayer, faithfulness, and godly character even when relationship is limited or absent.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Help the alienated parent grieve the loss while entrusting the child and the situation to the Lord.</li>
+        <li>Examine any personal contributions (anger, criticism, inconsistent discipline, etc.) with humility and repentance where needed.</li>
+        <li>Discourage retaliatory speech or behavior; encourage consistent love, prayer, and appropriate boundaries.</li>
+        <li>Support wise, limited contact that prioritizes the child’s well-being and does not further entrench division.</li>
+        <li>Point to Christ’s own experience of rejection and His sufficient grace for the long road of waiting and faithfulness.</li>
+      </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Being shut out of your children’s lives has been deeply painful. What has been the hardest part of this for you?”</p>
+      <p><strong>Counselee:</strong> “Not knowing if they’ll ever want a relationship with me again, and feeling like I’ve lost them.”</p>
+      <p><strong>Counselor:</strong> “How has that loss affected the way you pray or trust God with them?”</p>
+      <p><strong>Counselee:</strong> “I pray, but it often feels like nothing is changing and I’m just waiting.”</p>
+      <p><strong>Counselor:</strong> “What would it look like to keep entrusting them to the Lord while still grieving the distance honestly?”</p>
+    `
+  },
+  {
+    id: "grief",
+    title: "Grief & Loss",
+    summary: "Walking with those who mourn, offering the comfort of the God of all comfort.",
+    dsm: "May relate to adjustment or trauma-related categories",
+    furtherReading: [
+      { title: "Out of the Blues", url: "https://www.amazon.com/Out-Blues-Dealing-Depression-Loneliness/dp/1885904592/", note: "Wayne Mack" },
+      { title: "Spiritual Depression", url: "https://www.amazon.com/Spiritual-Depression-Causes-Cure-Lloyd-Jones/dp/0802813879", note: "Martyn Lloyd-Jones" }
+    ],
+    content: `
+      <h2>Grief & Loss</h2>
+      <p>Grief is a normal, painful response to loss. Biblical counseling neither rushes people past sorrow nor leaves them without hope. The Psalms model honest lament, and the gospel promises that death and loss do not have the final word.</p>
+      <div class="verse">“Blessed are those who mourn, for they shall be comforted.” — Matthew 5:4</div>
+      <div class="verse">“The Lord is near to the brokenhearted and saves the crushed in spirit.” — Psalm 34:18</div>
+      <div class="verse">“We do not want you to be uninformed… about those who are asleep, that you may not grieve as others do who have no hope.” — 1 Thessalonians 4:13</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Lament is a biblical response; God invites honest expression of pain.</li>
+        <li>Hope in the resurrection does not eliminate grief but transforms it.</li>
+        <li>Community and the presence of others matter deeply in mourning.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Give space for sorrow without demanding quick resolution.</li>
+        <li>Point gently to the God who knows suffering and who will wipe every tear.</li>
+        <li>Help the person continue ordinary faithfulness while grieving.</li>
+      </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “This loss has left a deep ache. What has been the hardest part of the grief for you?”</p>
+      <p><strong>Counselee:</strong> “The emptiness. Ordinary things remind me they’re gone, and it still feels unreal.”</p>
+      <p><strong>Counselor:</strong> “How has that shaped the way you talk to God about it?”</p>
+      <p><strong>Counselee:</strong> “I know He’s good, but I don’t always know what to say.”</p>
+      <p><strong>Counselor:</strong> “What would it look like to bring that emptiness and confusion to Him honestly?”</p>
+    `
+  },
+  {
+    id: "sexual-sin",
+    title: "Sexual Sin / Pornography",
+    summary: "Addressing sexual brokenness with gospel hope, repentance, and practical freedom.",
+    dsm: "May relate to impulse-control or other categories",
+    furtherReading: [
+      { title: "Finally Free", url: "https://www.amazon.com/Finally-Free-Fighting-Purity-Power/dp/0310499232/", note: "Heath Lambert" },
+      { title: "Sexual Sanity for Men", url: "https://www.amazon.com/Sexual-Sanity-Men-Re-creating-Culture/dp/1936768992", note: "David White" }
+    ],
+    content: `
+      <h2>Sexual Sin & Pornography</h2>
+      <p>Sexual sin, including pornography, is a common and deeply enslaving struggle. Biblical counseling treats it as idolatry and slavery from which Christ sets free, while offering practical steps and accountable community.</p>
+      <div class="verse">“Flee from sexual immorality… You are not your own, for you were bought with a price.” — 1 Corinthians 6:18-20</div>
+      <div class="verse">“If the Son sets you free, you will be free indeed.” — John 8:36</div>
+      <div class="verse">“Put to death therefore what is earthly in you: sexual immorality, impurity, passion…” — Colossians 3:5</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Sexual sin is serious, but the gospel offers full forgiveness and real power for change.</li>
+        <li>Freedom comes through repentance, the Spirit, and the body of Christ—not willpower alone.</li>
+        <li>Honest confession and accountability are essential.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Explore the heart desires and triggers behind the behavior.</li>
+        <li>Encourage concrete steps: filters, accountability partners, Scripture meditation.</li>
+        <li>Point repeatedly to the sufficiency of Christ and the hope of progressive freedom.</li>
+      </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “You’ve been honest about the struggle with sexual sin. What typically happens right before you give in?”</p>
+      <p><strong>Counselee:</strong> “I feel lonely or stressed, and then it just seems like the easiest escape.”</p>
+      <p><strong>Counselor:</strong> “What are you hoping that escape will give you in the moment?”</p>
+      <p><strong>Counselee:</strong> “Comfort or relief, even if it’s temporary.”</p>
+      <p><strong>Counselor:</strong> “How does the gospel offer something better than that temporary relief, and what would repentance look like in the next moment of temptation?”</p>
+    `
+  },
+  {
+    id: "fear-of-man",
+    title: "Fear of Man / People-Pleasing",
+    summary: "Moving from the fear of others to the fear of the Lord and freedom in Christ.",
+    dsm: "May relate to social anxiety or other categories",
+    furtherReading: [
+      { title: "When People Are Big and God Is Small", url: "https://www.amazon.com/When-People-Are-Big-Small/dp/0875526004", note: "Edward Welch" },
+      { title: "The Peacemaker", url: "https://www.amazon.com/Peacemaker-Biblical-Resolving-Personal-Conflict/dp/0801064856", note: "Ken Sande" },
+      { title: "Pleasing People", url: "https://www.amazon.com/Pleasing-People-How-approval-junkie-ebook/dp/B004PLNHIW", note: "Lou Priolo" }
+    ],
+    content: `
+      <h2>Fear of Man & People-Pleasing</h2>
+      <p>The fear of man is a snare. When approval or avoidance of conflict controls decisions, biblical counseling redirects the heart to the fear of the Lord and identity in Christ.</p>
+      <div class="verse">“The fear of man lays a snare, but whoever trusts in the Lord is safe.” — Proverbs 29:25</div>
+      <div class="verse">“Am I now seeking the approval of man, or of God?” — Galatians 1:10</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>The fear of the Lord is the beginning of wisdom and true freedom.</li>
+        <li>Identity in Christ frees us from living for the opinions of others.</li>
+        <li>Love and truth can coexist; people-pleasing often sacrifices one.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Identify specific situations where fear of man drives behavior.</li>
+        <li>Practice speaking truth in love in small, safe steps.</li>
+        <li>Meditate on God’s acceptance and the sufficiency of Christ.</li>
+      </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “You’ve noticed that you often hold back from saying what you think is true. What are you afraid might happen if you speak up?”</p>
+      <p><strong>Counselee:</strong> “That people will think less of me or get upset.”</p>
+      <p><strong>Counselor:</strong> “Whose opinion feels most weighty to you in those moments?”</p>
+      <p><strong>Counselee:</strong> “Honestly, almost everyone’s.”</p>
+      <p><strong>Counselor:</strong> “How does the fear of man compete with the fear of the Lord for you?”</p>
+    `
+  },
+  {
+    id: "conflict",
+    title: "Conflict & Peacemaking",
+    summary: "Biblical principles for resolving conflict and pursuing peace.",
+    dsm: "Relational issues",
+    furtherReading: [
+      { title: "The Peacemaker", url: "https://www.amazon.com/Peacemaker-Biblical-Resolving-Personal-Conflict/dp/0801064856", note: "Ken Sande" },
+      { title: "Pursuing Peace", url: "https://www.amazon.com/Pursuing-Peace-Christian-Handling-Conflicts/dp/1433530139/", note: "Robert Jones" }
+    ],
+    content: `
+      <h2>Conflict & Peacemaking</h2>
+      <p>Conflict is inevitable in a fallen world. Biblical counseling equips people to pursue peace through humility, truth-telling, forgiveness, and the gospel.</p>
+      <div class="verse">“If possible, so far as it depends on you, live peaceably with all.” — Romans 12:18</div>
+      <div class="verse">“Blessed are the peacemakers, for they shall be called sons of God.” — Matthew 5:9</div>
+      <div class="verse">“A soft answer turns away wrath, but a harsh word stirs up anger.” — Proverbs 15:1</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Peacemaking begins with examining one’s own heart (Matthew 7:3-5).</li>
+        <li>Truth and love must be held together (Ephesians 4:15).</li>
+        <li>Forgiveness and reconciliation are distinct but related callings.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Help identify logs in one’s own eye before addressing others.</li>
+        <li>Practice soft answers and clear, loving communication.</li>
+        <li>Distinguish between peace-faking and genuine peacemaking.</li>
+      </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “When conflict arises, what usually happens between you and the other person?”</p>
+      <p><strong>Counselee:</strong> “We either avoid it completely or it escalates quickly.”</p>
+      <p><strong>Counselor:</strong> “What do you find yourself wanting most in those moments?”</p>
+      <p><strong>Counselee:</strong> “For it to just be over, or for them to see my side.”</p>
+      <p><strong>Counselor:</strong> “How might the gospel shape the way you pursue peace instead of victory or avoidance?”</p>
+    `
+  },
+  {
+    id: "identity",
+    title: "Identity in Christ",
+    summary: "Rooting identity in who God says we are rather than performance, feelings, or others’ opinions.",
+    dsm: "May relate to various categories",
+    furtherReading: [
+      { title: "Who Am I?", url: "https://www.amazon.com/Who-Am-I-Identity-Christ-ebook/dp/B007GIXRPE/", note: "Jerry Bridges" },
+      { title: "A Theology of Biblical Counseling", url: "https://www.amazon.com/Theology-Biblical-Counseling-Doctrinal-Foundations-ebook/dp/B010R2U5AA/", note: "Heath Lambert" }
+    ],
+    content: `
+      <h2>Identity in Christ</h2>
+      <p>Many struggles flow from misplaced identity. Biblical counseling anchors the person in the unchanging reality of union with Christ.</p>
+      <div class="verse">“Therefore, if anyone is in Christ, he is a new creation.” — 2 Corinthians 5:17</div>
+      <div class="verse">“I have been crucified with Christ. It is no longer I who live, but Christ who lives in me.” — Galatians 2:20</div>
+      <div class="verse">“You are not your own, for you were bought with a price.” — 1 Corinthians 6:19-20</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Identity is received, not achieved.</li>
+        <li>Feelings and failures do not define the believer; Christ does.</li>
+        <li>Living from identity leads to obedience rather than striving for it.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Help the person name false identities they have embraced.</li>
+        <li>Regularly return to gospel indicatives before imperatives.</li>
+        <li>Encourage Scripture meditation on who they are in Christ.</li>
+      </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “You’ve said you feel like your worth depends on how well you perform. Where does that belief show up most?”</p>
+      <p><strong>Counselee:</strong> “At work and in ministry. If I’m not producing, I feel like I don’t matter.”</p>
+      <p><strong>Counselor:</strong> “What does that say about where you’re looking for your identity?”</p>
+      <p><strong>Counselee:</strong> “I guess in what I do rather than in who I am in Christ.”</p>
+      <p><strong>Counselor:</strong> “How would it change things if your identity rested fully on what Christ has already done for you?”</p>
+    `
+  },
+  {
+    id: "worry-control",
+    title: "Worry & Control",
+    summary: "Addressing anxiety rooted in the desire to control outcomes.",
+    dsm: "Anxiety-related",
+    furtherReading: [
+      { title: "Running Scared", url: "https://www.amazon.com/Running-Scared-Fear-Worry-Rest-ebook/dp/B003OIC968/", note: "Edward Welch" },
+      { title: "When I Am Afraid", url: "https://www.amazon.com/When-Am-Afraid-Step-Step/dp/1935273159/", note: "Edward Welch" }
+    ],
+    content: `
+      <h2>Worry & Control</h2>
+      <p>Worry often masks a demand for control. Biblical counseling redirects trust from self to the sovereign, good God.</p>
+      <div class="verse">“Do not be anxious about tomorrow…” — Matthew 6:34</div>
+      <div class="verse">“Cast all your anxiety on him because he cares for you.” — 1 Peter 5:7</div>
+      <div class="verse">“Trust in the Lord with all your heart, and do not lean on your own understanding.” — Proverbs 3:5-6</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>God is sovereign; our control is limited and often idolatrous.</li>
+        <li>Prayer is the God-ordained alternative to anxious control.</li>
+        <li>Peace comes from entrusting outcomes to the Father.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Identify specific areas where control is demanded.</li>
+        <li>Practice casting cares through concrete prayer.</li>
+        <li>Encourage small acts of trust and release.</li>
+      </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “You’ve noticed that worry often pushes you to try to control outcomes. What situation has been hardest to release lately?”</p>
+      <p><strong>Counselee:</strong> “My children’s decisions. I keep thinking if I just say the right thing, they’ll be okay.”</p>
+      <p><strong>Counselor:</strong> “What are you afraid will happen if you stop trying to manage it?”</p>
+      <p><strong>Counselee:</strong> “That everything will fall apart and it will be my fault.”</p>
+      <p><strong>Counselor:</strong> “How does trusting God’s sovereignty speak to that fear?”</p>
+    `
+  },
+  {
+    id: "shame-guilt",
+    title: "Shame & Guilt",
+    summary: "Distinguishing true guilt from shame and applying the gospel of forgiveness.",
+    dsm: "May relate to depressive or trauma categories",
+    furtherReading: [
+      { title: "Shame Interrupted", url: "https://www.amazon.com/Shame-Interrupted-Lifts-Worthlessness-Rejection-ebook/dp/B007WWB990/", note: "Edward Welch" },
+      { title: "The Gospel for Real Life", url: "https://www.amazon.com/Gospel-Real-Life-Liberating-Power/dp/1576835073/", note: "Jerry Bridges" }
+    ],
+    content: `
+      <h2>Shame & Guilt</h2>
+      <p>True guilt responds to the gospel with repentance and forgiveness. Shame often lingers even after forgiveness and must be addressed with the truth of Christ’s covering.</p>
+      <div class="verse">“There is therefore now no condemnation for those who are in Christ Jesus.” — Romans 8:1</div>
+      <div class="verse">“If we confess our sins, he is faithful and just to forgive us our sins and to cleanse us from all unrighteousness.” — 1 John 1:9</div>
+      <div class="verse">“As far as the east is from the west, so far does he remove our transgressions from us.” — Psalm 103:12</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Guilt for actual sin is resolved at the cross.</li>
+        <li>Shame that remains after confession often reflects unbelief in the finished work of Christ.</li>
+        <li>God covers and clothes His people; we do not remain naked or exposed.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Help distinguish conviction from condemnation.</li>
+        <li>Repeatedly apply specific promises of forgiveness and cleansing.</li>
+        <li>Encourage confession where needed and resting where already forgiven.</li>
+      </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “You’ve carried a lot of shame about past choices. What do you believe that shame says about you?”</p>
+      <p><strong>Counselee:</strong> “That I’m defined by my worst moments.”</p>
+      <p><strong>Counselor:</strong> “How does the gospel speak to that belief?”</p>
+      <p><strong>Counselee:</strong> “I know Christ has forgiven me, but it doesn’t always feel true.”</p>
+      <p><strong>Counselor:</strong> “What would it look like to rest in His finished work rather than your performance?”</p>
+    `
+  },
+  {
+    id: "singleness",
+    title: "Singleness & Marriage Desire",
+    summary: "Biblical perspective on contentment, desire for marriage, and living faithfully in either state.",
+    dsm: "Relational / life-stage",
+    furtherReading: [
+      { title: "Redeeming Singleness", url: "https://www.amazon.com/Redeeming-Singleness-Storyline-Scripture-Affirms/dp/1433505886/", note: "Barry Danylak" },
+      { title: "The Meaning of Marriage", url: "https://www.amazon.com/Meaning-Marriage-Facing-Complexities-Commitment/dp/0525952470", note: "Timothy Keller" }
+    ],
+    content: `
+      <h2>Singleness & Desire for Marriage</h2>
+      <p>Both singleness and marriage are gifts from God. Biblical counseling helps people live faithfully in their current season while entrusting desires to the Lord.</p>
+      <div class="verse">“I wish that all were as I myself am. But each has his own gift from God…” — 1 Corinthians 7:7</div>
+      <div class="verse">“Delight yourself in the Lord, and he will give you the desires of your heart.” — Psalm 37:4</div>
+      <div class="verse">“For I have learned in whatever situation I am to be content.” — Philippians 4:11</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Contentment is learned and rooted in Christ, not circumstances.</li>
+        <li>Desire for marriage is legitimate; it must be held loosely before God.</li>
+        <li>Faithfulness in the present season is the calling.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Explore whether contentment or idolatry is present.</li>
+        <li>Encourage community, service, and growth in the current season.</li>
+        <li>Point to Christ’s sufficiency in every life stage.</li>
+      </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
+        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
+        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Singleness has felt lonely for you. What do you most long for in this season?”</p>
+      <p><strong>Counselee:</strong> “Companionship and the sense that I’m not missing out.”</p>
+      <p><strong>Counselor:</strong> “How has that longing shaped the way you view God’s goodness right now?”</p>
+      <p><strong>Counselee:</strong> “Sometimes it feels like He’s withholding something good.”</p>
+      <p><strong>Counselor:</strong> “What would it look like to trust His timing while still being honest about the ache?”</p>
+    `
+  },
+  {
+    id: "church-hurt",
+    title: "Church Hurt / Spiritual Abuse",
+    summary: "Helping those wounded by churches or leaders process pain while remaining anchored in Christ and His true body.",
+    dsm: "May relate to trauma or adjustment",
+    furtherReading: [
+      { title: "Bully Pulpit", url: "https://www.amazon.com/dp/0310136385/", note: "Church hurt resource" },
+      { title: "After Church Hurt", url: "https://www.amazon.com/dp/B0GSH9VMGR", note: "Healing after church hurt" }
+    ],
+    content: `
+      <h2>Church Hurt & Spiritual Abuse</h2>
+      <p>Wounds inflicted by those who claim Christ’s name are especially painful. Biblical counseling acknowledges real harm, calls for justice where appropriate, and points to the true Shepherd who never fails.</p>
+      <div class="verse">“The Lord is my shepherd; I shall not want.” — Psalm 23:1</div>
+      <div class="verse">“He heals the brokenhearted and binds up their wounds.” — Psalm 147:3</div>
+      <div class="verse">“Woe to the shepherds who destroy and scatter the sheep of my pasture!” — Jeremiah 23:1</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Christ is the true and good Shepherd; human leaders are fallible under-shepherds.</li>
+        <li>Real harm can occur in the church; it does not nullify the church’s calling.</li>
+        <li>Forgiveness and wisdom about future involvement can coexist.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Give space to name the harm without minimizing it.</li>
+        <li>Distinguish between the failures of people and the character of Christ.</li>
+        <li>Help discern wise next steps regarding church involvement and boundaries.</li>
+      </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read Psalm 34:18 and 1 Peter 5:7 each day. Write one honest sentence about the hurt and one sentence about what is still true of Christ.</li>
+        <li>Identify one way the pain has shaped your view of the church or of God. Bring that honestly before the Lord in prayer.</li>
+        <li>Consider one small, wise step toward healing (speaking with a trusted mentor, limiting contact, or simply resting) and note what that step is.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Being hurt by people in the church has been deeply painful. How has that affected your view of the body of Christ?”</p>
+      <p><strong>Counselee:</strong> “It’s hard to trust anyone there anymore.”</p>
+      <p><strong>Counselor:</strong> “What do you still believe is true about Jesus, even in the middle of this hurt?”</p>
+      <p><strong>Counselee:</strong> “That He is good, even if His people aren’t always.”</p>
+      <p><strong>Counselor:</strong> “How might you hold onto that truth while still processing the pain?”</p>
+    `
+  },
+  {
+    id: "aging-parents",
+    furtherReading: [
+      { title: "Making Good Return", url: "https://www.amazon.com/dp/B0CV4HC44Y", note: "Honoring aging parents" },
+      { title: "Between Life and Death", url: "https://www.amazon.com/Between-Life-Death-End-Life-ebook/dp/B07K52CS91", note: "End-of-life decisions" }
+    ],
+    title: "End-of-Life & Aging Parents",
+    summary: "Caring for aging parents with wisdom, honor, and realistic limits.",
+    dsm: "Caregiver stress / life transition",
+    content: `
+      <h2>Aging Parents & End-of-Life Care</h2>
+      <p>Honoring parents includes practical care in later years. Biblical counseling helps adult children navigate responsibility, limits, guilt, and the approaching reality of death.</p>
+      <div class="verse">“Honor your father and your mother…” — Exodus 20:12</div>
+      <div class="verse">“But if anyone does not provide for his relatives… he has denied the faith.” — 1 Timothy 5:8</div>
+      <div class="verse">“Precious in the sight of the Lord is the death of his saints.” — Psalm 116:15</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Honor continues into adulthood and includes practical care within limits.</li>
+        <li>Adult children are not called to sacrifice their own households without wisdom.</li>
+        <li>Death is an enemy, yet for the believer it is gain.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Clarify realistic responsibilities and healthy boundaries.</li>
+        <li>Address guilt that arises from imperfect caregiving.</li>
+        <li>Prepare hearts for loss while encouraging present faithfulness.</li>
+      </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read 1 Timothy 5:4 and Exodus 20:12. Write one way you can honor your parent this week, even if the relationship is strained or limited.</li>
+        <li>Identify one decision or burden that feels especially heavy. Bring it to the Lord in prayer and note any wisdom you sense.</li>
+        <li>Consider one small step of self-care that allows you to continue serving well. Write it down and, if possible, share it with a trusted person.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Caring for your aging parent has been exhausting. What has been the hardest part?”</p>
+      <p><strong>Counselee:</strong> “Watching them decline and feeling like I’m never doing enough.”</p>
+      <p><strong>Counselor:</strong> “How has that burden affected your own walk with the Lord?”</p>
+      <p><strong>Counselee:</strong> “I feel guilty when I take time for myself.”</p>
+      <p><strong>Counselor:</strong> “What would healthy stewardship of your own soul look like in the middle of this?”</p>
+      <p><strong>Counselee:</strong> “That He expects me to keep going no matter what.”</p>
+      <p><strong>Counselor:</strong> “How might the gospel reshape that view of your own need for rest and care?”</p>
+    `
+  },
+  {
+    id: "ministry-burnout",
+    title: "Work, Calling & Ministry Burnout",
+    summary: "Sustaining long-term faithfulness without self-reliance or exhaustion.",
+    dsm: "Burnout / adjustment",
+    furtherReading: [
+      { title: "Zeal without Burnout", url: "https://www.amazon.com/dp/1784980218", note: "Christopher Ash" },
+      { title: "Dangerous Calling", url: "https://www.amazon.com/Dangerous-Calling-Confronting-Challenges-Questions/dp/1433599228", note: "Paul Tripp" }
+    ],
+    content: `
+      <h2>Work, Calling & Ministry Burnout</h2>
+      <p>Those who serve others are especially vulnerable to depletion. Biblical counseling addresses both the heart (savior complex, fear of man) and practical rhythms of rest.</p>
+      <div class="verse">“Come to me, all who labor and are heavy laden, and I will give you rest.” — Matthew 11:28</div>
+      <div class="verse">“My grace is sufficient for you, for my power is made perfect in weakness.” — 2 Corinthians 12:9</div>
+      <div class="verse">“Unless the Lord builds the house, those who build it labor in vain.” — Psalm 127:1</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>We are finite; God is not. Rest is an act of trust.</li>
+        <li>Fruitfulness is the Spirit’s work, not ours alone.</li>
+        <li>Boundaries protect both the servant and the work.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Identify unsustainable patterns and savior complexes.</li>
+        <li>Encourage Sabbath, delegation, and dependence on God.</li>
+        <li>Reaffirm identity in Christ apart from ministry productivity.</li>
+      </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read Matthew 11:28-30 and 1 Kings 19:1-8. Write one way you can receive the rest Christ offers this week.</li>
+        <li>Identify one belief about your work or calling that may be driving exhaustion (e.g., “I must never stop”). Bring it to the Lord in prayer.</li>
+        <li>Plan one small, concrete step of rest or boundary and note what it is.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Serving in ministry has left you drained. What has been the heaviest part lately?”</p>
+      <p><strong>Counselee:</strong> “Feeling like I’m always giving and never receiving, and wondering if it even matters.”</p>
+      <p><strong>Counselor:</strong> “When you feel that way, what do you believe about God’s care for you?”</p>
+      <p><strong>Counselee:</strong> “That He expects me to keep going no matter what.”</p>
+      <p><strong>Counselor:</strong> “How might the gospel reshape that view of your own need for rest and care?”</p>
+      <p><strong>Counselee:</strong> “To make the fear go away so they can be okay.”</p>
+      <p><strong>Counselor:</strong> “How might we help them bring their fear to the Lord instead of just removing it?”</p>
+    `
+  },
+  {
+    id: "child-anxiety",
+    title: "Anxiety in Children & Teens (Parent’s Perspective)",
+    summary: "Helping parents respond wisely to a child’s anxiety with both compassion and biblical truth.",
+    dsm: "Anxiety Disorders (pediatric)",
+    furtherReading: [
+      { title: "A Student's Guide to Anxiety", url: "https://www.amazon.com/dp/1527104508", note: "Help for students" },
+      { title: "Helping Your Anxious Child", url: "https://www.amazon.com/Helping-Your-Anxious-Child-Worries-ebook/dp/B08741K8FX", note: "For parents" }
+    ],
+    content: `
+      <h2>Anxiety in Children & Teens</h2>
+      <p>Parents often feel helpless when a child struggles with anxiety. Biblical counseling equips parents to offer both comfort and gentle redirection toward trust in God, while remaining aware of possible medical factors.</p>
+      <div class="verse">“Do not be anxious about anything, but in everything by prayer…” — Philippians 4:6</div>
+      <div class="verse">“Cast all your anxiety on him because he cares for you.” — 1 Peter 5:7</div>
+      <div class="verse">“Fathers, do not provoke your children to anger, but bring them up in the discipline and instruction of the Lord.” — Ephesians 6:4</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Parents model trust; children learn more from what is caught than taught.</li>
+        <li>Anxiety is real suffering; it is also an opportunity to learn dependence on God.</li>
+        <li>Over-protection and dismissiveness are both unhelpful extremes.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Help parents respond with calm presence rather than matching the child’s anxiety.</li>
+        <li>Encourage age-appropriate truth-telling about God’s care.</li>
+        <li>Support practical steps and, when needed, professional medical evaluation.</li>
+      </ul>
+
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read Philippians 4:6-7 and 1 Peter 5:7 with your child (or alone if they are not ready). Write one thing you can help them bring to the Lord this week.</li>
+        <li>Identify one situation that triggers their anxiety. Note one small way you can respond with calm truth rather than trying to remove the fear entirely.</li>
+        <li>Pray daily for wisdom and for your child’s heart to learn to cast cares on the Lord.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Your child’s anxiety has been hard on the whole family. What do you notice most when they’re struggling?”</p>
+      <p><strong>Counselee:</strong> “They freeze or get angry, and I don’t know how to help without making it worse.”</p>
+      <p><strong>Counselor:</strong> “What do you find yourself wanting most in those moments?”</p>
+      <p><strong>Counselee:</strong> “To make the fear go away so they can be okay.”</p>
+      <p><strong>Counselor:</strong> “How might we help them bring their fear to the Lord instead of just removing it?”</p>
+      <p><strong>Counselee:</strong> “To feel some relief and to know God is with me.”</p>
+      <p><strong>Counselor:</strong> “How might the gospel speak to that desire?”</p>
+    `
+  }
+];
+
+const scriptureData = [
+  { topic: "Rest & Burnout", verses: ["Matthew 11:28-30", "2 Corinthians 12:9", "Psalm 23", "Exodus 18:17-23", "Mark 2:27"] },
+  { topic: "Listening & Presence", verses: ["Proverbs 18:13", "James 1:19", "Proverbs 20:5", "Job 2:11-13"] },
+  { topic: "Sufficiency & Growth", verses: ["1 Corinthians 3:6-7", "2 Corinthians 3:5", "Philippians 1:6", "John 15:5"] },
+  { topic: "Grace & Truth", verses: ["John 1:14", "1 John 1:9", "Ephesians 4:15", "Romans 8:1"] },
+  { topic: "Suffering & Comfort", verses: ["2 Corinthians 1:3-4", "Romans 8:18", "Psalm 34:18", "Isaiah 53:3-5"] },
+  { topic: "Boundaries & Trust", verses: ["1 Peter 5:7", "Mark 1:35", "Galatians 6:2-5", "Psalm 127:1-2"] },
+  { topic: "Anxiety", verses: ["Philippians 4:6-7", "1 Peter 5:7", "Matthew 6:25-34", "Psalm 55:22"] },
+  { topic: "Anger", verses: ["Ephesians 4:26-27", "James 1:19-20", "Proverbs 15:1", "Ephesians 4:31-32"] },
+  { topic: "Marriage", verses: ["Ephesians 5:22-33", "1 Peter 3:1-7", "Colossians 3:18-19", "1 Corinthians 13"] },
+  { topic: "Depression & Hope", verses: ["Psalm 42", "Psalm 34:18", "Lamentations 3:21-26", "Romans 15:13"] },
+  { topic: "Forgiveness", verses: ["Ephesians 4:32", "Matthew 6:14-15", "Colossians 3:13", "Hebrews 12:15"] },
+  { topic: "Trauma & Comfort", verses: ["2 Corinthians 1:3-4", "Psalm 147:3", "Isaiah 61:1-3", "Romans 8:28"] },
+  { topic: "Addiction & Freedom", verses: ["John 8:34-36", "1 Corinthians 10:13", "2 Corinthians 5:17", "Romans 6:6-14"] },
+  { topic: "OCD & Trust", verses: ["Proverbs 3:5-6", "Philippians 4:6-7", "Romans 8:1", "Isaiah 26:3"] }
+];
+
+// Navigation
+function showSection(id) {
+  document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.querySelector(`nav button[data-section="${id}"]`).classList.add('active');
+  if (id === 'modules') renderModuleList();
+  if (id === 'issues') renderIssueList();
+  if (id === 'scripture') renderScripture();
+  if (id === 'assessment') renderQuiz();
+}
+
+document.querySelectorAll('nav button').forEach(btn => {
+  btn.addEventListener('click', () => showSection(btn.dataset.section));
+});
+
+// Modules
+function renderModuleList() {
+  const list = document.getElementById('module-list');
+  list.innerHTML = modules.map(m => `
+    <div class="module-item module-card" data-module="${m.id}" onclick="showModule('${m.id}')">
+      <strong>${m.title}</strong>
+      <span style="color:var(--muted);font-size:0.95rem;">${m.summary}</span>
+    </div>
+  `).join('');
+  document.getElementById('module-detail').classList.add('hidden');
+  list.classList.remove('hidden');
+}
+
+function linkifyVerses(html) {
+  // Turn common Scripture references into Bible Gateway links
+  return html.replace(
+    /([1-3]?\s?[A-Za-z]+\s+\d+:\d+(?:-\d+)?)/g,
+    (match) => {
+      const encoded = encodeURIComponent(match.trim());
+      const url = `https://www.biblegateway.com/passage/?search=${encoded}&version=ESV`;
+      return `<a href="${url}" target="_blank" rel="noopener" title="Open ${match.trim()} in Bible Gateway">${match}</a>`;
+    }
+  );
+}
+
+function showModule(id) {
+  const mod = modules.find(m => m.id === id);
+  document.getElementById('module-list').classList.add('hidden');
+  const detail = document.getElementById('module-detail');
+  const linkedContent = linkifyVerses(mod.content);
+  const further = (mod.furtherReading || []).map(r => 
+    `<li><a href="${r.url}" target="_blank" rel="noopener">${r.title}</a>${r.note ? ' — ' + r.note : ''}</li>`
+  ).join('');
+  const furtherHtml = further ? `<h3>For Further Reading</h3><ul>${further}</ul>` : '';
+  detail.innerHTML = `<div class="card">${linkedContent}${furtherHtml}<button class="btn secondary" onclick="renderModuleList()">← Back to Modules</button></div>`;
+  detail.classList.remove('hidden');
+}
+
+// Counseling Issues (searchable)
+function renderIssueList(filter = '') {
+  const list = document.getElementById('issue-list');
+  const q = filter.toLowerCase();
+  const filtered = counselingIssues.filter(item =>
+    item.title.toLowerCase().includes(q) ||
+    item.summary.toLowerCase().includes(q) ||
+    (item.dsm && item.dsm.toLowerCase().includes(q))
+  );
+  list.innerHTML = filtered.map(m => {
+    const title = q ? m.title.replace(new RegExp(`(${filter})`, 'gi'), '<mark>$1</mark>') : m.title;
+    const summary = q ? m.summary.replace(new RegExp(`(${filter})`, 'gi'), '<mark>$1</mark>') : m.summary;
+    return `
+    <div class="module-item" onclick="showIssue('${m.id}')">
+      <strong>${title}</strong>
+      <span style="color:var(--muted);font-size:0.95rem;">${summary}</span>
+    </div>`;
+  }).join('') || '<p>No matching issues found. Try a different keyword (e.g., anxiety, anger, marriage, grief).</p>';
+  document.getElementById('issue-detail').classList.add('hidden');
+  list.classList.remove('hidden');
+}
+
+function showIssue(id) {
+  const issue = counselingIssues.find(m => m.id === id);
+  document.getElementById('issue-list').classList.add('hidden');
+  const detail = document.getElementById('issue-detail');
+  const linkedContent = linkifyVerses(issue.content);
+  const isFav = localStorage.getItem('fav-' + id) === 'true';
+  const notes = localStorage.getItem('notes-' + id) || '';
+  const related = counselingIssues
+    .filter(i => i.id !== id)
+    .slice(0, 3)
+    .map(i => `<a href="#" onclick="showIssue('${i.id}'); return false;">${i.title}</a>`)
+    .join('');
+
+  const further = (issue.furtherReading || []).map(r => 
+    `<li><a href="${r.url}" target="_blank" rel="noopener">${r.title}</a>${r.note ? ' — ' + r.note : ''}</li>`
+  ).join('');
+  const furtherHtml = further ? `<h3>For Further Reading</h3><ul>${further}</ul>` : '';
+
+  detail.innerHTML = `
+    <div class="card">
+      <button class="favorite-btn ${isFav ? 'active' : ''}" onclick="toggleFavorite('${id}', this)" title="Favorite">★</button>
+      ${linkedContent}
+      ${furtherHtml}
+      <div class="related">
+        <strong>Related topics:</strong><br>
+        ${related}
+      </div>
+      <h3 style="margin-top:1.5rem;">Personal Notes</h3>
+      <textarea class="notes-area" id="notes-${id}" placeholder="Private notes (stored only in this browser)…">${notes}</textarea>
+      <button class="btn secondary" onclick="saveNotes('${id}')">Save Notes</button>
+      <button class="btn secondary print-btn" onclick="window.print()">Print / Save as PDF</button>
+      <button class="btn secondary" onclick="renderIssueList()">← Back to Issues</button>
+    </div>`;
+  detail.classList.remove('hidden');
+}
+
+function toggleFavorite(id, btn) {
+  const key = 'fav-' + id;
+  const isFav = localStorage.getItem(key) === 'true';
+  localStorage.setItem(key, (!isFav).toString());
+  btn.classList.toggle('active');
+}
+
+function saveNotes(id) {
+  const val = document.getElementById('notes-' + id).value;
+  localStorage.setItem('notes-' + id, val);
+  alert('Notes saved locally in this browser.');
+}
+
+document.getElementById('issue-search').addEventListener('input', (e) => {
+  renderIssueList(e.target.value);
+});
+
+// Scripture
+function renderScripture(filter = '') {
+  const list = document.getElementById('scripture-list');
+  const filtered = scriptureData.filter(item =>
+    item.topic.toLowerCase().includes(filter.toLowerCase()) ||
+    item.verses.some(v => v.toLowerCase().includes(filter.toLowerCase()))
+  );
+  list.innerHTML = filtered.map(item => `
+    <div class="scripture-item">
+      <strong>${item.topic}</strong>
+      <ul style="margin-top:0.4rem;">
+        ${item.verses.map(v => {
+          const encoded = encodeURIComponent(v);
+          const url = `https://www.biblegateway.com/passage/?search=${encoded}&version=ESV`;
+          return `<li><a href="${url}" target="_blank" rel="noopener" title="Open ${v} in Bible Gateway">${v}</a></li>`;
+        }).join('')}
+      </ul>
+    </div>
+  `).join('') || '<p>No matches found.</p>';
+}
+
+document.getElementById('scripture-search').addEventListener('input', (e) => {
+  renderScripture(e.target.value);
+});
+
+// Assessment
+const questions = [
+  { q: "How often do you feel drained after counseling sessions?", options: ["Rarely", "Sometimes", "Often", "Almost always"] },
+  { q: "Do you find yourself giving advice before fully understanding the person’s story?", options: ["Rarely", "Sometimes", "Often"] },
+  { q: "When a counselee shows little change, how do you typically respond?", options: ["I trust God with the outcome", "I feel mildly discouraged", "I question my competence", "I feel significant pressure to fix it"] },
+  { q: "How well do you balance addressing personal sin and acknowledging real suffering?", options: ["I carefully consider both", "I lean more toward one", "I often struggle with the balance"] },
+  { q: "Do you regularly protect time for your own spiritual rest and nourishment?", options: ["Yes, consistently", "Most of the time", "Occasionally", "Rarely"] },
+  { q: "How often does fear of what others think affect how you counsel or what you say?", options: ["Rarely", "Sometimes", "Often"] },
+  { q: "When you face criticism or a difficult session, how do you usually respond?", options: ["I process it with the Lord and others", "I feel discouraged but move on", "I tend to withdraw or doubt myself"] },
+  { q: "Are you regularly examining your own heart for sin patterns that could affect your counseling?", options: ["Yes, intentionally", "Occasionally", "Rarely"] }
+];
+
+function renderQuiz() {
+  const quiz = document.getElementById('quiz');
+  quiz.innerHTML = questions.map((item, i) => `
+    <div class="question">
+      <p><strong>${i + 1}. ${item.q}</strong></p>
+      <div class="options">
+        ${item.options.map((opt, j) => `
+          <label><input type="radio" name="q${i}" value="${j}"> ${opt}</label>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('submit-quiz').style.display = 'inline-block';
+  document.getElementById('quiz-result').classList.add('hidden');
+}
+
+document.getElementById('submit-quiz').addEventListener('click', () => {
+  let score = 0;
+  let answered = 0;
+  questions.forEach((_, i) => {
+    const sel = document.querySelector(`input[name="q${i}"]:checked`);
+    if (sel) {
+      score += parseInt(sel.value);
+      answered++;
+    }
+  });
+  if (answered < questions.length) {
+    alert('Please answer all questions.');
+    return;
+  }
+  const result = document.getElementById('quiz-result');
+  let suggestion = "";
+  if (score >= 10) suggestion = "You may benefit most from the <strong>Burnout & Compassion Fatigue</strong> and <strong>Boundaries</strong> modules.";
+  else if (score >= 6) suggestion = "Consider reviewing <strong>Listening Before Speaking</strong> and <strong>Sin and Suffering</strong>.";
+  else suggestion = "You appear to be stewarding yourself well. The modules on <strong>When People Don’t Change</strong> can still be helpful for perspective.";
+  result.innerHTML = `<p><strong>Reflection complete.</strong></p><p>${suggestion}</p><button class="btn" onclick="showSection('modules')">Explore Modules</button>`;
+  result.classList.remove('hidden');
+});
+
+// Init
+showSection('home');
+</script>
+<button id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="position:fixed;bottom:1.5rem;right:1.5rem;padding:0.6rem 1rem;background:var(--accent);color:white;border:none;border-radius:8px;cursor:pointer;display:none;z-index:100;">↑ Top</button>
+<script>
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('back-to-top');
+  btn.style.display = window.scrollY > 300 ? 'block' : 'none';
+});
+
+
+}
+
+    unique.forEach(id => {
+      const card = document.querySelector(`[data-module="${id}"]`);
+      if (card) card.classList.add('recommended');
+    });
+    const first = document.querySelector('.recommended');
+    if (first) first.scrollIntoView({behavior:'smooth', block:'center'});
+  }, 100);
+});
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('assessment-form');
+  if (!form) return;
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    const data = new FormData(form);
+    const scores = {};
+    for (let [k,v] of data.entries()) {
+      if (k.startsWith('q')) scores[k] = Number(v);
+    }
+    const suggestions = [];
+    if ((scores.q1 || 5) <= 3 || (scores.q2 || 5) <= 3) suggestions.push("burnout");
+    if ((scores.q3 || 5) <= 3 || (scores.q4 || 5) <= 3) suggestions.push("listening");
+    if ((scores.q5 || 5) <= 3 || (scores.q6 || 5) <= 3) suggestions.push("change");
+    if ((scores.q7 || 5) <= 3 || (scores.q8 || 5) <= 3) suggestions.push("session-process");
+    if ((scores.q8 || 5) <= 3) suggestions.push("boundaries");
+    if ((scores.q9 || 5) <= 3 || (scores.q10 || 5) <= 3) suggestions.push("heart-care");
+    if ((scores.q10 || 5) <= 3) suggestions.push("criticism");
+
+    const unique = [...new Set(suggestions)];
+    showSection('modules');
+    setTimeout(() => {
+      document.querySelectorAll('.module-card').forEach(card => card.classList.remove('recommended'));
+      unique.forEach(id => {
+        const card = document.querySelector(`[data-module="${id}"]`);
+        if (card) card.classList.add('recommended');
+      });
+      const first = document.querySelector('.recommended');
+      if (first) first.scrollIntoView({behavior:'smooth', block:'center'});
+    }, 200);
+    return false;
+  });
+});
+</script>
+</body>
+</html>
