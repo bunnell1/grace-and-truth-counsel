@@ -230,6 +230,12 @@
       white-space: pre-wrap;
     }
   }
+
+.module-card.recommended {
+  border-left: 4px solid var(--accent);
+  background: #f4f9f6;
+  box-shadow: 0 2px 8px rgba(44,62,58,0.08);
+}
 </style>
 </head>
 <body>
@@ -280,14 +286,48 @@
 
   <!-- ASSESSMENT -->
   <section id="assessment" class="hidden">
+  <h2>Counselor Self-Assessment</h2>
+  <p>Rate each statement from 1 (rarely true) to 5 (usually true). This is for personal reflection, not diagnosis.</p>
+  <form id="assessment-form">
     <div class="card">
-      <h2>Counselor Self-Assessment</h2>
-      <p>Answer honestly. There are no “right” scores—only helpful reflections. Results will suggest modules that may be useful right now.</p>
-      <div id="quiz"></div>
-      <div id="quiz-result" class="hidden result-box"></div>
-      <button class="btn" id="submit-quiz" style="display:none;">See Results</button>
+      <p><strong>Burnout & Compassion Fatigue</strong></p>
+      <p>I regularly protect time for rest and spiritual nourishment.</p>
+      <div class="rating">1 <input type="radio" name="q1" value="1" required> 2 <input type="radio" name="q1" value="2"> 3 <input type="radio" name="q1" value="3"> 4 <input type="radio" name="q1" value="4"> 5 <input type="radio" name="q1" value="5"></div>
+      <p>I remember that I am not the Savior of those I counsel.</p>
+      <div class="rating">1 <input type="radio" name="q2" value="1" required> 2 <input type="radio" name="q2" value="2"> 3 <input type="radio" name="q2" value="3"> 4 <input type="radio" name="q2" value="4"> 5 <input type="radio" name="q2" value="5"></div>
     </div>
-  </section>
+    <div class="card">
+      <p><strong>Listening Before Speaking</strong></p>
+      <p>I ask clarifying questions before offering counsel.</p>
+      <div class="rating">1 <input type="radio" name="q3" value="1" required> 2 <input type="radio" name="q3" value="2"> 3 <input type="radio" name="q3" value="3"> 4 <input type="radio" name="q3" value="4"> 5 <input type="radio" name="q3" value="5"></div>
+      <p>I seek to understand the person’s story before applying Scripture.</p>
+      <div class="rating">1 <input type="radio" name="q4" value="1" required> 2 <input type="radio" name="q4" value="2"> 3 <input type="radio" name="q4" value="3"> 4 <input type="radio" name="q4" value="4"> 5 <input type="radio" name="q4" value="5"></div>
+    </div>
+    <div class="card">
+      <p><strong>When People Don’t Change</strong></p>
+      <p>I measure faithfulness by dependence on God rather than visible results.</p>
+      <div class="rating">1 <input type="radio" name="q5" value="1" required> 2 <input type="radio" name="q5" value="2"> 3 <input type="radio" name="q5" value="3"> 4 <input type="radio" name="q5" value="4"> 5 <input type="radio" name="q5" value="5"></div>
+      <p>I return responsibility for change to the Lord and the person.</p>
+      <div class="rating">1 <input type="radio" name="q6" value="1" required> 2 <input type="radio" name="q6" value="2"> 3 <input type="radio" name="q6" value="3"> 4 <input type="radio" name="q6" value="4"> 5 <input type="radio" name="q6" value="5"></div>
+    </div>
+    <div class="card">
+      <p><strong>Session Process & Boundaries</strong></p>
+      <p>I follow a clear process in sessions (listen, apply, assign).</p>
+      <div class="rating">1 <input type="radio" name="q7" value="1" required> 2 <input type="radio" name="q7" value="2"> 3 <input type="radio" name="q7" value="3"> 4 <input type="radio" name="q7" value="4"> 5 <input type="radio" name="q7" value="5"></div>
+      <p>I maintain wise boundaries around availability and after-hours care.</p>
+      <div class="rating">1 <input type="radio" name="q8" value="1" required> 2 <input type="radio" name="q8" value="2"> 3 <input type="radio" name="q8" value="3"> 4 <input type="radio" name="q8" value="4"> 5 <input type="radio" name="q8" value="5"></div>
+    </div>
+    <div class="card">
+      <p><strong>Guarding Your Own Heart</strong></p>
+      <p>I regularly examine my own heart and seek accountability.</p>
+      <div class="rating">1 <input type="radio" name="q9" value="1" required> 2 <input type="radio" name="q9" value="2"> 3 <input type="radio" name="q9" value="3"> 4 <input type="radio" name="q9" value="4"> 5 <input type="radio" name="q9" value="5"></div>
+      <p>I respond to criticism or difficult sessions with humility.</p>
+      <div class="rating">1 <input type="radio" name="q10" value="1" required> 2 <input type="radio" name="q10" value="2"> 3 <input type="radio" name="q10" value="3"> 4 <input type="radio" name="q10" value="4"> 5 <input type="radio" name="q10" value="5"></div>
+    </div>
+    <button type="button" class="btn" id="submit-assessment" onclick="processAssessment()">Submit Assessment</button>
+  </form>
+  <div id="assessment-result" class="card" style="display:none; margin-top:1.5rem;"></div>
+</section>
 
   <!-- MODULES -->
   <section id="modules" class="hidden">
@@ -385,6 +425,7 @@ const modules = [
     title: "Burnout & Compassion Fatigue",
     summary: "When bearing others’ burdens leaves you depleted.",
     furtherReading: [
+      { title: "Burnout: Resting in God's Fairness", url: "https://www.amazon.com/dp/1596386622", note: "Brad Hambrick" },
       { title: "Instruments in the Redeemer’s Hands", url: "https://www.amazon.com/Instruments-Redeemers-Hands-People-Change/dp/0875526071", note: "Paul Tripp" },
       { title: "How to Help People Change", url: "https://www.amazon.com/How-Help-People-Change-Four-Step-ebook/dp/B003TFE8K6/", note: "Jay Adams" }
     ],
@@ -411,7 +452,8 @@ const modules = [
     title: "Listening Before Speaking",
     summary: "Entering the person’s story before applying God’s story.",
     furtherReading: [
-      { title: "Instruments in the Redeemer’s Hands", url: "https://www.amazon.com/Instruments-Redeemers-Hands-People-Change/dp/0875526071", note: "Paul Tripp" }
+      { title: "Instruments in the Redeemer’s Hands", url: "https://www.amazon.com/Instruments-Redeemers-Hands-People-Change/dp/0875526071", note: "Paul Tripp" },
+      { title: "Learning to Listen", url: "https://www.amazon.com/Learning-Listen-Essential-Skills-Counselor-ebook/dp/B0F54BJGB4", note: "Essential Skills for the Counselor" }
     ],
     content: `
       <h2>Listening Before Speaking</h2>
@@ -434,6 +476,7 @@ const modules = [
     title: "When People Don’t Change",
     summary: "Faithfulness when visible progress is slow.",
     furtherReading: [
+      { title: "How People Change", url: "https://www.amazon.com/How-People-Change-Timothy-Lane-ebook/dp/B003NSC5EK", note: "Timothy S. Lane & Paul David Tripp" },
       { title: "How to Help People Change", url: "https://www.amazon.com/How-Help-People-Change-Four-Step-ebook/dp/B003TFE8K6/", note: "Jay Adams" }
     ],
     content: `
@@ -457,6 +500,7 @@ const modules = [
     title: "A Simple Session Process",
     summary: "A practical framework for conducting a counseling session.",
     furtherReading: [
+      { title: "The Christian Counselor's Manual", url: "https://www.amazon.com/dp/0310176107", note: "Jay Adams" },
       { title: "Instruments in the Redeemer’s Hands", url: "https://www.amazon.com/Instruments-Redeemers-Hands-People-Change/dp/0875526071", note: "Paul Tripp" }
     ],
     content: `
@@ -482,6 +526,7 @@ const modules = [
     title: "Supervision & Medical Referral",
     summary: "Knowing your limits and seeking help wisely.",
     furtherReading: [
+      { title: "The Christian Counselor's Medical Desk Reference", url: "https://www.amazon.com/dp/1645072312/", note: "Charles Hodges" },
       { title: "A Theology of Biblical Counseling", url: "https://www.amazon.com/Theology-Biblical-Counseling-Doctrinal-Foundations-ebook/dp/B010R2U5AA/", note: "Heath Lambert" }
     ],
     content: `
@@ -500,8 +545,85 @@ const modules = [
         <li>Note the name of one trusted supervisor or physician you could consult if needed.</li>
       </ul>
     `
+  },
+  {
+    id: "heart-care",
+    title: "Guarding Your Own Heart",
+    summary: "Protecting your soul while caring for others.",
+    furtherReading: [
+      { title: "The Pastor as Counselor", url: "https://www.amazon.com/Pastor-Counselor-Foreword-Ed-Welch-ebook/dp/B08K3Q26KL", note: "David Powlison" },
+      { title: "Instruments in the Redeemer’s Hands", url: "https://www.amazon.com/Instruments-Redeemers-Hands-People-Change/dp/0875526071", note: "Paul Tripp" }
+    ],
+    content: `
+      <h2>Guarding Your Own Heart</h2>
+      <p>Counselors are vulnerable to the same heart issues they address in others. Regular self-examination and dependence on Christ are essential.</p>
+      <div class="verse">“Keep your heart with all vigilance, for from it flow the springs of life.” — Proverbs 4:23</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Examine your own heart before addressing another’s (Matthew 7:3-5).</li>
+        <li>Daily intake of the Word guards against drift.</li>
+        <li>Confession and accountability protect against isolation.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read Proverbs 4:23 and Psalm 139:23-24. Write one area of your heart that needs attention this week.</li>
+        <li>Identify one person with whom you can be honest about your own struggles.</li>
+      </ul>
+    `
+  },
+  {
+    id: "criticism",
+    title: "Handling Criticism & Difficult Sessions",
+    summary: "Responding wisely when counseling is hard or opposed.",
+    furtherReading: [
+      { title: "Pastors and Their Critics", url: "https://www.amazon.com/dp/1629957526", note: "Joel R. Beeke & Nick Thompson" },
+      { title: "Counseling the Hard Cases", url: "https://www.amazon.com/Counseling-Hard-Cases-Illustrating-Sufficiency/dp/1433685795", note: "Stuart Scott & Heath Lambert" },
+      { title: "The Peacemaker", url: "https://www.amazon.com/Peacemaker-Biblical-Resolving-Personal-Conflict/dp/0801064856", note: "Ken Sande" }
+    ],
+    content: `
+      <h2>Handling Criticism & Difficult Sessions</h2>
+      <p>Not every session will go smoothly. Criticism, resistance, or strong emotion can tempt the counselor toward defensiveness or withdrawal.</p>
+      <div class="verse">“A soft answer turns away wrath, but a harsh word stirs up anger.” — Proverbs 15:1</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Respond with humility rather than self-justification (James 1:19-20).</li>
+        <li>Distinguish between helpful feedback and personal attack.</li>
+        <li>Point the conversation back to Scripture and the gospel.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Recall one difficult session. Write what you wish you had said or done differently.</li>
+        <li>Identify one soft-answer response you can practice next time tension arises.</li>
+      </ul>
+    `
+  },
+  {
+    id: "boundaries",
+    title: "Boundaries & After-Hours Care",
+    summary: "Serving well without neglecting rest or family.",
+    furtherReading: [
+      { title: "Do I Need Boundaries?", url: "https://www.amazon.com/Do-Need-Boundaries-Christian-Counselor-ebook/dp/B0FR52FWFY", note: "A Christian Counselor’s Guide" },
+      { title: "Instruments in the Redeemer’s Hands", url: "https://www.amazon.com/Instruments-Redeemers-Hands-People-Change/dp/0875526071", note: "Paul Tripp" }
+    ],
+    content: `
+      <h2>Boundaries & After-Hours Care</h2>
+      <p>Compassion can blur into over-availability. Wise boundaries protect both the counselor and the counselee.</p>
+      <div class="verse">“For everything there is a season, and a time for every matter under heaven.” — Ecclesiastes 3:1</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Jesus modeled both availability and withdrawal (Mark 1:35; Luke 5:16).</li>
+        <li>Boundaries are an expression of stewardship, not selfishness.</li>
+        <li>Clear expectations help both parties.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Write one boundary you will keep this week (e.g., no counseling calls after a certain hour).</li>
+        <li>Identify one way to communicate that boundary kindly to those you serve.</li>
+      </ul>
+    `
   }
 ];
+
 const counselingIssues = [
   {
     id: "anxiety",
@@ -530,11 +652,11 @@ const counselingIssues = [
         <li>Practice casting cares through prayer and Scripture meditation.</li>
         <li>Encourage small steps of obedience; recommend medical check when symptoms are severe.</li>
       </ul>
-      <h3>Suggested Homework</h3>
+            <h3>Suggested Homework</h3>
       <ul>
-        <li>Read Philippians 4:4-9 and 1 Peter 5:6-7 daily this week. Write one sentence each day about a specific care you are casting on the Lord.</li>
-        <li>List three recurring worries. For each, identify a related biblical truth and one small step of trust.</li>
-        <li>Pray with a trusted friend or spouse about one area of anxiety.</li>
+        <li>Read Philippians 4:6-7 and 1 Peter 5:7 each day. Write one specific worry you are casting on the Lord and one truth about His care.</li>
+        <li>Identify one area where you are demanding control. Write a short prayer of surrender and one practical step of trust.</li>
+        <li>Ask a trusted believer to pray with you about one recurring fear this week.</li>
       </ul>
       <h3>Sample Dialogue</h3>
       <p><strong>Counselor:</strong> “You’ve described a lot of worry about your children. What are you most afraid might happen?”</p>
@@ -571,11 +693,11 @@ const counselingIssues = [
         <li>Point consistently to the gospel; coordinate with medical care when indicated.</li>
       </ul>
 
-      <h3>Suggested Homework</h3>
+            <h3>Suggested Homework</h3>
       <ul>
-        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
-        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
-        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+        <li>Read Psalm 42 and Lamentations 3:21-26. Write one way you can call to mind the Lord’s steadfast love when you feel low.</li>
+        <li>List two small acts of obedience (e.g., Scripture, prayer, serving someone) you will do even if you don’t feel like it.</li>
+        <li>Share one honest sentence about your struggle with a trusted friend or counselor and ask them to remind you of the gospel.</li>
       </ul>
       <h3>Sample Dialogue</h3>
       <p><strong>Counselor:</strong> “You’ve described feeling low for a while. What does a hard day typically look like for you?”</p>
@@ -613,11 +735,11 @@ const counselingIssues = [
         <li>Address any resulting idolatry of control, bitterness, or fear with grace and truth.</li>
       </ul>
 
-      <h3>Suggested Homework</h3>
+            <h3>Suggested Homework</h3>
       <ul>
-        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
-        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
-        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+        <li>Read Psalm 34:18 and Isaiah 41:10. Write one way you can bring your fear or pain honestly to the Lord this week.</li>
+        <li>Identify one safe person or practice that helps you remember you are not alone, and take one step toward it.</li>
+        <li>Pray daily that the Lord would guard your heart and mind and begin to restore a sense of safety in Him.</li>
       </ul>
       <h3>Sample Dialogue</h3>
       <p><strong>Counselor:</strong> “Conflict with your coworker has been draining. What do you want most when the tension rises?”</p>
@@ -655,11 +777,11 @@ const counselingIssues = [
         <li>Recommend medical or specialized help when symptoms severely impair functioning.</li>
       </ul>
 
-      <h3>Suggested Homework</h3>
+            <h3>Suggested Homework</h3>
       <ul>
-        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
-        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
-        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+        <li>Read Matthew 11:28-30. Write one compulsive pattern you are tempted to use for relief and one way you can rest in Christ’s finished work instead.</li>
+        <li>When an intrusive thought or urge arises, write a short gospel reminder and delay the ritual for a set time while praying.</li>
+        <li>Ask a trusted person to check in with you once this week about progress in resisting a ritual.</li>
       </ul>
       <h3>Sample Dialogue</h3>
       <p><strong>Counselor:</strong> “You’ve described thoughts that feel intrusive and hard to dismiss. What usually happens when one of those thoughts comes?”</p>
@@ -697,11 +819,11 @@ const counselingIssues = [
         <li>Support medical detox or treatment when physically necessary; emphasize the church’s role.</li>
       </ul>
 
-      <h3>Suggested Homework</h3>
+            <h3>Suggested Homework</h3>
       <ul>
-        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
-        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
-        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+        <li>Read 1 Corinthians 6:19-20 and Romans 6:11-14. Write one way the gospel frees you from the power of sin in this area.</li>
+        <li>Identify one trigger and one concrete plan (Scripture, accountability, replacement activity) you will use when tempted.</li>
+        <li>Confess the struggle to one trusted believer and ask them to ask you a specific accountability question this week.</li>
       </ul>
       <h3>Sample Dialogue</h3>
       <p><strong>Counselor:</strong> “You’ve been wrestling with this addiction. What usually happens right before you turn to it?”</p>
@@ -739,11 +861,11 @@ const counselingIssues = [
         <li>Emphasize identity in Christ rather than the diagnostic label.</li>
       </ul>
 
-      <h3>Suggested Homework</h3>
+            <h3>Suggested Homework</h3>
       <ul>
-        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
-        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
-        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+        <li>Read Ephesians 4:22-24. Identify one relational pattern that reflects the old self and write one new way of responding that reflects Christ.</li>
+        <li>When conflict arises, pause and ask: “What am I protecting or demanding?” Write the answer and one gospel-centered response.</li>
+        <li>Ask a mature believer to help you see one blind spot in how you relate to others.</li>
       </ul>
       <h3>Sample Dialogue</h3>
       <p><strong>Counselor:</strong> “You’ve described patterns in relationships that keep causing pain. What usually happens when conflict arises?”</p>
@@ -860,11 +982,11 @@ const counselingIssues = [
         <li>Practice “slow to speak” responses and confession when anger is sinful.</li>
         <li>Explore forgiveness and entrusting justice to God.</li>
       </ul>
-      <h3>Suggested Homework</h3>
+            <h3>Suggested Homework</h3>
       <ul>
-        <li>Read James 1:19-20 and Ephesians 4:25-32. Note one way you can be “quick to hear” this week.</li>
-        <li>When anger arises, pause and ask: “What desire is being threatened right now?” Write it down.</li>
-        <li>If you sinned in anger, confess it specifically to the Lord and, if appropriate, to the person involved.</li>
+        <li>Read James 1:19-20 and Ephesians 4:26-27. Write one recent anger episode and what desire or demand was underneath it.</li>
+        <li>Practice a soft answer in one situation this week and note what happened in your heart.</li>
+        <li>Pray daily that the Lord would uproot anger and grow patience and self-control in you.</li>
       </ul>
       <h3>Sample Dialogue</h3>
       <p><strong>Counselor:</strong> “When your spouse said that, what did you feel in the moment?”</p>
@@ -902,11 +1024,11 @@ const counselingIssues = [
         <li>Point to Christ’s love as the foundation for change.</li>
       </ul>
 
-      <h3>Suggested Homework</h3>
+            <h3>Suggested Homework</h3>
       <ul>
-        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
-        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
-        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+        <li>Read Ephesians 5:22-33. Write one specific way you can serve or honor your spouse this week that reflects the gospel.</li>
+        <li>Identify one recurring conflict. Write what you are demanding and one way you can pursue peace instead.</li>
+        <li>Pray together (or for your spouse if they are unwilling) about one area of strain.</li>
       </ul>
       <h3>Sample Dialogue</h3>
       <p><strong>Counselor:</strong> “When conflict happens between you and your spouse, what usually follows?”</p>
@@ -944,11 +1066,11 @@ const counselingIssues = [
         <li>Distinguish between forgiveness and reconciliation or restored trust.</li>
       </ul>
 
-      <h3>Suggested Homework</h3>
+            <h3>Suggested Homework</h3>
       <ul>
-        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
-        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
-        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+        <li>Read Ephesians 4:31-32 and Matthew 18:21-35. Write one person or offense you are holding and one way the gospel frees you to forgive.</li>
+        <li>Pray daily for the person who hurt you, asking God to bless them and to change your heart.</li>
+        <li>Take one small step of kindness or release toward that person or the memory this week.</li>
       </ul>
       <h3>Sample Dialogue</h3>
       <p><strong>Counselor:</strong> “Forgiving this person has felt especially difficult. What makes it hard to release the offense?”</p>
@@ -993,11 +1115,11 @@ const counselingIssues = [
         <li>Point to Christ’s own experience of rejection and His sufficient grace for the long road of waiting and faithfulness.</li>
       </ul>
 
-      <h3>Suggested Homework</h3>
+            <h3>Suggested Homework</h3>
       <ul>
-        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
-        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
-        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+        <li>Read Ephesians 6:4 and Proverbs 22:6. Write one way you can point your child (or adult child) to Christ rather than control outcomes.</li>
+        <li>Identify one area of worry or alienation. Write a prayer of release and one practical act of love you can offer.</li>
+        <li>Ask a mature believer to pray with you for wisdom and for your child’s heart.</li>
       </ul>
       <h3>Sample Dialogue</h3>
       <p><strong>Counselor:</strong> “Being shut out of your children’s lives has been deeply painful. What has been the hardest part of this for you?”</p>
@@ -1035,11 +1157,11 @@ const counselingIssues = [
         <li>Help the person continue ordinary faithfulness while grieving.</li>
       </ul>
 
-      <h3>Suggested Homework</h3>
+            <h3>Suggested Homework</h3>
       <ul>
-        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
-        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
-        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+        <li>Read Psalm 34:18 and 1 Thessalonians 4:13-18. Write one honest lament and one hope of the gospel you can hold onto.</li>
+        <li>Share one memory or sorrow with a trusted friend and ask them to remind you of Christ’s presence.</li>
+        <li>Take one small step of worship or service this week even in the midst of sadness.</li>
       </ul>
       <h3>Sample Dialogue</h3>
       <p><strong>Counselor:</strong> “This loss has left a deep ache. What has been the hardest part of the grief for you?”</p>
@@ -1077,11 +1199,11 @@ const counselingIssues = [
         <li>Point repeatedly to the sufficiency of Christ and the hope of progressive freedom.</li>
       </ul>
 
-      <h3>Suggested Homework</h3>
+            <h3>Suggested Homework</h3>
       <ul>
-        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
-        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
-        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+        <li>Read 1 Corinthians 6:18-20 and Psalm 51. Write one way sexual sin has distorted your view of God or others, and one gospel truth that restores it.</li>
+        <li>Identify one trigger and one concrete replacement (Scripture, accountability, fleeing) you will use this week.</li>
+        <li>Confess to one trusted person and ask them a specific accountability question.</li>
       </ul>
       <h3>Sample Dialogue</h3>
       <p><strong>Counselor:</strong> “You’ve been honest about the struggle with sexual sin. What typically happens right before you give in?”</p>
@@ -1119,11 +1241,11 @@ const counselingIssues = [
         <li>Meditate on God’s acceptance and the sufficiency of Christ.</li>
       </ul>
 
-      <h3>Suggested Homework</h3>
+            <h3>Suggested Homework</h3>
       <ul>
-        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
-        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
-        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+        <li>Read Proverbs 29:25 and Galatians 1:10. Write one situation where fear of man shaped your words or actions, and one way you can fear God instead.</li>
+        <li>Practice speaking one honest, loving truth this week even if it risks disapproval.</li>
+        <li>Pray daily that the Lord would free you from the approval of people and grow boldness in Christ.</li>
       </ul>
       <h3>Sample Dialogue</h3>
       <p><strong>Counselor:</strong> “You’ve noticed that you often hold back from saying what you think is true. What are you afraid might happen if you speak up?”</p>
@@ -1161,11 +1283,11 @@ const counselingIssues = [
         <li>Distinguish between peace-faking and genuine peacemaking.</li>
       </ul>
 
-      <h3>Suggested Homework</h3>
+            <h3>Suggested Homework</h3>
       <ul>
-        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
-        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
-        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+        <li>Read Matthew 5:23-24 and Romans 12:18. Write one relationship where peace is strained and one step you can take toward reconciliation.</li>
+        <li>Practice a soft answer or a clarifying question in one conflict this week.</li>
+        <li>Pray for the other person by name and ask God to give you humility.</li>
       </ul>
       <h3>Sample Dialogue</h3>
       <p><strong>Counselor:</strong> “When conflict arises, what usually happens between you and the other person?”</p>
@@ -1203,11 +1325,11 @@ const counselingIssues = [
         <li>Encourage Scripture meditation on who they are in Christ.</li>
       </ul>
 
-      <h3>Suggested Homework</h3>
+            <h3>Suggested Homework</h3>
       <ul>
-        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
-        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
-        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+        <li>Read Ephesians 1:3-14 and 2 Corinthians 5:17. Write three truths about who you are in Christ that counter a current lie you believe.</li>
+        <li>When you feel defined by failure or performance, pause and speak one of those truths aloud.</li>
+        <li>Share one identity truth with a trusted friend and ask them to remind you of it.</li>
       </ul>
       <h3>Sample Dialogue</h3>
       <p><strong>Counselor:</strong> “You’ve said you feel like your worth depends on how well you perform. Where does that belief show up most?”</p>
@@ -1245,11 +1367,11 @@ const counselingIssues = [
         <li>Encourage small acts of trust and release.</li>
       </ul>
 
-      <h3>Suggested Homework</h3>
+            <h3>Suggested Homework</h3>
       <ul>
-        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
-        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
-        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+        <li>Read Matthew 6:25-34. List three worries and, for each, write one truth about God’s provision and one step of trust.</li>
+        <li>Practice casting one specific care on the Lord in prayer each day and note any change in your heart.</li>
+        <li>Ask someone to pray with you about one area where you are trying to control outcomes.</li>
       </ul>
       <h3>Sample Dialogue</h3>
       <p><strong>Counselor:</strong> “You’ve noticed that worry often pushes you to try to control outcomes. What situation has been hardest to release lately?”</p>
@@ -1287,11 +1409,11 @@ const counselingIssues = [
         <li>Encourage confession where needed and resting where already forgiven.</li>
       </ul>
 
-      <h3>Suggested Homework</h3>
+            <h3>Suggested Homework</h3>
       <ul>
-        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
-        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
-        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+        <li>Read Psalm 32 and Romans 8:1. Write one area of shame and one way the gospel declares you clean and accepted in Christ.</li>
+        <li>Confess any unconfessed sin to the Lord and, if appropriate, to a trusted believer.</li>
+        <li>Replace one self-condemning thought with a specific gospel truth each day this week.</li>
       </ul>
       <h3>Sample Dialogue</h3>
       <p><strong>Counselor:</strong> “You’ve carried a lot of shame about past choices. What do you believe that shame says about you?”</p>
@@ -1329,11 +1451,11 @@ const counselingIssues = [
         <li>Point to Christ’s sufficiency in every life stage.</li>
       </ul>
 
-      <h3>Suggested Homework</h3>
+            <h3>Suggested Homework</h3>
       <ul>
-        <li>Read the key Scripture passages listed above this week. Write one sentence each day about how one verse applies to your situation.</li>
-        <li>Identify one specific area where you can take a small step of obedience or trust. Write it down and share it with a trusted person.</li>
-        <li>Pray daily about this struggle, asking the Lord to change your heart and to give you wisdom.</li>
+        <li>Read 1 Corinthians 7:32-35 and Psalm 16:5-6. Write one way singleness can be used for undivided devotion to the Lord.</li>
+        <li>Identify one longing and one practical way you can pursue contentment and service this week.</li>
+        <li>Pray daily that the Lord would satisfy you in Himself while you wait on His timing.</li>
       </ul>
       <h3>Sample Dialogue</h3>
       <p><strong>Counselor:</strong> “Singleness has felt lonely for you. What do you most long for in this season?”</p>
@@ -1371,11 +1493,11 @@ const counselingIssues = [
         <li>Help discern wise next steps regarding church involvement and boundaries.</li>
       </ul>
 
-      <h3>Suggested Homework</h3>
+            <h3>Suggested Homework</h3>
       <ul>
-        <li>Read Psalm 34:18 and 1 Peter 5:7 each day. Write one honest sentence about the hurt and one sentence about what is still true of Christ.</li>
-        <li>Identify one way the pain has shaped your view of the church or of God. Bring that honestly before the Lord in prayer.</li>
-        <li>Consider one small, wise step toward healing (speaking with a trusted mentor, limiting contact, or simply resting) and note what that step is.</li>
+        <li>Read Psalm 34:18 and Hebrews 10:24-25. Write one way the hurt has affected your view of the church and one truth about Christ that remains true.</li>
+        <li>Pray for those who hurt you and ask the Lord to guard your heart from bitterness.</li>
+        <li>Take one small step toward healthy fellowship or toward processing the pain with a trusted leader.</li>
       </ul>
       <h3>Sample Dialogue</h3>
       <p><strong>Counselor:</strong> “Being hurt by people in the church has been deeply painful. How has that affected your view of the body of Christ?”</p>
@@ -1457,11 +1579,11 @@ const counselingIssues = [
         <li>Reaffirm identity in Christ apart from ministry productivity.</li>
       </ul>
 
-      <h3>Suggested Homework</h3>
+            <h3>Suggested Homework</h3>
       <ul>
-        <li>Read Matthew 11:28-30 and 1 Kings 19:1-8. Write one way you can receive the rest Christ offers this week.</li>
-        <li>Identify one belief about your work or calling that may be driving exhaustion (e.g., “I must never stop”). Bring it to the Lord in prayer.</li>
-        <li>Plan one small, concrete step of rest or boundary and note what it is.</li>
+        <li>Read Matthew 11:28-30 and Galatians 6:9. Write one burden you are carrying that belongs to the Lord and one step of rest or delegation.</li>
+        <li>Identify one boundary you will keep this week to steward your soul.</li>
+        <li>Ask a trusted person to help you evaluate your load and pray for renewed strength.</li>
       </ul>
       <h3>Sample Dialogue</h3>
       <p><strong>Counselor:</strong> “Serving in ministry has left you drained. What has been the heaviest part lately?”</p>
@@ -1501,11 +1623,11 @@ const counselingIssues = [
         <li>Support practical steps and, when needed, professional medical evaluation.</li>
       </ul>
 
-      <h3>Suggested Homework</h3>
+            <h3>Suggested Homework</h3>
       <ul>
-        <li>Read Philippians 4:6-7 and 1 Peter 5:7 with your child (or alone if they are not ready). Write one thing you can help them bring to the Lord this week.</li>
-        <li>Identify one situation that triggers their anxiety. Note one small way you can respond with calm truth rather than trying to remove the fear entirely.</li>
-        <li>Pray daily for wisdom and for your child’s heart to learn to cast cares on the Lord.</li>
+        <li>Read Philippians 4:6-7 with your child (or adapt it). Help them write one worry and one truth about God’s care.</li>
+        <li>Practice one calming, truth-filled response with them when anxiety arises instead of only removing the fear.</li>
+        <li>Pray together daily, casting the specific fear on the Lord.</li>
       </ul>
       <h3>Sample Dialogue</h3>
       <p><strong>Counselor:</strong> “Your child’s anxiety has been hard on the whole family. What do you notice most when they’re struggling?”</p>
@@ -1556,7 +1678,7 @@ document.querySelectorAll('nav button').forEach(btn => {
 function renderModuleList() {
   const list = document.getElementById('module-list');
   list.innerHTML = modules.map(m => `
-    <div class="module-item" onclick="showModule('${m.id}')">
+    <div class="module-item module-card" data-module="${m.id}" onclick="showModule('${m.id}')">
       <strong>${m.title}</strong>
       <span style="color:var(--muted);font-size:0.95rem;">${m.summary}</span>
     </div>
@@ -1746,10 +1868,34 @@ showSection('home');
 </script>
 <button id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="position:fixed;bottom:1.5rem;right:1.5rem;padding:0.6rem 1rem;background:var(--accent);color:white;border:none;border-radius:8px;cursor:pointer;display:none;z-index:100;">↑ Top</button>
 <script>
-window.addEventListener('scroll', () => {
-  const btn = document.getElementById('back-to-top');
-  btn.style.display = window.scrollY > 300 ? 'block' : 'none';
-});
+function processAssessment() {
+  const form = document.getElementById('assessment-form');
+  if (!form) return;
+  const data = new FormData(form);
+  const scores = {};
+  for (let [k,v] of data.entries()) {
+    if (k.startsWith('q')) scores[k] = Number(v);
+  }
+  const suggestions = [];
+  if ((scores.q1 || 5) <= 3 || (scores.q2 || 5) <= 3) suggestions.push("Burnout & Compassion Fatigue");
+  if ((scores.q3 || 5) <= 3 || (scores.q4 || 5) <= 3) suggestions.push("Listening Before Speaking");
+  if ((scores.q5 || 5) <= 3 || (scores.q6 || 5) <= 3) suggestions.push("When People Don’t Change");
+  if ((scores.q7 || 5) <= 3 || (scores.q8 || 5) <= 3) suggestions.push("A Simple Session Process");
+  if ((scores.q8 || 5) <= 3) suggestions.push("Boundaries & After-Hours Care");
+  if ((scores.q9 || 5) <= 3 || (scores.q10 || 5) <= 3) suggestions.push("Guarding Your Own Heart");
+  if ((scores.q10 || 5) <= 3) suggestions.push("Handling Criticism & Difficult Sessions");
+
+  const unique = [...new Set(suggestions)];
+  const result = document.getElementById('assessment-result');
+  if (!result) return;
+  result.style.display = 'block';
+  if (unique.length === 0) {
+    result.innerHTML = `<h3>Reflection</h3><p>Your responses suggest strength in these areas. You may still review any Growth Module that interests you.</p><p><a href="#" onclick="showSection('modules'); return false;">Go to Growth Modules</a></p>`;
+  } else {
+    result.innerHTML = `<h3>Suggested Modules for Growth</h3><p>Based on your responses, these modules may be especially helpful:</p><ul>${unique.map(m => `<li>${m}</li>`).join('')}</ul><p><a href="#" onclick="showSection('modules'); return false;">Go to Growth Modules</a></p>`;
+  }
+  result.scrollIntoView({behavior:'smooth'});
+}
 </script>
 </body>
 </html>
