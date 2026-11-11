@@ -236,6 +236,42 @@
   background: #f4f9f6;
   box-shadow: 0 2px 8px rgba(44,62,58,0.08);
 }
+
+
+.module-item, .module-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.15rem;
+  margin-bottom: 0.75rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+.module-item:hover, .module-card:hover {
+  border-color: var(--accent);
+  background: #faf8f5;
+  transform: none;
+  box-shadow: none;
+}
+.module-item strong, .module-card h3 { margin: 0 0 0.25rem 0; }
+.item-icon { font-size: 1.4rem; flex-shrink: 0; line-height: 1; }
+
+.toolkit-form input[type="text"], .toolkit-form textarea {
+  width: 100%; padding: 0.5rem; margin: 0.25rem 0 0.75rem 0;
+  border: 1px solid #ccc; border-radius: 4px; font-family: inherit; font-size: 1rem;
+}
+.toolkit-form textarea { min-height: 80px; }
+.toolkit-form label { font-weight: 600; display: block; margin-top: 0.5rem; }
+.toolkit-form .check-item { display: flex; align-items: flex-start; gap: 0.5rem; margin: 0.4rem 0; }
+.toolkit-form .check-item input { margin-top: 0.3rem; }
+@media print {
+  .no-print { display: none !important; }
+  .toolkit-form input, .toolkit-form textarea { border: none; background: transparent; }
+}
+
 </style>
 </head>
 <body>
@@ -248,6 +284,7 @@
     <button class="active" data-section="home">🏠 Home</button>
     <button data-section="assessment">📋 Assessment</button>
     <button data-section="modules">📚 Modules</button>
+    <button data-section="toolkit">🧰 Toolkit</button>
     <button data-section="issues">💬 Counseling Issues</button>
     <button data-section="scripture">📖 Scripture</button>
     <button data-section="prayer">🙏 Prayer Guide</button>
@@ -266,10 +303,12 @@
       <p>Biblical counseling addresses people’s struggles through the lens of Scripture—sin, suffering, the heart, and the gospel of Christ—while remaining aware that some symptoms may involve medical factors best evaluated by a physician.</p>
       <button class="btn" onclick="showSection('assessment')">Take the Self-Assessment</button>
       <button class="btn secondary" onclick="showSection('modules')" style="margin-left:0.5rem;">Browse Modules</button>
+      <button class="btn secondary" onclick="showSection('toolkit')" style="margin-left:0.5rem;">Counselor Toolkit</button>
       <button class="btn secondary" onclick="showSection('issues')" style="margin-left:0.5rem;">Counseling Issues</button>
       <button class="btn secondary" onclick="showSection('scripture')" style="margin-left:0.5rem;">Scripture Resources</button>
       <button class="btn secondary" onclick="showSection('prayer')" style="margin-left:0.5rem;">Prayer Guide</button>
       <button class="btn secondary" onclick="showSection('stuck')" style="margin-left:0.5rem;">When You're Stuck</button>
+      <button class="btn secondary" onclick="showSection('toolkit')" style="margin-left:0.5rem;">Counselor Toolkit</button>
     </div>
     <div class="card">
       <h3>What’s Inside</h3>
@@ -337,6 +376,17 @@
       <div class="module-list" id="module-list"></div>
     </div>
     <div id="module-detail" class="hidden"></div>
+  </section>
+
+  
+  <!-- COUNSELOR TOOLKIT -->
+  <section id="toolkit" class="hidden">
+    <div class="card">
+      <h2>Counselor Toolkit</h2>
+      <p>Practical tools for session structure, boundaries, supervision, medical considerations, and heart care. Designed to support faithful biblical counseling.</p>
+      <div class="module-list" id="toolkit-list"></div>
+    </div>
+    <div id="toolkit-detail" class="hidden"></div>
   </section>
 
   <!-- COUNSELING ISSUES -->
@@ -419,6 +469,125 @@
 </footer>
 
 <script>
+
+const toolkit = [
+  {
+    id: "session-checklist",
+    title: "Session Checklist",
+    summary: "Fillable pre-, during, and post-session checklist.",
+    content: `
+      <h2>Session Checklist</h2>
+      <form class="toolkit-form" id="form-session">
+        <h3>Before the Session</h3>
+        <div class="check-item"><input type="checkbox" id="b1"><label for="b1">Prayed for the person and for wisdom</label></div>
+        <div class="check-item"><input type="checkbox" id="b2"><label for="b2">Reviewed previous notes and homework</label></div>
+        <div class="check-item"><input type="checkbox" id="b3"><label for="b3">Prepared key Scriptures (if appropriate)</label></div>
+        <label>Notes</label><textarea id="before-notes"></textarea>
+
+        <h3>During the Session</h3>
+        <div class="check-item"><input type="checkbox" id="d1"><label for="d1">Began with prayer and check-in</label></div>
+        <div class="check-item"><input type="checkbox" id="d2"><label for="d2">Listened carefully before offering counsel</label></div>
+        <div class="check-item"><input type="checkbox" id="d3"><label for="d3">Identified at least one heart theme</label></div>
+        <div class="check-item"><input type="checkbox" id="d4"><label for="d4">Brought relevant Scripture</label></div>
+        <div class="check-item"><input type="checkbox" id="d5"><label for="d5">Agreed on one clear homework step</label></div>
+        <label>Notes</label><textarea id="during-notes"></textarea>
+
+        <h3>After the Session</h3>
+        <div class="check-item"><input type="checkbox" id="a1"><label for="a1">Wrote brief notes on heart themes and homework</label></div>
+        <div class="check-item"><input type="checkbox" id="a2"><label for="a2">Noted any follow-up or referral needs</label></div>
+        <div class="check-item"><input type="checkbox" id="a3"><label for="a3">Prayed again for the person</label></div>
+        <label>Notes</label><textarea id="after-notes"></textarea>
+
+        <button type="button" class="btn no-print" onclick="printForm('form-session')">Print / Save as PDF</button>
+      </form>
+    `
+  },
+  {
+    id: "homework-template",
+    title: "Homework Template",
+    summary: "Fillable form for assigning biblical homework.",
+    content: `
+      <h2>Homework Template</h2>
+      <form class="toolkit-form" id="form-homework">
+        <label>Counselee name (optional)</label>
+        <input type="text" id="hw-name">
+        <label>Date</label>
+        <input type="text" id="hw-date">
+        <label>1. Scripture to read</label>
+        <textarea id="hw-scripture" placeholder="Specific passage(s)"></textarea>
+        <label>2. Reflection questions</label>
+        <textarea id="hw-reflection" placeholder="Heart-focused questions"></textarea>
+        <label>3. Action step</label>
+        <textarea id="hw-action" placeholder="One small step of obedience or trust"></textarea>
+        <label>4. Accountability</label>
+        <textarea id="hw-account" placeholder="Who they will share it with (if appropriate)"></textarea>
+        <button type="button" class="btn no-print" onclick="printForm('form-homework')">Print / Save as PDF</button>
+      </form>
+    `
+  },
+  {
+    id: "referral-guide",
+    title: "Referral & Limits Notes",
+    summary: "Space to record referral and limit considerations.",
+    content: `
+      <h2>Referral & Limits Notes</h2>
+      <form class="toolkit-form" id="form-referral">
+        <label>Medical considerations / referrals</label>
+        <textarea id="ref-medical" placeholder="Physical symptoms, medication, or evaluation needs"></textarea>
+        <label>Safety / legal considerations</label>
+        <textarea id="ref-safety" placeholder="Any abuse, harm, or legal issues"></textarea>
+        <label>Beyond current experience / supervision needed</label>
+        <textarea id="ref-supervision" placeholder="Cases requiring more experienced help"></textarea>
+        <label>Other notes</label>
+        <textarea id="ref-other"></textarea>
+        <button type="button" class="btn no-print" onclick="printForm('form-referral')">Print / Save as PDF</button>
+      </form>
+    `
+  },
+  {
+    id: "note-template",
+    title: "Simple Note Template",
+    summary: "Fillable session notes form.",
+    content: `
+      <h2>Simple Note Template</h2>
+      <form class="toolkit-form" id="form-notes">
+        <label>Date</label><input type="text" id="note-date">
+        <label>Person</label><input type="text" id="note-person">
+        <label>Presenting issue</label><textarea id="note-issue"></textarea>
+        <label>Heart themes noticed</label><textarea id="note-heart" placeholder="Desires, fears, beliefs"></textarea>
+        <label>Scripture used</label><textarea id="note-scripture"></textarea>
+        <label>Homework assigned</label><textarea id="note-homework"></textarea>
+        <label>Follow-up needed</label><textarea id="note-followup"></textarea>
+        <button type="button" class="btn no-print" onclick="printForm('form-notes')">Print / Save as PDF</button>
+      </form>
+    `
+  },
+  {
+    id: "self-check",
+    title: "Counselor Self-Check",
+    summary: "Fillable periodic heart check.",
+    content: `
+      <h2>Counselor Self-Check</h2>
+      <form class="toolkit-form" id="form-self">
+        <label>Date</label><input type="text" id="self-date">
+        <label>Am I pointing people to Christ or trying to be their savior?</label>
+        <textarea id="self-1"></textarea>
+        <label>Am I resting and protecting needed boundaries?</label>
+        <textarea id="self-2"></textarea>
+        <label>Do I have someone who counsels me?</label>
+        <textarea id="self-3"></textarea>
+        <label>Am I growing in humility and dependence on the Lord?</label>
+        <textarea id="self-4"></textarea>
+        <label>Is there any case that is draining me disproportionately?</label>
+        <textarea id="self-5"></textarea>
+        <button type="button" class="btn no-print" onclick="printForm('form-self')">Print / Save as PDF</button>
+      </form>
+    `
+  }
+];
+
+
+
 const modules = [
   {
     id: "burnout",
@@ -1663,8 +1832,10 @@ function showSection(id) {
   document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
   document.getElementById(id).classList.remove('hidden');
   document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-  document.querySelector(`nav button[data-section="${id}"]`).classList.add('active');
+  const activeBtn = document.querySelector(`nav button[data-section="${id}"]`);
+  if (activeBtn) activeBtn.classList.add('active');
   if (id === 'modules') renderModuleList();
+  if (id === 'toolkit') renderToolkitList();
   if (id === 'issues') renderIssueList();
   if (id === 'scripture') renderScripture();
   if (id === 'assessment') renderQuiz();
@@ -1679,8 +1850,11 @@ function renderModuleList() {
   const list = document.getElementById('module-list');
   list.innerHTML = modules.map(m => `
     <div class="module-item module-card" data-module="${m.id}" onclick="showModule('${m.id}')">
-      <strong>${m.title}</strong>
-      <span style="color:var(--muted);font-size:0.95rem;">${m.summary}</span>
+      <span class="item-icon">📚</span>
+      <div>
+        <strong>${m.title}</strong>
+        <span style="color:var(--muted);font-size:0.95rem;display:block;">${m.summary}</span>
+      </div>
     </div>
   `).join('');
   document.getElementById('module-detail').classList.add('hidden');
@@ -1726,8 +1900,11 @@ function renderIssueList(filter = '') {
     const summary = q ? m.summary.replace(new RegExp(`(${filter})`, 'gi'), '<mark>$1</mark>') : m.summary;
     return `
     <div class="module-item" onclick="showIssue('${m.id}')">
-      <strong>${title}</strong>
-      <span style="color:var(--muted);font-size:0.95rem;">${summary}</span>
+      <span class="item-icon">💬</span>
+      <div>
+        <strong>${title}</strong>
+        <span style="color:var(--muted);font-size:0.95rem;display:block;">${summary}</span>
+      </div>
     </div>`;
   }).join('') || '<p>No matching issues found. Try a different keyword (e.g., anxiety, anger, marriage, grief).</p>';
   document.getElementById('issue-detail').classList.add('hidden');
@@ -1896,6 +2073,64 @@ function processAssessment() {
   }
   result.scrollIntoView({behavior:'smooth'});
 }
+
+function renderToolkitList() {
+  const list = document.getElementById('toolkit-list');
+  if (!list) return;
+  list.innerHTML = toolkit.map(t => `
+    <div class="module-card" onclick="showToolkit('${t.id}')">
+      <span class="item-icon">🧰</span>
+      <div>
+        <h3>${t.title}</h3>
+        <p style="margin:0;color:var(--muted);font-size:0.95rem;">${t.summary}</p>
+      </div>
+    </div>
+  `).join('');
+}
+
+function showToolkit(id) {
+  const item = toolkit.find(t => t.id === id);
+  if (!item) return;
+  document.getElementById('toolkit-list').parentElement.classList.add('hidden');
+  const detail = document.getElementById('toolkit-detail');
+  detail.classList.remove('hidden');
+  detail.innerHTML = `
+    <button class="btn" onclick="backToToolkit()">← Back to Toolkit</button>
+    ${item.content}
+  `;
+}
+
+function backToToolkit() {
+  document.getElementById('toolkit-detail').classList.add('hidden');
+  document.getElementById('toolkit-list').parentElement.classList.remove('hidden');
+}
+
+
+function printForm(formId) {
+  const form = document.getElementById(formId);
+  if (!form) return;
+  let html = '<html><head><title>Print</title><style>body{font-family:system-ui,sans-serif;padding:2rem;line-height:1.5;}h2,h3{margin-top:1.5rem;}label{font-weight:600;display:block;margin-top:.75rem;}.val{margin:.25rem 0 1rem;min-height:1.2em;border-bottom:1px solid #ccc;white-space:pre-wrap;}.check{margin:.3rem 0;}</style></head><body>';
+  html += form.querySelector('h2') ? form.querySelector('h2').outerHTML : '';
+  form.querySelectorAll('h3, label, .check-item').forEach(el => {
+    if (el.tagName === 'H3') html += el.outerHTML;
+    else if (el.classList.contains('check-item')) {
+      const cb = el.querySelector('input');
+      const lab = el.querySelector('label');
+      html += `<div class="check">${cb && cb.checked ? '☑' : '☐'} ${lab ? lab.textContent : ''}</div>`;
+    } else if (el.tagName === 'LABEL') {
+      const id = el.getAttribute('for') || el.nextElementSibling?.id;
+      const input = id ? form.querySelector('#'+id) : null;
+      const val = input ? (input.value || '') : '';
+      html += `<label>${el.textContent}</label><div class="val">${val}</div>`;
+    }
+  });
+  html += '</body></html>';
+  const win = window.open('', '_blank');
+  win.document.write(html);
+  win.document.close();
+  setTimeout(() => win.print(), 200);
+}
+
 </script>
 </body>
 </html>
