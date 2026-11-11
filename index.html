@@ -233,8 +233,13 @@ footer {
   .feature-grid { grid-template-columns: 1fr; }
   .hero h2 { font-size: 2.15rem; }
 }
+.print-only { display: none; }
 @media print {
   header, nav, footer, .btn, .no-print, #back-to-top, .favorite-btn, .search { display: none !important; }
+  .print-only { display: flex !important; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; padding-bottom: 0.75rem; border-bottom: 2px solid #1F4D3A; }
+  .print-only img { width: 56px; height: 56px; object-fit: cover; }
+  .print-site { font-family: Georgia, serif; font-size: 1.15rem; color: #1F4D3A; }
+  .print-form { font-size: 0.95rem; color: #6B6560; }
   body { background: white; }
   main { max-width: none; padding: 0; }
   .card, .module-item, .module-card { box-shadow: none; }
@@ -245,6 +250,13 @@ footer {
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet">
 </head>
 <body>
+<div id="print-header" class="print-only">
+  <img id="print-logo" alt="">
+  <div>
+    <div class="print-site">Grace & Truth Counsel</div>
+    <div class="print-form" id="print-form-name"></div>
+  </div>
+</div>
 <header>
   <div class="header-inner">
     <a class="brand" href="#" onclick="showSection('home'); return false;">
@@ -1964,7 +1976,7 @@ function showIssue(id) {
       <h3 style="margin-top:1.5rem;">Personal Notes</h3>
       <textarea class="notes-area" id="notes-${id}" placeholder="Private notes (stored only in this browser)…">${notes}</textarea>
       <button class="btn secondary" onclick="saveNotes('${id}')">Save Notes</button>
-      <button class="btn secondary print-btn" onclick="window.print()">Print / Save as PDF</button>
+      <button class="btn secondary print-btn" onclick="preparePagePrint(document.querySelector('#issue-detail h2')?.textContent || 'Counseling Issue')">Print / Save as PDF</button>
       <button class="btn secondary" onclick="renderIssueList()">← Back to Issues</button>
     </div>`;
   detail.classList.remove('hidden');
@@ -2131,10 +2143,33 @@ function backToToolkit() {
 }
 
 
+function printHeaderHtml(formName) {
+  const logo = document.querySelector('.brand-mark');
+  const src = logo ? logo.src : '';
+  return `<div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;padding-bottom:0.75rem;border-bottom:2px solid #1F4D3A;">
+    <img src="${src}" alt="" style="width:56px;height:56px;object-fit:cover;">
+    <div>
+      <div style="font-family:Georgia,serif;font-size:1.15rem;color:#1F4D3A;">Grace & Truth Counsel</div>
+      <div style="font-size:0.95rem;color:#6B6560;">${formName || ''}</div>
+    </div>
+  </div>`;
+}
+
+function preparePagePrint(name) {
+  const logo = document.querySelector('.brand-mark');
+  const printLogo = document.getElementById('print-logo');
+  const printName = document.getElementById('print-form-name');
+  if (logo && printLogo) printLogo.src = logo.src;
+  if (printName) printName.textContent = name || '';
+  window.print();
+}
+
 function printForm(formId) {
   const form = document.getElementById(formId);
   if (!form) return;
-  let html = '<html><head><title>Print</title><style>body{font-family:Georgia,serif;padding:2rem;line-height:1.5;color:#1c1c1c;}h2,h3{margin-top:1.5rem;color:#1F4D3A;}label{font-weight:600;display:block;margin-top:.75rem;}.val{margin:.25rem 0 1rem;min-height:1.2em;border-bottom:1px solid #ccc;white-space:pre-wrap;}.check{margin:.3rem 0;}</style></head><body>';
+  const formName = (form.querySelector('h2') && form.querySelector('h2').textContent) || 'Counselor Form';
+  let html = '<html><head><title>' + formName + ' — Grace & Truth Counsel</title><style>body{font-family:Georgia,serif;padding:2rem;line-height:1.5;color:#1c1c1c;}h2,h3{margin-top:1.5rem;color:#1F4D3A;}label{font-weight:600;display:block;margin-top:.75rem;}.val{margin:.25rem 0 1rem;min-height:1.2em;border-bottom:1px solid #ccc;white-space:pre-wrap;}.check{margin:.3rem 0;}</style></head><body>';
+  html += printHeaderHtml(formName);
   html += form.querySelector('h2') ? form.querySelector('h2').outerHTML : '';
   form.querySelectorAll('h3, label, .check-item').forEach(el => {
     if (el.tagName === 'H3') html += el.outerHTML;
