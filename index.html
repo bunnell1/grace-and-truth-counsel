@@ -153,6 +153,10 @@ main { max-width: 980px; margin: 0 auto; padding: 2.2rem 1.25rem 4rem; }
 .btn:hover { background: var(--accent-deep); opacity: 1; }
 .btn.secondary { background: var(--accent); color: white; border: none; }
 .btn.secondary:hover { background: var(--accent-deep); }
+html[data-theme="dark"] .btn,
+html[data-theme="dark"] .btn.secondary { color: #16382B; }
+html[data-theme="dark"] .btn:hover,
+html[data-theme="dark"] .btn.secondary:hover { color: #0F241C; }
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
