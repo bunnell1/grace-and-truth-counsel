@@ -506,8 +506,6 @@ const toolkit = [
         <div class="check-item"><input type="checkbox" id="a2"><label for="a2">Noted any follow-up or referral needs</label></div>
         <div class="check-item"><input type="checkbox" id="a3"><label for="a3">Prayed again for the person</label></div>
         <label>Notes</label><textarea id="after-notes"></textarea>
-
-        <button type="button" class="btn no-print" onclick="printForm('form-session')">Print / Save as PDF</button>
       </form>
     `
   },
@@ -530,7 +528,6 @@ const toolkit = [
         <textarea id="hw-action" placeholder="One small step of obedience or trust"></textarea>
         <label>4. Accountability</label>
         <textarea id="hw-account" placeholder="Who they will share it with (if appropriate)"></textarea>
-        <button type="button" class="btn no-print" onclick="printForm('form-homework')">Print / Save as PDF</button>
       </form>
     `
   },
@@ -549,7 +546,6 @@ const toolkit = [
         <textarea id="ref-supervision" placeholder="Cases requiring more experienced help"></textarea>
         <label>Other notes</label>
         <textarea id="ref-other"></textarea>
-        <button type="button" class="btn no-print" onclick="printForm('form-referral')">Print / Save as PDF</button>
       </form>
     `
   },
@@ -567,7 +563,6 @@ const toolkit = [
         <label>Scripture used</label><textarea id="note-scripture"></textarea>
         <label>Homework assigned</label><textarea id="note-homework"></textarea>
         <label>Follow-up needed</label><textarea id="note-followup"></textarea>
-        <button type="button" class="btn no-print" onclick="printForm('form-notes')">Print / Save as PDF</button>
       </form>
     `
   },
@@ -589,7 +584,6 @@ const toolkit = [
         <textarea id="self-4"></textarea>
         <label>Is there any case that is draining me disproportionately?</label>
         <textarea id="self-5"></textarea>
-        <button type="button" class="btn no-print" onclick="printForm('form-self')">Print / Save as PDF</button>
       </form>
     `
   }
@@ -2131,10 +2125,45 @@ function showToolkit(id) {
   document.getElementById('toolkit-list').parentElement.classList.add('hidden');
   const detail = document.getElementById('toolkit-detail');
   detail.classList.remove('hidden');
+  const savedNotes = localStorage.getItem('toolkit-notes-' + id) || '';
   detail.innerHTML = `
-    <button class="btn" onclick="backToToolkit()">← Back to Toolkit</button>
-    ${item.content}
-  `;
+    <div class="card">
+      ${item.content}
+      <h3 style="margin-top:1.5rem;">Personal Notes</h3>
+      <textarea class="notes-area" id="toolkit-notes-${id}" placeholder="Private notes (stored only in this browser)…">${savedNotes}</textarea>
+      <button class="btn secondary" onclick="saveToolkit('${id}')">Save Notes</button>
+      <button class="btn secondary print-btn" onclick="preparePagePrint(document.querySelector('#toolkit-detail h2')?.textContent || 'Counselor Form')">Print / Save as PDF</button>
+      <button class="btn secondary" onclick="backToToolkit()">← Back to Toolkit</button>
+    </div>`;
+  restoreToolkit(id);
+}
+
+function saveToolkit(id) {
+  const form = document.querySelector('#toolkit-detail form');
+  const data = {};
+  if (form) {
+    form.querySelectorAll('input, textarea').forEach(el => {
+      if (!el.id) return;
+      data[el.id] = el.type === 'checkbox' ? el.checked : el.value;
+    });
+  }
+  localStorage.setItem('toolkit-form-' + id, JSON.stringify(data));
+  const notes = document.getElementById('toolkit-notes-' + id);
+  if (notes) localStorage.setItem('toolkit-notes-' + id, notes.value);
+  alert('Notes saved locally in this browser.');
+}
+
+function restoreToolkit(id) {
+  const raw = localStorage.getItem('toolkit-form-' + id);
+  if (!raw) return;
+  let data = {};
+  try { data = JSON.parse(raw); } catch (e) { return; }
+  Object.keys(data).forEach(key => {
+    const el = document.getElementById(key);
+    if (!el) return;
+    if (el.type === 'checkbox') el.checked = !!data[key];
+    else el.value = data[key];
+  });
 }
 
 function backToToolkit() {
