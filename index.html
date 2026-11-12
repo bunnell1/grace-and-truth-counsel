@@ -21,6 +21,25 @@
   --shadow: 0 8px 24px rgba(31, 77, 58, 0.05);
   --font-serif: "Source Serif 4", "Iowan Old Style", Georgia, serif;
   --font-sans: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --header-bg: rgba(247, 243, 236, 0.9);
+  --input-bg: #ffffff;
+  --hover: #FDFBF7;
+}
+html[data-theme="dark"] {
+  --bg: #141816;
+  --surface: #1E2420;
+  --text: #F3EFE7;
+  --muted: #B7AFA4;
+  --accent: #D7C4A3;
+  --accent-deep: #E8D9BE;
+  --accent-light: #2A3830;
+  --gold: #D4B483;
+  --gold-soft: #2C2822;
+  --border: #33403A;
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+  --header-bg: rgba(20, 24, 22, 0.92);
+  --input-bg: #171C19;
+  --hover: #26302B;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -39,11 +58,28 @@ a:hover { color: var(--accent-deep); }
 img { max-width: 100%; }
 .hidden { display: none !important; }
 
+.theme-toggle {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--accent);
+  border-radius: 999px;
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.theme-toggle:hover { border-color: var(--gold); }
+.theme-toggle svg { width: 18px; height: 18px; }
+
+
 header {
   position: sticky;
   top: 0;
   z-index: 20;
-  background: rgba(247, 243, 236, 0.9);
+  background: var(--header-bg);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
 }
@@ -69,7 +105,7 @@ header {
   height: 46px;
   border-radius: 12px;
   object-fit: cover;
-  background: #F7F3EC;
+  background: var(--bg);
   flex-shrink: 0;
 }
 .brand-name { display: block; font-family: var(--font-serif); font-size: 1.15rem; line-height: 1.1; color: var(--accent); }
@@ -170,7 +206,7 @@ main { max-width: 980px; margin: 0 auto; padding: 2.2rem 1.25rem 4rem; }
   transition: border-color 0.15s ease, background 0.15s ease;
 }
 .scripture-item { cursor: default; display: block; }
-.module-item:hover, .module-card:hover { border-color: var(--gold); background: #FDFBF7; }
+.module-item:hover, .module-card:hover { border-color: var(--gold); background: var(--hover); }
 .module-card h3, .module-item strong { display: block; margin: 0 0 0.15rem; font-size: 1.05rem; color: var(--accent); }
 .module-card p { margin: 0; }
 .glyph {
@@ -186,7 +222,7 @@ main { max-width: 980px; margin: 0 auto; padding: 2.2rem 1.25rem 4rem; }
   border-radius: 10px;
   font: inherit;
   color: inherit;
-  background: white;
+  background: var(--input-bg);
   margin: 0.3rem 0 0.85rem;
 }
 .search { margin: 0.8rem 0 1rem; }
@@ -207,7 +243,7 @@ main { max-width: 980px; margin: 0 auto; padding: 2.2rem 1.25rem 4rem; }
 .favorite-btn {
   position: absolute; top: 1rem; right: 1rem;
   width: 2.2rem; height: 2.2rem; border-radius: 999px;
-  border: 1px solid var(--border); background: white; color: var(--muted);
+  border: 1px solid var(--border); background: var(--input-bg); color: var(--muted);
   cursor: pointer; font-size: 1.05rem;
 }
 .favorite-btn.active { color: var(--gold); border-color: var(--gold); }
@@ -240,14 +276,34 @@ footer {
   .print-only img { width: 56px; height: 56px; object-fit: cover; }
   .print-site { font-family: Georgia, serif; font-size: 1.15rem; color: #1F4D3A; }
   .print-form { font-size: 0.95rem; color: #6B6560; }
-  body { background: white; }
+  body { background: var(--input-bg); }
   main { max-width: none; padding: 0; }
   .card, .module-item, .module-card { box-shadow: none; }
   .hidden { display: none !important; }
+
+.theme-toggle {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--accent);
+  border-radius: 999px;
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.theme-toggle:hover { border-color: var(--gold); }
+.theme-toggle svg { width: 18px; height: 18px; }
+
 }
 
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet">
+<script>
+(function(){try{var s=localStorage.getItem('theme');var d=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.setAttribute('data-theme', s||(d?'dark':'light'));}catch(e){}})();
+</script>
 </head>
 <body>
 <div id="print-header" class="print-only">
@@ -266,6 +322,9 @@ footer {
         <span class="brand-sub">Counsel</span>
       </span>
     </a>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+      <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 14.5A8.5 8.5 0 1 1 9.5 3 7 7 0 0 0 21 14.5z"/></svg>
+    </button>
     <nav>
       <button class="active" data-section="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 11.5 12 4l8 7.5V20h-5v-6H9v6H4z"/></svg>Home</button>
       <button data-section="assessment"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="6" y="3.5" width="12" height="17" rx="2"/><path d="M9 3.5h6v2H9zM8.5 11l2 2 4-4"/></svg>Assessment</button>
@@ -2226,6 +2285,32 @@ window.addEventListener('scroll', () => {
   const b = document.getElementById('back-to-top');
   if (b) b.style.display = window.scrollY > 400 ? 'block' : 'none';
 });
+</script>
+<script>
+(function () {
+  function icon() {
+    var el = document.getElementById('theme-icon');
+    if (!el) return;
+    var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    el.innerHTML = dark
+      ? '<circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"/>'
+      : '<path d="M21 14.5A8.5 8.5 0 1 1 9.5 3 7 7 0 0 0 21 14.5z"/>';
+  }
+  function bind() {
+    icon();
+    var btn = document.getElementById('theme-toggle');
+    if (!btn || btn.dataset.bound) return;
+    btn.dataset.bound = '1';
+    btn.addEventListener('click', function () {
+      var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      icon();
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind);
+  else bind();
+})();
 </script>
 </body>
 </html>
