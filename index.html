@@ -557,7 +557,7 @@ html[data-theme="dark"] .verse-tip .vt-text { color: #F4F1EA; }
     <div class="card">
       <h2>Counseling Issues Database</h2>
       <p>Searchable guidance for common struggles. Issues are grouped using commonly used descriptive terms (including those often associated with DSM categories) for ease of reference. We do not necessarily endorse the DSM classification system. Each entry offers biblical principles and Scripture for counselors.</p>
-      <input type="text" class="search" id="issue-search" placeholder="Search issues (e.g., anxiety, trauma, OCD, addiction, personality)...">
+      <input type="text" class="search" id="issue-search" placeholder="Search issues (e.g., anxious, sad, anger, marriage)...">
       <div class="module-list" id="issue-list"></div>
     </div>
     <div id="issue-detail" class="hidden"></div>
@@ -2271,14 +2271,51 @@ function showModule(id) {
 }
 
 // Counseling Issues (searchable)
+const issueSynonyms = {
+  anxiety: ["anxious","anxiety","worry","worried","worrying","panic","panicky","fear","fearful","nervous","nervousness","stress","stressed","stressful","phobia","on edge","can't relax","restless","dread","what if"],
+  depression: ["sad","sadness","depressed","depression","down","downcast","hopeless","hopelessness","empty","numb","blue","despair","despairing","no motivation","can't get out of bed","worthless","dark","low mood"],
+  trauma: ["trauma","traumatic","ptsd","abuse","abused","flashback","flashbacks","nightmare","nightmares","assault","violated","triggered","hypervigilant","can't feel safe"],
+  ocd: ["ocd","obsessive","obsession","obsessions","compulsive","compulsion","compulsions","intrusive","intrusive thoughts","checking","contamination","ritual","can't stop thinking"],
+  addiction: ["addiction","addicted","substance","alcohol","alcoholic","drinking","drunk","drugs","drug","porn","pornography","habit","craving","relapse","sober","recovery","can't stop"],
+  personality: ["personality","borderline","narcissistic","narcissism","avoidant","unstable relationships","intense","abandoned","abandonment","self-image"],
+  anger: ["angry","anger","mad","rage","furious","irritated","irritable","resentful","resentment","blow up","lose my temper","frustrated","frustration","bitter"],
+  marriage: ["marriage","married","spouse","husband","wife","marital","marriage problems","we fight","disconnected","affair","divorce","communication"],
+  forgiveness: ["forgive","forgiveness","forgiving","bitter","bitterness","unforgiving","resentment","resent","can't let go","holding a grudge","grudge","offended"],
+  "parenting-alienation": ["parent","parenting","parental","alienation","alienated","child","children","kids","estranged","estrangement","custody","rejected by my child","grandchildren","adult children"],
+  grief: ["grief","grieving","loss","lost","died","death","dying","mourning","mourn","bereaved","bereavement","widow","widower","funeral","miss them","sad"],
+  "sexual-sin": ["sexual","sex","sexual sin","porn","pornography","lust","lustful","purity","impure","affair","adultery","masturbation","tempted","struggle with purity"],
+  "fear-of-man": ["people-pleasing","people pleasing","people pleaser","approval","approval junkie","fear of man","insecure","what will they think","can't say no","need to be liked"],
+  conflict: ["conflict","fight","fighting","argument","arguing","quarrel","peace","peacemaking","tension","we don't get along","hard conversation"],
+  identity: ["identity","who am i","who am I","worth","self-worth","self worth","in Christ","performance","what I do","not enough"],
+  "worry-control": ["control","controlling","controller","worry","worried","micromanage","can't let go","outcomes","fix it","manage everything"],
+  "shame-guilt": ["shame","ashamed","guilt","guilty","worthless","condemned","condemnation","failure","I am bad","not good enough","dirty"],
+  singleness: ["single","singleness","lonely","loneliness","alone","unmarried","dating","desire for marriage","want to be married","left out"],
+  "church-hurt": ["church","church hurt","hurt by the church","spiritual abuse","betrayed","betrayal","pastor","leadership","left the church","don't trust church"],
+  "ministry-burnout": ["burnout","burned out","burnt out","ministry","calling","exhausted","exhaustion","tired","weary","work","overworked","depleted","compassion fatigue"],
+  "child-anxiety": ["child anxiety","anxious child","teen","teenager","teen anxiety","kid","kids worry","my child is anxious","school anxiety"]
+};
+const moduleSynonyms = {
+  burnout: ["burnout","burned out","exhausted","tired","weary","compassion fatigue","depleted","overwhelmed","rest","sabbath"],
+  listening: ["listen","listening","hear","hearing","quick to speak","didn't listen","understand"],
+  change: ["won't change","not changing","no progress","slow change","stuck","resistant","results"],
+  "session-process": ["session","process","structure","outline","how to counsel","agenda"],
+  supervision: ["supervision","supervisor","referral","medical","doctor","physician","consult","out of my depth"],
+  "heart-care": ["my heart","guard my heart","self-care","counselor care","accountability","my own struggle"],
+  criticism: ["criticism","criticized","critic","difficult session","defensive","hard feedback","attacked"],
+  boundaries: ["boundaries","boundary","after hours","availability","overavailable","saying no","limits"]
+};
+function matchesIssue(item, q) {
+  if (!q) return true;
+  const blob = (item.title + " " + item.summary + " " + (item.dsm || "")).toLowerCase();
+  if (blob.includes(q)) return true;
+  const words = issueSynonyms[item.id] || [];
+  return words.some(w => w.includes(q) || q.includes(w));
+}
+
 function renderIssueList(filter = '') {
   const list = document.getElementById('issue-list');
   const q = filter.toLowerCase();
-  const filtered = counselingIssues.filter(item =>
-    item.title.toLowerCase().includes(q) ||
-    item.summary.toLowerCase().includes(q) ||
-    (item.dsm && item.dsm.toLowerCase().includes(q))
-  );
+  const filtered = counselingIssues.filter(item => matchesIssue(item, q));
   list.innerHTML = filtered.map(m => {
     const title = q ? m.title.replace(new RegExp(`(${filter})`, 'gi'), '<mark>$1</mark>') : m.title;
     const summary = q ? m.summary.replace(new RegExp(`(${filter})`, 'gi'), '<mark>$1</mark>') : m.summary;
@@ -2454,8 +2491,8 @@ if (submitQuizBtn) submitQuizBtn.addEventListener('click', () => {
 // Site-wide search
 function searchIndex() {
   const items = [];
-  modules.forEach(m => items.push({ type: 'Module', title: m.title, text: m.summary, go: () => { showSection('modules'); showModule(m.id); } }));
-  counselingIssues.forEach(i => items.push({ type: 'Issue', title: i.title, text: i.summary + ' ' + (i.dsm || ''), go: () => { showSection('issues'); showIssue(i.id); } }));
+  modules.forEach(m => items.push({ type: 'Module', title: m.title, text: m.summary + ' ' + (moduleSynonyms[m.id] || []).join(' '), go: () => { showSection('modules'); showModule(m.id); } }));
+  counselingIssues.forEach(i => items.push({ type: 'Issue', title: i.title, text: i.summary + ' ' + (i.dsm || '') + ' ' + (issueSynonyms[i.id] || []).join(' '), go: () => { showSection('issues'); showIssue(i.id); } }));
   toolkit.forEach(t => items.push({ type: 'Toolkit', title: t.title, text: t.summary, go: () => { showSection('toolkit'); showToolkit(t.id); } }));
   scriptureData.forEach(s => items.push({ type: 'Scripture', title: s.topic, text: s.verses.join(' '), go: () => { showSection('scripture'); const box = document.getElementById('scripture-search'); if (box) { box.value = s.topic; renderScripture(s.topic); } } }));
   return items;
