@@ -2599,20 +2599,65 @@ function openPrintDoc(title, body) {
   win.document.close();
   setTimeout(() => win.print(), 250);
 }
+function extractSection(html, heading) {
+  const tmp = document.createElement('div');
+  tmp.innerHTML = html;
+  const heads = [...tmp.querySelectorAll('h3')];
+  const h = heads.find(el => el.textContent.trim().toLowerCase().includes(heading));
+  if (!h) return '';
+  const parts = [];
+  let el = h.nextElementSibling;
+  while (el && el.tagName !== 'H3') {
+    parts.push(el.outerHTML);
+    el = el.nextElementSibling;
+  }
+  return parts.join('');
+}
+function prepItems(items, group) {
+  return items.map((item, n) => `<div class="check-item"><input type="checkbox" class="prep-item" data-group="${group}" id="prep-${group}-${n}" checked><label for="prep-${group}-${n}">${item}</label></div>`).join('');
+}
 function sessionPrep(id) {
   const issue = counselingIssues.find(i => i.id === id);
-  const verses = extractVerses(issue.content).slice(0, 3);
+  const verses = extractVerses(issue.content);
+  const principles = extractList(issue.content, 'principle');
+  const focus = extractList(issue.content, 'focus');
+  const dialogue = extractSection(issue.content, 'dialogue');
   const hw = extractList(issue.content, 'homework');
-  const body = `
-    <h1>Session Prep: ${issue.title}</h1>
-    <div class="sub">${issue.summary}</div>
-    <h2>Key Scripture</h2>
-    <div class="box"><ul>${verses.map(v => `<li>${v}</li>`).join('')}</ul></div>
-    <h2>Suggested Homework</h2>
-    <div class="box"><ul>${hw.map(h => `<li>${h}</li>`).join('')}</ul></div>
-    <h2>Session Notes</h2>
-    <div class="box">${'<div class="line"></div>'.repeat(8)}</div>
-  `;
+  const detail = document.getElementById('issue-detail');
+  detail.innerHTML = `
+    <div class="card">
+      <h2>Session Prep Sheet</h2>
+      <p class="sub">${issue.title}</p>
+      <p>Check the headings and items to include.</p>
+      <div class="check-item"><input type="checkbox" id="prep-sec-scripture" checked><label for="prep-sec-scripture"><strong>Key Scripture</strong></label></div>
+      <div data-section="scripture">${prepItems(verses, 'scripture')}</div>
+      <div class="check-item"><input type="checkbox" id="prep-sec-principles" checked><label for="prep-sec-principles"><strong>Biblical Principles</strong></label></div>
+      <div data-section="principles">${prepItems(principles, 'principles')}</div>
+      <div class="check-item"><input type="checkbox" id="prep-sec-focus" checked><label for="prep-sec-focus"><strong>Counseling Focus</strong></label></div>
+      <div data-section="focus">${prepItems(focus, 'focus')}</div>
+      <div class="check-item"><input type="checkbox" id="prep-sec-dialogue" checked><label for="prep-sec-dialogue"><strong>Sample Dialogue</strong></label></div>
+      <div class="check-item"><input type="checkbox" id="prep-sec-homework" checked><label for="prep-sec-homework"><strong>Suggested Homework</strong></label></div>
+      <div data-section="homework">${prepItems(hw, 'homework')}</div>
+      <div class="check-item"><input type="checkbox" id="prep-sec-notes" checked><label for="prep-sec-notes"><strong>Session Notes</strong></label></div>
+      <div class="btn-row" style="margin-top:1rem;">
+        <button class="btn" type="button" onclick="printSessionPrep('${id}')">Print prep sheet</button>
+        <button class="btn secondary" type="button" onclick="showIssue('${id}')">Back</button>
+      </div>
+    </div>`;
+  detail._prep = { dialogue };
+}
+function printSessionPrep(id) {
+  const issue = counselingIssues.find(i => i.id === id);
+  const chosen = group => [...document.querySelectorAll(`.prep-item[data-group="${group}"]`)].filter(el => el.checked).map(el => el.nextElementSibling.textContent);
+  const on = name => document.getElementById('prep-sec-' + name).checked;
+  const list = items => `<ul>${items.map(i => `<li>${i}</li>`).join('')}</ul>`;
+  let body = `<h1>Session Prep: ${issue.title}</h1><div class="sub">${issue.summary}</div>`;
+  if (on('scripture')) body += `<h2>Key Scripture</h2><div class="box">${list(chosen('scripture'))}</div>`;
+  if (on('principles')) body += `<h2>Biblical Principles</h2><div class="box">${list(chosen('principles'))}</div>`;
+  if (on('focus')) body += `<h2>Counseling Focus</h2><div class="box">${list(chosen('focus'))}</div>`;
+  if (on('dialogue')) body += `<h2>Sample Dialogue</h2><div class="box">${document.getElementById('issue-detail')._prep.dialogue || ''}</div>`;
+  if (on('homework')) body += `<h2>Suggested Homework</h2><div class="box">${list(chosen('homework'))}</div>`;
+  if (on('notes')) body += `<h2>Session Notes</h2><div class="box">${'<div class="line"></div>'.repeat(6)}</div>`;
   openPrintDoc('Session Prep — ' + issue.title, body);
 }
 function homeworkBuilder(id) {
