@@ -351,6 +351,17 @@ html[data-theme="dark"] .verse-tip .vt-text { color: #F4F1EA; }
 .search-results button:hover { background: var(--soft); }
 .search-results .sr-type { color: var(--muted); font-size: .75rem; }
 .notes-tools { display: flex; gap: .5rem; justify-content: center; flex-wrap: wrap; margin: .4rem 0 1rem; }
+
+.notes-tools { justify-content: flex-start; gap: .4rem; }
+.icon-btn {
+  width: 38px; height: 38px; border-radius: 10px; border: 1px solid var(--line);
+  background: var(--surface); color: var(--accent); display: inline-flex;
+  align-items: center; justify-content: center; cursor: pointer; padding: 0;
+}
+.icon-btn:hover { border-color: var(--gold); background: var(--soft); }
+.icon-btn svg { width: 18px; height: 18px; }
+.icon-btn.danger:hover { border-color: #a33; color: #a33; }
+
 @media (max-width: 860px) {
   .site-search { width: 100%; margin: .4rem 0; }
   .site-search input { width: 100%; }
@@ -2302,10 +2313,10 @@ function showIssue(id) {
       <textarea class="notes-area" id="notes-${id}" placeholder="Private notes…">${notes}</textarea>
       <p class="note" style="margin:.4rem 0 .6rem;">Stored in this browser only. Download a named file to keep a copy.</p>
       <div class="notes-tools">
-        <button class="btn secondary" onclick="saveNotes('${id}')">Save Notes</button>
-        <button class="btn secondary" type="button" onclick="exportNotes('notes-${id}')">Download Notes</button>
-        <button class="btn secondary" type="button" onclick="beginImport('notes-${id}')">Import notes</button>
-        <button class="btn secondary" type="button" onclick="clearNotes('notes-${id}')">Clear Notes</button>
+        <button class="icon-btn" onclick="saveNotes('${id}')" title="Save Notes — keep these notes in this browser"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h8V4M8 20v-6h8v6"/></svg></button>
+        <button class="icon-btn" type="button" onclick="exportNotes('notes-${id}')" title="Download Notes — save a named, dated file to your device"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 4v11"/><path d="m7 11 5 5 5-5"/><path d="M5 20h14"/></svg></button>
+        <button class="icon-btn" type="button" onclick="beginImport('notes-${id}')" title="Import Notes — load a file saved from this page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 20V9"/><path d="m7 13 5-5 5 5"/><path d="M5 4h14"/></svg></button>
+        <button class="icon-btn danger" type="button" onclick="clearNotes('notes-${id}')" title="Clear — remove the notes and form fields on this page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M7 7l1 13h8l1-13"/></svg></button>
       </div>
       <button class="btn secondary" onclick="sessionPrep('${id}')">Session Prep Sheet</button>
       <button class="btn secondary" onclick="homeworkBuilder('${id}')">Homework Builder</button>
@@ -2324,10 +2335,18 @@ function toggleFavorite(id, btn) {
 
 
 function clearNotes(key) {
-  if (!confirm('Clear the notes on this page? This removes them from this browser.')) return;
+  if (!confirm('Clear the notes and form fields on this page? This removes them from this browser.')) return;
   const box = document.getElementById(key);
   if (box) box.value = '';
   localStorage.removeItem(key);
+  const form = document.querySelector('#toolkit-detail form');
+  if (form && key.startsWith('toolkit-notes-')) {
+    form.querySelectorAll('input, textarea').forEach(el => {
+      if (el.type === 'checkbox' || el.type === 'radio') el.checked = false;
+      else el.value = '';
+    });
+    localStorage.removeItem('toolkit-form-' + key.replace('toolkit-notes-', ''));
+  }
 }
 
 function saveNotes(id) {
@@ -2459,6 +2478,17 @@ function collectNotes() {
   }
   return out;
 }
+function pageNameFor(key) {
+  if (key.startsWith('notes-')) {
+    const issue = counselingIssues.find(i => i.id === key.slice(6));
+    return issue ? issue.title : 'a counseling issue';
+  }
+  if (key.startsWith('toolkit-notes-')) {
+    const item = toolkit.find(t => t.id === key.slice(14));
+    return item ? item.title : 'a toolkit form';
+  }
+  return 'another page';
+}
 function exportNotes(onlyKey) {
   const box = document.getElementById(onlyKey);
   const note = box ? box.value : (localStorage.getItem(onlyKey) || '');
@@ -2468,7 +2498,7 @@ function exportNotes(onlyKey) {
   const when = new Date();
   const stamp = when.toISOString().slice(0, 16).replace('T', ' ');
   const fileStamp = when.toISOString().slice(0, 16).replace(/[:T]/g, '-');
-  const data = { key: onlyKey, label: label, saved: stamp, note: note };
+  const data = { key: onlyKey, page: pageNameFor(onlyKey), label: label, saved: stamp, note: note };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
@@ -2477,28 +2507,31 @@ function exportNotes(onlyKey) {
   a.click();
   URL.revokeObjectURL(a.href);
 }
-let importTarget = '';
 function beginImport(key) {
-  importTarget = key;
-  document.getElementById('notes-import').click();
+  const input = document.getElementById('notes-import');
+  input.dataset.target = key;
+  input.value = '';
+  input.click();
 }
 function importNotes(input) {
   const file = input.files && input.files[0];
+  const expected = input.dataset.target || '';
   if (!file) return;
   const reader = new FileReader();
   reader.onload = () => {
     try {
       const data = JSON.parse(reader.result);
-      if (!data.key || data.key !== importTarget) {
-        alert('This note was saved from a different issue or form. Open that page to import it.');
+      const from = data.page || pageNameFor(data.key || '');
+      if (!expected || !data.key || data.key !== expected || !document.getElementById(expected)) {
+        alert('This file is from ' + from + '. It can only be imported on that page.');
         return;
       }
       const note = data.note || '';
-      const box = document.getElementById(data.key);
+      const box = document.getElementById(expected);
       const where = data.label ? data.label + ' (' + (data.saved || 'saved note') + ')' : 'this note';
       if (!confirm('Load ' + where + ' into the notes on this page?')) return;
-      if (box) box.value = note;
-      localStorage.setItem(data.key, note);
+      box.value = note;
+      localStorage.setItem(expected, note);
       alert('Loaded. Review the notes, then use Save Notes if you want to keep them.');
     } catch (err) {
       alert('Could not read that file.');
@@ -2671,10 +2704,10 @@ function showToolkit(id) {
       <textarea class="notes-area" id="toolkit-notes-${id}" placeholder="Private notes…">${savedNotes}</textarea>
       <p class="note" style="margin:.4rem 0 .6rem;">Stored in this browser only. Download a named file to keep a copy.</p>
       <div class="notes-tools">
-        <button class="btn secondary" onclick="saveToolkit('${id}')">Save Notes</button>
-        <button class="btn secondary" type="button" onclick="exportNotes('toolkit-notes-${id}')">Download Notes</button>
-        <button class="btn secondary" type="button" onclick="beginImport('toolkit-notes-${id}')">Import notes</button>
-        <button class="btn secondary" type="button" onclick="clearNotes('toolkit-notes-${id}')">Clear Notes</button>
+        <button class="icon-btn" onclick="saveToolkit('${id}')" title="Save Notes — keep these notes in this browser"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h8V4M8 20v-6h8v6"/></svg></button>
+        <button class="icon-btn" type="button" onclick="exportNotes('toolkit-notes-${id}')" title="Download Notes — save a named, dated file to your device"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 4v11"/><path d="m7 11 5 5 5-5"/><path d="M5 20h14"/></svg></button>
+        <button class="icon-btn" type="button" onclick="beginImport('toolkit-notes-${id}')" title="Import Notes — load a file saved from this page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 20V9"/><path d="m7 13 5-5 5 5"/><path d="M5 4h14"/></svg></button>
+        <button class="icon-btn danger" type="button" onclick="clearNotes('toolkit-notes-${id}')" title="Clear — remove the notes and form fields on this page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M7 7l1 13h8l1-13"/></svg></button>
       </div>
       <button class="btn secondary print-btn" onclick="preparePagePrint(document.querySelector('#toolkit-detail h2')?.textContent || 'Counselor Form')">Print / Save as PDF</button>
       <button class="btn secondary" onclick="backToToolkit()">← Back to Toolkit</button>
