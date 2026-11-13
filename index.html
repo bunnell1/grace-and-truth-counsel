@@ -2305,6 +2305,7 @@ function showIssue(id) {
         <button class="btn secondary" onclick="saveNotes('${id}')">Save Notes</button>
         <button class="btn secondary" type="button" onclick="exportNotes('notes-${id}')">Download Notes</button>
         <button class="btn secondary" type="button" onclick="beginImport('notes-${id}')">Import notes</button>
+        <button class="btn secondary" type="button" onclick="clearNotes('notes-${id}')">Clear Notes</button>
       </div>
       <button class="btn secondary" onclick="sessionPrep('${id}')">Session Prep Sheet</button>
       <button class="btn secondary" onclick="homeworkBuilder('${id}')">Homework Builder</button>
@@ -2319,6 +2320,14 @@ function toggleFavorite(id, btn) {
   const isFav = localStorage.getItem(key) === 'true';
   localStorage.setItem(key, (!isFav).toString());
   btn.classList.toggle('active');
+}
+
+
+function clearNotes(key) {
+  if (!confirm('Clear the notes on this page? This removes them from this browser.')) return;
+  const box = document.getElementById(key);
+  if (box) box.value = '';
+  localStorage.removeItem(key);
 }
 
 function saveNotes(id) {
@@ -2665,6 +2674,7 @@ function showToolkit(id) {
         <button class="btn secondary" onclick="saveToolkit('${id}')">Save Notes</button>
         <button class="btn secondary" type="button" onclick="exportNotes('toolkit-notes-${id}')">Download Notes</button>
         <button class="btn secondary" type="button" onclick="beginImport('toolkit-notes-${id}')">Import notes</button>
+        <button class="btn secondary" type="button" onclick="clearNotes('toolkit-notes-${id}')">Clear Notes</button>
       </div>
       <button class="btn secondary print-btn" onclick="preparePagePrint(document.querySelector('#toolkit-detail h2')?.textContent || 'Counselor Form')">Print / Save as PDF</button>
       <button class="btn secondary" onclick="backToToolkit()">← Back to Toolkit</button>
