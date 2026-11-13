@@ -2220,7 +2220,8 @@ function showIssue(id) {
         ${related}
       </div>
       <h3 style="margin-top:1.5rem;">Personal Notes</h3>
-      <textarea class="notes-area" id="notes-${id}" placeholder="Saved only in this browser, not on the website. Or, download a named file to your device to keep.">${notes}</textarea>
+      <textarea class="notes-area" id="notes-${id}" placeholder="Private notes…">${notes}</textarea>
+      <p class="note" style="margin:.4rem 0 .6rem;">Stored in this browser only. Download a named file to keep a copy.</p>
       <div class="notes-tools">
         <button class="btn secondary" onclick="saveNotes('${id}')">Save Notes</button>
         <button class="btn secondary" type="button" onclick="exportNotes('notes-${id}')">Download Notes</button>
@@ -2514,6 +2515,13 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
 }
 
+
+// Link Scripture references in the prayer guide
+document.querySelectorAll('#prayer .card p').forEach(p => {
+  if (p.querySelector('a')) return;
+  p.innerHTML = linkifyVerses(p.innerHTML);
+});
+
 showSection('home');
 </script>
 <button id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="position:fixed;bottom:1.5rem;right:1.5rem;padding:0.6rem 1rem;background:var(--accent);color:white;border:none;border-radius:8px;cursor:pointer;display:none;z-index:100;">↑ Top</button>
@@ -2572,7 +2580,8 @@ function showToolkit(id) {
     <div class="card">
       ${item.content}
       <h3 style="margin-top:1.5rem;">Personal Notes</h3>
-      <textarea class="notes-area" id="toolkit-notes-${id}" placeholder="Saved only in this browser, not on the website. Or, download a named file to your device to keep.">${savedNotes}</textarea>
+      <textarea class="notes-area" id="toolkit-notes-${id}" placeholder="Private notes…">${savedNotes}</textarea>
+      <p class="note" style="margin:.4rem 0 .6rem;">Stored in this browser only. Download a named file to keep a copy.</p>
       <div class="notes-tools">
         <button class="btn secondary" onclick="saveToolkit('${id}')">Save Notes</button>
         <button class="btn secondary" type="button" onclick="exportNotes('toolkit-notes-${id}')">Download Notes</button>
