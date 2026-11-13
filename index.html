@@ -368,6 +368,20 @@ html[data-theme="dark"] .verse-tip .vt-text { color: #F4F1EA; }
   .search-results { left: 0; right: 0; width: auto; }
 }
 
+
+#mobile-print { display: none; position: fixed; inset: 0; z-index: 3000; background: #fff; color: #1c1c1c; overflow: auto; }
+#mobile-print.show { display: block; }
+#mobile-print .mp-bar { position: sticky; top: 0; display: flex; gap: .5rem; justify-content: flex-end; padding: .6rem .8rem; background: #1F4D3A; }
+#mobile-print .mp-bar button { border: 0; border-radius: 999px; padding: .45rem .9rem; font: inherit; background: #fff; color: #1F4D3A; }
+#mobile-print .mp-content { padding: 1rem 1.1rem 2rem; font-family: Georgia, serif; line-height: 1.5; }
+#mobile-print .mp-content h1 { font-size: 1.3rem; color: #1F4D3A; margin: 0 0 .25rem; }
+#mobile-print .mp-content h2, #mobile-print .mp-content h3 { color: #1F4D3A; }
+@media print {
+  body > *:not(#mobile-print) { display: none !important; }
+  #mobile-print, #mobile-print.show { display: block !important; position: static; overflow: visible; }
+  #mobile-print .mp-bar { display: none !important; }
+}
+
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet">
 <script>
@@ -2577,27 +2591,38 @@ function extractVerses(html) {
   tmp.innerHTML = html;
   return [...tmp.querySelectorAll('.verse')].map(v => v.textContent.trim());
 }
+function isTouchDevice() {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+}
+function printCss() {
+  return 'body{font-family:Georgia,serif;color:#1c1c1c;padding:1.6rem 1.8rem;line-height:1.5;background:#fff;}h1{font-size:1.35rem;color:#1F4D3A;margin:0 0 .25rem;}h2,h3{color:#1F4D3A;}h2{font-size:1.05rem;margin:1.15rem 0 .35rem;padding-bottom:.2rem;border-bottom:1px solid #d9d3c8;}.sub{color:#6B6560;margin:0 0 1rem;}.box{border:1px solid #d9d3c8;border-radius:10px;padding:.85rem 1rem;margin:.4rem 0 .8rem;}li{margin:.35rem 0;}.line{border-bottom:1px solid #cfc8bc;height:1.7rem;margin:.3rem 0;}.foot{margin-top:1.4rem;padding-top:.6rem;border-top:1px solid #d9d3c8;font-size:.78rem;color:#6B6560;}label{font-weight:600;display:block;margin-top:.75rem;}.val{margin:.25rem 0 1rem;min-height:1.2em;border-bottom:1px solid #ccc;white-space:pre-wrap;}.check{margin:.3rem 0;}';
+}
+function printFooter() {
+  return '<div class="foot">Scripture quotations marked “ESV” are from the ESV® Bible (The Holy Bible, English Standard Version®), © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by permission. All rights reserved.</div>';
+}
 function openPrintDoc(title, body) {
-  const win = window.open('', '_blank');
   const header = printHeaderHtml(title);
-  win.document.write(`<html><head><title>${title} — Grace & Truth Counsel</title>
-    <style>
-      body{font-family:Georgia,serif;color:#1c1c1c;padding:1.6rem 1.8rem;line-height:1.5;background:#fff;}
-      h1{font-size:1.35rem;color:#1F4D3A;margin:0 0 .25rem;}
-      h2{font-size:1.05rem;color:#1F4D3A;margin:1.15rem 0 .35rem;padding-bottom:.2rem;border-bottom:1px solid #d9d3c8;}
-      .sub{color:#6B6560;margin:0 0 1rem;}
-      .box{border:1px solid #d9d3c8;border-radius:10px;padding:.85rem 1rem;margin:.4rem 0 .8rem;}
-      li{margin:.35rem 0;}
-      .line{border-bottom:1px solid #cfc8bc;height:1.7rem;margin:.3rem 0;}
-      .foot{margin-top:1.4rem;padding-top:.6rem;border-top:1px solid #d9d3c8;font-size:.78rem;color:#6B6560;}
-    </style>
-    </head><body>
-    ${header}
-    ${body}
-    <div class="foot">Scripture quotations marked “ESV” are from the ESV® Bible (The Holy Bible, English Standard Version®), © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by permission. All rights reserved.</div>
-    </body></html>`);
+  const inner = header + body + printFooter();
+  const html = '<html><head><title>' + title + ' — Grace & Truth Counsel</title><style>' + printCss() + '</style></head><body>' + inner + '</body></html>';
+  sendToPrint(html, inner);
+}
+function sendToPrint(html, inner) {
+  if (isTouchDevice()) {
+    let overlay = document.getElementById('mobile-print');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id = 'mobile-print';
+      document.body.appendChild(overlay);
+    }
+    overlay.innerHTML = '<div class="mp-bar"><button type="button" onclick="window.print()">Print</button><button type="button" onclick="document.getElementById(\'mobile-print\').classList.remove(\'show\')">Close</button></div><div class="mp-content">' + inner + '</div>';
+    overlay.classList.add('show');
+    return;
+  }
+  const win = window.open('', '_blank');
+  if (!win) { alert('Allow pop-ups to print.'); return; }
+  win.document.write(html);
   win.document.close();
-  setTimeout(() => win.print(), 250);
+  setTimeout(() => { win.focus(); win.print(); }, 250);
 }
 function extractSection(html, heading) {
   const tmp = document.createElement('div');
@@ -2860,10 +2885,7 @@ function printForm(formId) {
     }
   });
   html += '</body></html>';
-  const win = window.open('', '_blank');
-  win.document.write(html);
-  win.document.close();
-  setTimeout(() => win.print(), 200);
+  sendToPrint(html, html.replace(/<\/?html[^>]*>|<head>[\s\S]*<\/head>|<\/?body[^>]*>/gi, ''));
 }
 
 </script>
