@@ -303,6 +303,30 @@ footer {
 
 }
 
+
+.verse-tip {
+  position: fixed;
+  z-index: 200;
+  max-width: 340px;
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--gold);
+  border-radius: 12px;
+  box-shadow: 0 10px 28px rgba(0,0,0,.16);
+  padding: .7rem .85rem;
+  font-size: .92rem;
+  line-height: 1.45;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity .15s ease, transform .15s ease;
+}
+.verse-tip.show { opacity: 1; transform: none; }
+.verse-tip .vt-ref { font-weight: 650; color: var(--accent); font-size: .8rem; letter-spacing: .02em; margin-bottom: .25rem; }
+.verse-tip .vt-text { color: var(--text); }
+.verse-tip .vt-note { color: var(--muted); font-size: .75rem; margin-top: .35rem; }
+
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet">
 <script>
@@ -592,6 +616,7 @@ footer {
   Grace & Truth Counsel • A resource for biblical counselors • Built for reflection and growth • Not a substitute for personal study, prayer, supervision, or wise counsel<br>
   Content draws on common biblical counseling themes and ACBC-aligned resources. Always test against Scripture.<br>
   As an Amazon Associate I earn from qualifying purchases.<br>
+  Scripture quotations marked “ESV” are from the ESV® Bible (The Holy Bible, English Standard Version®), © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by permission. All rights reserved.<br>
   <a href="#" onclick="showSection('terms'); return false;">Terms of Use</a>
   ·
   <a href="#" onclick="showSection('privacy'); return false;">Privacy Policy</a><br>
@@ -599,6 +624,64 @@ footer {
 </footer>
 
 <script>
+
+// Verse hover popup
+const verseCache = {};
+let verseTip = null;
+function ensureVerseTip() {
+  if (verseTip) return verseTip;
+  verseTip = document.createElement('div');
+  verseTip.className = 'verse-tip';
+  document.body.appendChild(verseTip);
+  return verseTip;
+}
+function positionTip(e) {
+  const tip = ensureVerseTip();
+  const pad = 14;
+  let x = e.clientX + 16;
+  let y = e.clientY + 18;
+  const r = tip.getBoundingClientRect();
+  if (x + r.width > window.innerWidth - pad) x = e.clientX - r.width - 12;
+  if (y + r.height > window.innerHeight - pad) y = e.clientY - r.height - 12;
+  tip.style.left = Math.max(pad, x) + 'px';
+  tip.style.top = Math.max(pad, y) + 'px';
+}
+async function showVerseTip(el, e) {
+  const ref = el.dataset.ref;
+  if (!ref) return;
+  const tip = ensureVerseTip();
+  tip.innerHTML = `<div class="vt-ref">${ref}</div><div class="vt-text">Loading…</div>`;
+  tip.classList.add('show');
+  positionTip(e);
+  if (!verseCache[ref]) {
+    try {
+      const q = encodeURIComponent(ref);
+      const url = 'https://api.esv.org/v3/passage/text/?q=' + q + '&include-headings=false&include-footnotes=false&include-verse-numbers=false&include-short-copyright=false&include-passage-references=false';
+      const res = await fetch(url, { headers: { Authorization: 'Token 73eef17bdb9041297e086a470499564c2db40b42' } });
+      const data = await res.json();
+      const raw = (data.passages && data.passages[0]) || '';
+      verseCache[ref] = raw.replace(/\s+/g, ' ').trim() || 'Verse text unavailable.';
+    } catch (err) {
+      verseCache[ref] = 'Could not load the verse. Click to open it.';
+    }
+  }
+  if (!tip.classList.contains('show')) return;
+  tip.innerHTML = `<div class="vt-ref">${ref} · ESV</div><div class="vt-text">${verseCache[ref]}</div><div class="vt-note">Click to open the full passage</div>`;
+  positionTip(e);
+}
+document.addEventListener('mouseover', (e) => {
+  const a = e.target.closest && e.target.closest('a.verse-ref');
+  if (!a) return;
+  showVerseTip(a, e);
+});
+document.addEventListener('mousemove', (e) => {
+  if (verseTip && verseTip.classList.contains('show')) positionTip(e);
+});
+document.addEventListener('mouseout', (e) => {
+  const a = e.target.closest && e.target.closest('a.verse-ref');
+  if (!a || !verseTip) return;
+  verseTip.classList.remove('show');
+});
 
 const toolkit = [
   {
@@ -2011,15 +2094,16 @@ function renderModuleList() {
   list.classList.remove('hidden');
 }
 
+function verseLink(ref) {
+  const clean = ref.trim();
+  const url = 'https://www.esv.org/verses/' + encodeURIComponent(clean.replace(/\s+/g, '+')) + '/';
+  return `<a class="verse-ref" href="${url}" target="_blank" rel="noopener" data-ref="${clean}">${clean}</a>`;
+}
+
 function linkifyVerses(html) {
-  // Turn common Scripture references into Bible Gateway links
   return html.replace(
     /([1-3]?\s?[A-Za-z]+\s+\d+:\d+(?:-\d+)?)/g,
-    (match) => {
-      const encoded = encodeURIComponent(match.trim());
-      const url = `https://www.biblegateway.com/passage/?search=${encoded}&version=ESV`;
-      return `<a href="${url}" target="_blank" rel="noopener" title="Open ${match.trim()} in Bible Gateway">${match}</a>`;
-    }
+    (match) => verseLink(match)
   );
 }
 
@@ -2126,9 +2210,7 @@ function renderScripture(filter = '') {
       <strong>${item.topic}</strong>
       <ul style="margin-top:0.4rem;">
         ${item.verses.map(v => {
-          const encoded = encodeURIComponent(v);
-          const url = `https://www.biblegateway.com/passage/?search=${encoded}&version=ESV`;
-          return `<li><a href="${url}" target="_blank" rel="noopener" title="Open ${v} in Bible Gateway">${v}</a></li>`;
+          return `<li>${verseLink(v)}</li>`;
         }).join('')}
       </ul>
     </div>
