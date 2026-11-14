@@ -406,6 +406,7 @@ html[data-theme="dark"] .verse-tip .vt-text { color: #F4F1EA; }
 <header>
   <div class="header-inner">
     <a class="brand" href="#" onclick="showSection('home');
+renderThisWeek();
 
 if (window.location.hash.includes('type=recovery')) {
   openAuth();
@@ -481,6 +482,15 @@ refreshAuth(); return false;">
         <button class="btn" onclick="showSection('toolkit')">Open Counselor Toolkit</button>
       </div>
     </div>
+    
+    <div class="card" id="this-week">
+      <h3>This week</h3>
+      <p id="week-continue" class="note">Open an issue or module and it will be waiting here.</p>
+      <p id="week-practice"></p>
+      <p id="week-prompt"></p>
+      <div id="week-sheets"></div>
+    </div>
+
     <div class="feature-grid">
       <div class="feature" onclick="showSection('modules')">
         <span class="glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5.5h6.2A2.3 2.3 0 0 1 12.5 7.8V19H6.2A2.2 2.2 0 0 0 4 16.8z"/><path d="M20 5.5h-6.2A2.3 2.3 0 0 0 11.5 7.8V19h6.3A2.2 2.2 0 0 1 20 16.8z"/></svg></span>
@@ -2297,6 +2307,7 @@ function linkifyVerses(html) {
 }
 
 function showModule(id) {
+  localStorage.setItem('last-opened', JSON.stringify({ type: 'module', id }));
   const mod = modules.find(m => m.id === id);
   document.getElementById('module-list').classList.add('hidden');
   const detail = document.getElementById('module-detail');
@@ -2305,7 +2316,10 @@ function showModule(id) {
     `<li><a href="${r.url}" target="_blank" rel="noopener">${r.title}</a>${r.note ? ' — ' + r.note : ''}</li>`
   ).join('');
   const furtherHtml = further ? `<h3>For Further Reading</h3><ul>${further}</ul>` : '';
-  detail.innerHTML = `<div class="card">${linkedContent}${furtherHtml}<button class="btn secondary" onclick="renderModuleList()">← Back to Modules</button></div>`;
+  const isFav = localStorage.getItem('fav-module-' + id) === 'true';
+  const week = weekLabel();
+  const withWeek = linkedContent.replace('<h3>One Practice This Week</h3>', '<h3>One Practice This Week</h3><p class="note">Week of ' + week + '</p>');
+  detail.innerHTML = `<div class="card"><button class="favorite-btn ${isFav ? 'active' : ''}" onclick="toggleFavorite('module-${id}', this, 'module')" title="Favorite">★</button>${withWeek}${furtherHtml}<button class="btn secondary" onclick="renderModuleList()">← Back to Modules</button></div>`;
   detail.classList.remove('hidden');
 }
 
@@ -2373,6 +2387,7 @@ function renderIssueList(filter = '') {
 }
 
 function showIssue(id) {
+  localStorage.setItem('last-opened', JSON.stringify({ type: 'issue', id }));
   const issue = counselingIssues.find(m => m.id === id);
   document.getElementById('issue-list').classList.add('hidden');
   const detail = document.getElementById('issue-detail');
@@ -2416,16 +2431,99 @@ function showIssue(id) {
   detail.classList.remove('hidden');
 }
 
-async function toggleFavorite(id, btn) {
-  const key = 'fav-' + id;
+
+function renderThisWeek() {
+  const cont = document.getElementById('week-continue');
+  const prac = document.getElementById('week-practice');
+  const prompt = document.getElementById('week-prompt');
+  if (!cont) return;
+  let last = null;
+  try { last = JSON.parse(localStorage.getItem('last-opened') || 'null'); } catch (e) {}
+  if (last) {
+    const label = last.type === 'issue' ? (counselingIssues.find(i => i.id === last.id) || {}).title
+      : last.type === 'module' ? (modules.find(m => m.id === last.id) || {}).title
+      : (toolkit.find(t => t.id === last.id) || {}).title;
+    const go = last.type === 'issue' ? `showSection('issues'); showIssue('${last.id}')`
+      : last.type === 'module' ? `showSection('modules'); showModule('${last.id}')`
+      : `showSection('toolkit'); showToolkit('${last.id}')`;
+    cont.innerHTML = label ? `Continue: <a href="#" onclick="${go}; return false;">${label}</a>` : 'Open an issue or module and it will be waiting here.';
+  }
+  const favModule = modules.find(m => localStorage.getItem('fav-module-' + m.id) === 'true') || modules[(new Date().getDate()) % modules.length];
+  const tmp = document.createElement('div');
+  tmp.innerHTML = favModule.content;
+  const h = [...tmp.querySelectorAll('h3')].find(el => el.textContent.includes('One Practice'));
+  const practice = h && h.nextElementSibling ? h.nextElementSibling.textContent : '';
+  prac.innerHTML = `<strong>Week of ${weekLabel()}.</strong> ${practice} <a href="#" onclick="showSection('modules'); showModule('${favModule.id}'); return false;">${favModule.title}</a>`;
+  const checks = [];
+  modules.forEach(m => {
+    const box = document.createElement('div');
+    box.innerHTML = m.content;
+    const head = [...box.querySelectorAll('h3')].find(el => el.textContent.includes('Self-Check'));
+    const ul = head && head.nextElementSibling;
+    if (ul) [...ul.querySelectorAll('li')].forEach(li => checks.push({ q: li.textContent, id: m.id, title: m.title }));
+  });
+  if (checks.length) {
+    const pick = checks[Math.floor(Date.now() / 604800000) % checks.length];
+    prompt.innerHTML = `<strong>Monday prompt:</strong> ${pick.q} <a href="#" onclick="showSection('modules'); showModule('${pick.id}'); return false;">${pick.title}</a>`;
+  }
+  renderSavedSheets();
+}
+async function saveSessionPrep(id) {
+  const name = (prompt('Name this prep sheet:', '') || '').trim();
+  if (!name) return;
+  const chosen = group => [...document.querySelectorAll(`.prep-item[data-group="${group}"]`)].filter(el => el.checked).map(el => el.nextElementSibling.textContent);
+  const sections = {
+    scripture: document.getElementById('prep-sec-scripture').checked ? chosen('scripture') : [],
+    principles: document.getElementById('prep-sec-principles').checked ? chosen('principles') : [],
+    focus: document.getElementById('prep-sec-focus').checked ? chosen('focus') : [],
+    dialogue: document.getElementById('prep-sec-dialogue').checked,
+    homework: document.getElementById('prep-sec-homework').checked ? chosen('homework') : [],
+    notes: document.getElementById('prep-sec-notes').checked
+  };
+  const sheet = { name, issue_id: id, sections, saved: new Date().toISOString() };
+  const local = JSON.parse(localStorage.getItem('saved-sheets') || '[]');
+  local.unshift(sheet);
+  localStorage.setItem('saved-sheets', JSON.stringify(local.slice(0, 20)));
+  if (currentUser) {
+    const { error } = await sb.from('saved_sheets').insert({ user_id: currentUser.id, name, issue_id: id, sections });
+    if (error) alert('Saved on this device. Account save failed: ' + error.message);
+    else alert('Saved to your account.');
+  } else alert('Saved on this device. Sign in to keep it with your account.');
+}
+async function renderSavedSheets() {
+  const box = document.getElementById('week-sheets');
+  if (!box) return;
+  let sheets = JSON.parse(localStorage.getItem('saved-sheets') || '[]');
+  if (currentUser) {
+    const { data } = await sb.from('saved_sheets').select('name,issue_id,created_at').order('created_at', { ascending: false }).limit(5);
+    if (data && data.length) sheets = data.map(s => ({ name: s.name, issue_id: s.issue_id }));
+  }
+  if (!sheets.length) { box.innerHTML = ''; return; }
+  box.innerHTML = '<strong>Saved prep sheets</strong><ul>' + sheets.slice(0, 5).map(s => {
+    const title = (counselingIssues.find(i => i.id === s.issue_id) || {}).title || s.issue_id;
+    return `<li><a href="#" onclick="showSection('issues'); showIssue('${s.issue_id}'); return false;">${s.name}</a> — ${title}</li>`;
+  }).join('') + '</ul>';
+}
+
+function weekLabel() {
+  const now = new Date();
+  const day = now.getDay();
+  const monday = new Date(now);
+  monday.setDate(now.getDate() - ((day + 6) % 7));
+  return monday.toLocaleDateString(undefined, { month: 'long', day: 'numeric' });
+}
+async function toggleFavorite(id, btn, type) {
+  const kind = type || 'issue';
+  const itemId = kind === 'issue' ? id : id.replace(kind + '-', '');
+  const key = 'fav-' + (kind === 'issue' ? id : kind + '-' + itemId);
   const isFav = localStorage.getItem(key) === 'true';
   const next = !isFav;
   localStorage.setItem(key, next.toString());
   btn.classList.toggle('active');
   if (!currentUser) { alert('Signed out. The star is saved in this browser only.'); return; }
   const q = next
-    ? sb.from('favorites').upsert({ user_id: currentUser.id, item_type: 'issue', item_id: id }, { onConflict: 'user_id,item_type,item_id' })
-    : sb.from('favorites').delete().eq('user_id', currentUser.id).eq('item_type', 'issue').eq('item_id', id);
+    ? sb.from('favorites').upsert({ user_id: currentUser.id, item_type: kind, item_id: itemId }, { onConflict: 'user_id,item_type,item_id' })
+    : sb.from('favorites').delete().eq('user_id', currentUser.id).eq('item_type', kind).eq('item_id', itemId);
   const { error } = await q;
   if (error) alert('Could not save the favorite: ' + error.message);
 }
@@ -2453,7 +2551,7 @@ async function signUp() {
   const last = document.getElementById('auth-last').value.trim();
   if (!first) { document.getElementById('auth-msg').textContent = 'Please enter a first name.'; return; }
   const { data, error } = await sb.auth.signUp({ email, password, options: { data: { first_name: first, last_name: last } } });
-  if (!error && data.user) await sb.from('profiles').update({ display_name: first }).eq('id', data.user.id);
+  if (!error && data.user) await sb.from('profiles').update({ display_name: first, first_name: first, last_name: last }).eq('id', data.user.id);
   document.getElementById('auth-msg').textContent = error ? error.message : 'Account created. You can sign in.';
 }
 async function signIn() {
@@ -2462,7 +2560,12 @@ async function signIn() {
   const first = document.getElementById('auth-first').value.trim();
   const last = document.getElementById('auth-last').value.trim();
   const { error } = await sb.auth.signInWithPassword({ email, password });
-  if (!error && first) await sb.auth.updateUser({ data: { first_name: first, last_name: last } });
+  if (!error && first) {
+    await sb.auth.updateUser({ data: { first_name: first, last_name: last } });
+    const { data: session } = await sb.auth.getSession();
+    const uid = session.session && session.session.user.id;
+    if (uid) await sb.from('profiles').update({ display_name: first, first_name: first, last_name: last }).eq('id', uid);
+  }
   document.getElementById('auth-msg').textContent = error ? error.message : 'Signed in.';
   if (!error) { await refreshAuth(); closeAuth(); }
 }
@@ -2511,14 +2614,19 @@ async function pullFavorites() {
   const local = [];
   for (let i = 0; i < localStorage.length; i++) {
     const k = localStorage.key(i);
-    if (k.startsWith('fav-') && localStorage.getItem(k) === 'true') local.push(k.slice(4));
+    if (!k.startsWith('fav-') || localStorage.getItem(k) !== 'true') continue;
+    const rest = k.slice(4);
+    const kind = rest.startsWith('module-') ? 'module' : rest.startsWith('toolkit-') ? 'toolkit' : 'issue';
+    const itemId = kind === 'issue' ? rest : rest.slice(kind.length + 1);
+    local.push({ user_id: currentUser.id, item_type: kind, item_id: itemId });
   }
-  if (local.length) {
-    await sb.from('favorites').upsert(local.map(id => ({ user_id: currentUser.id, item_type: 'issue', item_id: id })), { onConflict: 'user_id,item_type,item_id' });
-  }
-  const { data, error } = await sb.from('favorites').select('item_id').eq('item_type', 'issue');
+  if (local.length) await sb.from('favorites').upsert(local, { onConflict: 'user_id,item_type,item_id' });
+  const { data, error } = await sb.from('favorites').select('item_type,item_id');
   if (error || !data) return;
-  data.forEach(row => localStorage.setItem('fav-' + row.item_id, 'true'));
+  data.forEach(row => {
+    const key = row.item_type === 'issue' ? 'fav-' + row.item_id : 'fav-' + row.item_type + '-' + row.item_id;
+    localStorage.setItem(key, 'true');
+  });
 }
 sb.auth.onAuthStateChange(() => refreshAuth());
 
@@ -2842,6 +2950,7 @@ function sessionPrep(id) {
       <div class="check-item"><input type="checkbox" id="prep-sec-notes" checked><label for="prep-sec-notes"><strong>Session Notes</strong></label></div>
       <div class="btn-row" style="margin-top:1rem;">
         <button class="btn" type="button" onclick="printSessionPrep('${id}')">Print prep sheet</button>
+        <button class="btn secondary" type="button" onclick="saveSessionPrep('${id}')">Save this prep</button>
         <button class="btn secondary" type="button" onclick="showIssue('${id}')">Back</button>
       </div>
     </div>`;
@@ -2961,6 +3070,7 @@ function renderToolkitList() {
 }
 
 function showToolkit(id) {
+  localStorage.setItem('last-opened', JSON.stringify({ type: 'toolkit', id }));
   const item = toolkit.find(t => t.id === id);
   if (!item) return;
   document.getElementById('toolkit-list').parentElement.classList.add('hidden');
@@ -2969,6 +3079,7 @@ function showToolkit(id) {
   const savedNotes = localStorage.getItem('toolkit-notes-' + id) || '';
   detail.innerHTML = `
     <div class="card">
+      <button class="favorite-btn ${localStorage.getItem('fav-toolkit-' + id) === 'true' ? 'active' : ''}" onclick="toggleFavorite('toolkit-${id}', this, 'toolkit')" title="Favorite">★</button>
       ${item.content}
       <h3 style="margin-top:1.5rem;">Personal Notes</h3>
       <textarea class="notes-area" id="toolkit-notes-${id}" placeholder="Private notes…">${savedNotes}</textarea>
