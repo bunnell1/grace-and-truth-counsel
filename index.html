@@ -452,7 +452,6 @@ html[data-theme="dark"] .verse-tip .vt-text { color: #F4F1EA; }
       <button data-section="issues"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 6.5h14v8H8.5L5 18z"/></svg>Issues</button>
       <button data-section="scripture"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 4v16"/><path d="M12 6c-2.5-1.4-6-.8-8 .4v12c2-1.2 5.5-1.8 8-.4 2.5-1.4 6-.8 8 .4V6.4c-2-1.2-5.5-1.8-8-.4z"/></svg>Scripture</button>
       <button data-section="prayer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 4v16M7 8h10"/></svg>Prayer</button>
-      <button data-section="stuck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8"/><path d="m14.6 9.4-1.5 3.6-3.6 1.5 1.5-3.6z"/></svg>Stuck</button>
       <button data-section="about"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8"/><path d="M12 11v5M12 8h.01"/></svg>About</button>
     </nav>
   </div>
@@ -549,7 +548,7 @@ html[data-theme="dark"] .verse-tip .vt-text { color: #F4F1EA; }
         <li><strong>Counseling Issues</strong> — Biblical principles, Scriptures, sample dialogue, suggested homework, further reading, favorites, and private notes for common struggles.</li>
         <li><strong>Scripture Library</strong> — Verses organized by counseling themes, linked to the passage.</li>
         <li><strong>Prayer Guide</strong> — Scripture-based prayers for before sessions, difficult cases, criticism, and personal renewal.</li>
-        <li><strong>When You’re Stuck</strong> — A short guide for slow progress, resistance, medical complexity, and the limits of your own experience.</li>
+        <li><strong>When You’re Stuck</strong> — A Growth Module for slow progress, resistance, medical complexity, and the limits of your own experience.</li>
       </ul>
       <p class="note">Content draws on common themes in biblical counseling literature and resources aligned with the Association of Certified Biblical Counselors (ACBC). Always test everything against Scripture and seek wisdom from trusted mentors. We do not necessarily agree with the classifications used by psychologists in the DSM. Issues are categorized using commonly used terms that describe clusters of related symptoms. These labels are for reference only; they do not define the person or exhaustively explain the heart. Biblical counseling focuses on Scripture, the heart, and the gospel. This tool is not a substitute for personal study, prayer, supervision, or formal training.</p>
     </div>
@@ -674,21 +673,6 @@ html[data-theme="dark"] .verse-tip .vt-text { color: #F4F1EA; }
         <h3>When Facing Criticism</h3>
         <p>“Lord, help me receive feedback with humility rather than defensiveness. Show me what is true and what I should lay aside. Guard my heart from the fear of man and keep my identity secure in Christ. (Proverbs 15:31-32; Galatians 1:10)”</p>
       </div>
-    </div>
-  </section>
-  <section id="stuck" class="hidden">
-    <div class="card">
-      <h2>When You're Stuck</h2>
-      <p>Slow progress, resistance, or feeling out of your depth is common. These are not signs of failure.</p>
-      <h3>Slow or No Progress</h3>
-      <p>Change is usually slower than we hope. Keep listening, keep pointing to Christ, and resist the urge to push harder. Ask the Lord for patience and for eyes to see what He is doing even when it is not yet visible.</p>
-      <h3>Resistance or Defensiveness</h3>
-      <p>Resistance often protects something precious or painful. Instead of confronting it directly, try asking gentle questions about what feels at stake. Pray for humility on both sides.</p>
-      <h3>Medical or Complex Issues</h3>
-      <p>Some struggles involve physical factors that need a physician’s care. Do not hesitate to encourage medical evaluation. Biblical counseling and medical care are not in competition.</p>
-      <h3>When You Feel Out of Your Depth</h3>
-      <p>This is a good time to seek supervision or a more experienced counselor. You do not have to carry every case alone. The body of Christ includes people who can help you think clearly and care well.</p>
-      <p class="note">The biggest variable in the room is often the counselor’s own heart. When you feel stuck, pause and ask what this situation is stirring in you.</p>
     </div>
   </section>
 
@@ -1458,6 +1442,44 @@ const modules = [
       <p>Tell one person what has changed, what remains, and how they can keep going.</p>
       <h3>Related</h3>
       <p><a href="#" onclick="showSection('toolkit'); showToolkit('closing-well'); return false;">Closing Well</a> · <a href="#" onclick="showSection('modules'); showModule('heart-care'); return false;">Guarding Your Own Heart</a></p>
+    `
+  }
+  ,
+  {
+    id: "stuck",
+    title: "When You’re Stuck",
+    summary: "Slow progress, resistance, medical complexity, and the limits of your own experience.",
+    furtherReading: [
+      { title: "How People Change", url: "https://www.amazon.com/How-People-Change-Timothy-Lane-ebook/dp/B003NSC5EK", note: "Timothy Lane and Paul Tripp" },
+      { title: "Counseling the Hard Cases", url: "https://www.amazon.com/Counseling-Hard-Cases-Illustrating-Sufficiency/dp/1433685795/", note: "Stuart Scott and Heath Lambert" }
+    ],
+    content: `
+      <h2>When You’re Stuck</h2>
+      <p>Slow progress, resistance, or feeling out of your depth is common. These are not signs of failure. They are a call to listen again, to ask for help, and to leave the outcome with the Lord.</p>
+      <div class="verse">“And let us not grow weary of doing good, for in due season we will reap, if we do not give up.” — Galatians 6:9</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Change is usually slower than we hope. Pushing harder is rarely the answer.</li>
+        <li>Resistance often protects something precious or painful. Ask what is at stake.</li>
+        <li>Some struggles involve the body. A physician is not a rival to Scripture.</li>
+        <li>Feeling out of your depth is a reason to seek supervision, not to carry the case alone.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Name which kind of stuck this is: slow change, resistance, a medical question, or beyond your experience.</li>
+        <li>Write one question you will ask next time instead of pushing for progress.</li>
+        <li>If you are out of your depth, send the message or make the call for supervision this week.</li>
+      </ul>
+      <h3>Counselor Self-Check</h3>
+      <ul>
+        <li>Am I measuring my worth by their progress?</li>
+        <li>What is this case stirring in my own heart?</li>
+        <li>Have I asked for help, or am I carrying this alone?</li>
+      </ul>
+      <h3>One Practice This Week</h3>
+      <p>Name the kind of stuck you are in, and take one step that fits it.</p>
+      <h3>Related</h3>
+      <p><a href="#" onclick="showSection('modules'); showModule('change'); return false;">When People Don’t Change</a> · <a href="#" onclick="showSection('modules'); showModule('supervision'); return false;">Supervision & Medical Referral</a> · <a href="#" onclick="showSection('modules'); showModule('heart-care'); return false;">Guarding Your Own Heart</a></p>
     `
   }
 
@@ -2549,7 +2571,7 @@ function glyph(name) {
   const body = paths[name] || paths.book;
   return `<span class="glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${body}</svg></span>`;
 }
-const moduleIcons = { burnout:'rest', listening:'listen', change:'sprout', 'session-process':'list', supervision:'people', 'heart-care':'heart', criticism:'shield', boundaries:'clock', questions:'message', 'scripture-in-room':'book', 'homework-fits':'pencil', 'ending-well':'check' };
+const moduleIcons = { burnout:'rest', listening:'listen', change:'sprout', 'session-process':'list', supervision:'people', 'heart-care':'heart', criticism:'shield', boundaries:'clock', questions:'message', 'scripture-in-room':'book', 'homework-fits':'pencil', 'ending-well':'check', stuck:'compass' };
 const toolkitIcons = { 'session-checklist':'check', 'homework-template':'pencil', 'referral-guide':'medical', 'note-template':'doc', 'self-check':'heart', 'what-to-expect':'doc', 'heart-map':'heart', 'safety-check':'shield', 'closing-well':'check' };
 
 // Modules
@@ -2660,6 +2682,17 @@ const moduleSynonyms = {
     "Ask them to tell one other person the step.",
     "If they did not do it, ask what got in the way before you assign more."
   ],
+
+  stuck: [
+    "Name the kind of stuck you are in, and take one step that fits it.",
+    "Write what you are tempted to push, and choose patience instead.",
+    "Ask what this case is stirring in you, and tell one trusted person.",
+    "If progress is slow, write one small faithful step and leave the result with God.",
+    "If there is resistance, write one gentle question about what feels at stake.",
+    "If the body may be involved, encourage a medical evaluation and note it.",
+    "If you are out of your depth, contact a more experienced counselor this week.",
+    "Pray for the person by name, and resist checking on the outcome."
+  ],
   "ending-well": [
     "Tell one person what has changed, what remains, and how they can keep going.",
     "Write a closing sentence you could say with kindness.",
@@ -2674,7 +2707,8 @@ const moduleSynonyms = {
   questions: ["questions","asking","draw out","interrogate"],
   "scripture-in-room": ["scripture in the room","use scripture","one passage","open the bible"],
   "homework-fits": ["homework","assignment","one step","fits"],
-  "ending-well": ["ending","close","closing","finish counseling","graduation"]
+  "ending-well": ["ending","close","closing","finish counseling","graduation"],
+  stuck: ["stuck","no progress","resistance","out of my depth","slow change","not changing"]
 };
 function matchesIssue(item, q) {
   if (!q) return true;
