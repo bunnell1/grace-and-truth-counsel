@@ -676,17 +676,18 @@ refreshAuth(); return false;">
   <section id="terms" class="hidden">
     <div class="card">
       <h2>Terms of Use</h2>
-      <p class="note">Last updated: November 12, 2026.</p>
+      <p class="note">Last updated: November 14, 2026.</p>
       <h3>1. What this site is</h3>
-      <p>Grace & Truth Counsel is a resource for biblical counselors. It offers reflection tools, growth modules, a counseling-issues guide, Scripture references, a prayer guide, and printable worksheets. It is meant to be used alongside Scripture, prayer, the local church, and wise supervision.</p>
+      <p>Grace & Truth Counsel is a resource for biblical counselors. It offers reflection tools, growth modules, a counseling-issues guide, Scripture references, a prayer guide, printable worksheets, and an optional account. It is meant to be used alongside Scripture, prayer, the local church, and wise supervision.</p>
       <h3>2. What this site is not</h3>
       <p>This site is not professional counseling, psychotherapy, medical care, legal advice, or a crisis service. It does not create a counselor–counselee relationship between you and the operator of this site. It is not a substitute for personal study, pastoral care, supervision, or qualified professional help when that is needed.</p>
       <p>If you or someone you are helping is in immediate danger, contact local emergency services. In the United States, call 911, or the 988 Suicide & Crisis Lifeline.</p>
       <h3>3. How to use the content</h3>
       <p>Content draws on common themes in biblical counseling and on resources aligned with the Association of Certified Biblical Counselors (ACBC). We do not necessarily agree with psychological classifications such as those in the DSM. Labels in the issues database are descriptive reference terms only. Always test the material against Scripture.</p>
       <p>You are responsible for how you use this material in counseling. The site does not guarantee any outcome for you or for a person you counsel.</p>
-      <h3>4. Your notes and worksheets</h3>
-      <p>Notes, favorites, form drafts, and theme settings are stored in your browser on your device. They are not sent to us by the current version of the site. Do not enter a counselee’s name, contact details, or identifiable case history into this site. Use anonymous worksheets if you use the forms in a live case.</p>
+      <h3>4. Your notes, forms, and account</h3>
+      <p>Notes, toolkit form drafts, and theme settings stay in your browser on your device. They are not sent to us. An optional account stores your email, first and last name, favorites, and named prep sheets you choose to save. Password reset emails are sent through our authentication provider.</p>
+      <p>Do not enter a counselee’s name, contact details, session narrative, or identifiable case history into this site, including in a saved prep sheet. Use anonymous worksheets if you use the forms in a live case. This is not a case-file system.</p>
       <h3>5. Acceptable use</h3>
       <p>You may use the site for personal preparation and for biblical counseling in a church or ministry setting. You may not copy the site and present it as your own product, use it to harm another person, or rely on it as your only source of counsel in a serious or dangerous situation.</p>
       <h3>6. Changes and availability</h3>
@@ -699,26 +700,33 @@ refreshAuth(); return false;">
   <section id="privacy" class="hidden">
     <div class="card">
       <h2>Privacy Policy</h2>
-      <p class="note">Last updated: November 12, 2026.</p>
+      <p class="note">Last updated: November 14, 2026.</p>
       <h3>What we collect</h3>
-      <p>The current site does not require an account and does not ask for your name, email, or a counselee’s information. We do not operate a database of counseling cases.</p>
+      <p>You can use most of the site without an account. If you create an account, we store:</p>
+      <ul>
+        <li>Your email address and password (the password is stored in encrypted form by our authentication provider)</li>
+        <li>Your first and last name</li>
+        <li>Favorites you mark while signed in</li>
+        <li>Named prep sheets you choose to save to your account</li>
+      </ul>
+      <p>We do not operate a database of counseling cases. We do not ask for a counselee’s information.</p>
       <h3>What stays on your device</h3>
       <p>The site uses your browser’s local storage for:</p>
       <ul>
-        <li>Personal notes you type on an issue</li>
-        <li>Favorites you mark</li>
+        <li>Personal notes you type</li>
         <li>Toolkit form drafts you save</li>
+        <li>Favorites and prep sheets kept on this device</li>
         <li>Your light or dark mode preference</li>
       </ul>
-      <p>That information stays in your browser. Clearing site data, or using another device or browser, removes it from that browser. We do not receive those notes.</p>
+      <p>Notes and form drafts stay in your browser. We do not receive them. Clearing site data, or using another browser, removes that local copy.</p>
       <h3>What we do not want you to store here</h3>
-      <p>Do not enter counselee names, contact details, session narratives, medical details, or other information that identifies a person you are counseling. This site is a counselor resource, not a case-file system.</p>
+      <p>Do not enter counselee names, contact details, session narratives, medical details, or other information that identifies a person you are counseling. This includes saved prep sheets. This site is a counselor resource, not a case-file system.</p>
+      <h3>Who holds the account data</h3>
+      <p>Accounts are provided through Supabase. Supabase stores the sign-in record and the account items listed above so they can follow you to another device. We use that data only to run the account features. We do not sell it.</p>
       <h3>Hosting</h3>
       <p>The site is served as static files through GitHub Pages. Like most websites, the host may keep ordinary technical logs (such as IP address and browser type) for security and operations. We do not use those logs to build a profile of you.</p>
       <h3>Cookies and tracking</h3>
-      <p>We do not use advertising trackers or sell personal information. The site does not set marketing cookies. Local storage is used only for the features listed above.</p>
-      <h3>If we add accounts later</h3>
-      <p>If a future version adds login, we will update this policy before that feature goes live. An account would likely store an email address and the counselor’s own saved material. It would still not be a place for identifiable counselee records.</p>
+      <p>We do not use advertising trackers or sell personal information. The site does not set marketing cookies. Sign-in uses a session stored by the authentication provider. Local storage is used only for the features listed above.</p>
       <h3>Children</h3>
       <p>This site is intended for adult counselors and ministry leaders. It is not directed at children.</p>
       <h3>Contact</h3>
@@ -738,7 +746,7 @@ refreshAuth(); return false;">
   <a href="#" onclick="showSection('terms'); return false;">Terms of Use</a>
   ·
   <a href="#" onclick="showSection('privacy'); return false;">Privacy Policy</a><br>
-  <span style="font-size:0.8rem;">Last updated: November 12, 2026</span><br>
+  <span style="font-size:0.8rem;">Last updated: November 14, 2026</span><br>
   © 2026 Grace & Truth Counsel. All rights reserved.
 </footer>
 
@@ -910,6 +918,76 @@ const toolkit = [
       </form>
     `
   }
+  ,
+  {
+    id: "what-to-expect",
+    title: "What to Expect",
+    summary: "A first-meeting form for purpose, confidentiality, and homework.",
+    content: `
+      <h2>What to Expect</h2>
+      <form class="toolkit-form" id="form-expect">
+        <label>Date</label><input type="text" id="ex-date">
+        <label>Purpose of these meetings</label>
+        <textarea id="ex-purpose" placeholder="To listen, apply Scripture, and take one faithful step at a time."></textarea>
+        <label>Confidentiality</label>
+        <textarea id="ex-confidential" placeholder="What is kept private, and when safety or the church may require otherwise."></textarea>
+        <label>Homework</label>
+        <textarea id="ex-homework" placeholder="Reading, prayer, and one practical step between meetings."></textarea>
+        <label>When I would refer</label>
+        <textarea id="ex-refer" placeholder="Medical care, a more experienced counselor, or a safety concern."></textarea>
+        <label>Questions they asked</label>
+        <textarea id="ex-questions"></textarea>
+      </form>
+    `
+  },
+  {
+    id: "heart-map",
+    title: "Heart Map",
+    summary: "One page for the problem, what you observe, and the gospel truth to return to.",
+    content: `
+      <h2>Heart Map</h2>
+      <form class="toolkit-form" id="form-heart">
+        <label>Presenting problem</label><textarea id="hm-problem" placeholder="What they say is wrong"></textarea>
+        <label>What I observe</label><textarea id="hm-observe" placeholder="Words, tone, patterns, fruit"></textarea>
+        <label>What may be underneath</label><textarea id="hm-under" placeholder="Desires, fears, beliefs, worship"></textarea>
+        <label>Gospel truth to return to</label><textarea id="hm-gospel" placeholder="One truth about Christ that speaks to this"></textarea>
+        <label>One question to ask next</label><textarea id="hm-question"></textarea>
+      </form>
+    `
+  },
+  {
+    id: "safety-check",
+    title: "Safety & Referral Check",
+    summary: "A prompt for hopelessness, harm, or a need for a physician or the authorities.",
+    content: `
+      <h2>Safety & Referral Check</h2>
+      <form class="toolkit-form" id="form-safety">
+        <div class="check-item"><input type="checkbox" id="sf1"><label for="sf1">Hopelessness or talk of not wanting to live</label></div>
+        <div class="check-item"><input type="checkbox" id="sf2"><label for="sf2">Harm to self or others</label></div>
+        <div class="check-item"><input type="checkbox" id="sf3"><label for="sf3">Abuse, danger, or a legal duty to report</label></div>
+        <div class="check-item"><input type="checkbox" id="sf4"><label for="sf4">Physical symptoms that need a physician</label></div>
+        <div class="check-item"><input type="checkbox" id="sf5"><label for="sf5">Beyond my experience — supervision or referral needed</label></div>
+        <label>What I will do</label><textarea id="sf-action" placeholder="Who I will contact, and what I will say"></textarea>
+        <label>Notes</label><textarea id="sf-notes"></textarea>
+      </form>
+    `
+  },
+  {
+    id: "closing-well",
+    title: "Closing Well",
+    summary: "A review for the last session: what changed, what remains, and how they will keep going.",
+    content: `
+      <h2>Closing Well</h2>
+      <form class="toolkit-form" id="form-close">
+        <label>What has changed</label><textarea id="cl-changed"></textarea>
+        <label>What remains</label><textarea id="cl-remains"></textarea>
+        <label>Scripture to keep returning to</label><textarea id="cl-scripture"></textarea>
+        <label>How they will keep going</label><textarea id="cl-going" placeholder="Church, prayer, one ongoing practice"></textarea>
+        <label>Who else will walk with them</label><textarea id="cl-who"></textarea>
+      </form>
+    `
+  }
+
 ];
 
 
@@ -1197,6 +1275,148 @@ const modules = [
       <p><a href="#" onclick="showSection('modules'); showModule('burnout'); return false;">Burnout & Compassion Fatigue</a> · <a href="#" onclick="showSection('issues'); showIssue('ministry-burnout'); return false;">Work, Calling & Ministry Burnout</a> · <a href="#" onclick="showSection('toolkit'); showToolkit('referral-guide'); return false;">Referral & Limits Notes</a></p>
     `
   }
+  ,
+  {
+    id: "questions",
+    title: "Asking Better Questions",
+    summary: "Drawing out the heart without interrogating.",
+    furtherReading: [
+      { title: "Instruments in the Redeemer’s Hands", url: "https://www.amazon.com/Instruments-Redeemers-Hands-People-Change/dp/0875526071", note: "Paul Tripp" },
+      { title: "Learning to Listen", url: "https://www.amazon.com/Learning-Listen-Essential-Skills-Counselor-ebook/dp/B0F54BJGB4", note: "Essential skills" }
+    ],
+    content: `
+      <h2>Asking Better Questions</h2>
+      <p>Good questions help a person see their own heart. They are not a technique for getting to an answer you already chose.</p>
+      <div class="verse">“The purpose in a man’s heart is like deep water, but a man of understanding will draw it out.” — Proverbs 20:5</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Questions should serve understanding, not curiosity.</li>
+        <li>One good question is better than five.</li>
+        <li>Listen to the answer before you ask the next.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Write three questions you wish you had asked in a recent session.</li>
+        <li>In your next conversation, ask one question and wait for the full answer.</li>
+      </ul>
+      <h3>Counselor Self-Check</h3>
+      <ul>
+        <li>Am I asking to understand, or to steer?</li>
+        <li>Do I interrupt the answer with the next question?</li>
+        <li>What am I afraid I will hear if I keep listening?</li>
+      </ul>
+      <h3>One Practice This Week</h3>
+      <p>Ask one open question and do not follow it with advice.</p>
+      <h3>Related</h3>
+      <p><a href="#" onclick="showSection('modules'); showModule('listening'); return false;">Listening Before Speaking</a> · <a href="#" onclick="showSection('toolkit'); showToolkit('heart-map'); return false;">Heart Map</a></p>
+    `
+  },
+  {
+    id: "scripture-in-room",
+    title: "Using Scripture in the Room",
+    summary: "Choosing one passage and staying with it.",
+    furtherReading: [
+      { title: "A Theology of Biblical Counseling", url: "https://www.amazon.com/Theology-Biblical-Counseling-Doctrinal-Foundations-ebook/dp/B010R2U5AA/", note: "Heath Lambert" },
+      { title: "Seeing with New Eyes", url: "https://www.amazon.com/Seeing-New-Eyes-Counseling-Human/dp/087552608X", note: "David Powlison" }
+    ],
+    content: `
+      <h2>Using Scripture in the Room</h2>
+      <p>Scripture is not a list to get through. One well-chosen passage, opened and applied, does more than many verses named in passing.</p>
+      <div class="verse">“All Scripture is breathed out by God and profitable for teaching, for reproof, for correction, and for training in righteousness.” — 2 Timothy 3:16</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Choose a passage that speaks to the heart issue, not only the circumstance.</li>
+        <li>Read it. Do not only cite it.</li>
+        <li>Ask what it shows about God, about us, and about the next step.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Pick one passage for a current case and write why it fits.</li>
+        <li>In the next session, read it aloud and ask one question from it.</li>
+      </ul>
+      <h3>Counselor Self-Check</h3>
+      <ul>
+        <li>Am I stacking verses instead of staying with one?</li>
+        <li>Did I read it, or only mention it?</li>
+        <li>Does this passage address the heart, or only the behavior?</li>
+      </ul>
+      <h3>One Practice This Week</h3>
+      <p>Open one passage, read it, and build the rest of the session from it.</p>
+      <h3>Related</h3>
+      <p><a href="#" onclick="showSection('scripture'); return false;">Scripture</a> · <a href="#" onclick="showSection('modules'); showModule('session-process'); return false;">A Simple Session Process</a></p>
+    `
+  },
+  {
+    id: "homework-fits",
+    title: "Homework That Fits",
+    summary: "Assigning one step a person can actually do.",
+    furtherReading: [
+      { title: "How to Help People Change", url: "https://www.amazon.com/How-Help-People-Change-Four-Step-ebook/dp/B003TFE8K6/", note: "Jay Adams" },
+      { title: "Instruments in the Redeemer’s Hands", url: "https://www.amazon.com/Instruments-Redeemers-Hands-People-Change/dp/0875526071", note: "Paul Tripp" }
+    ],
+    content: `
+      <h2>Homework That Fits</h2>
+      <p>Homework should be small enough to do and clear enough to remember. A step not taken teaches nothing.</p>
+      <div class="verse">“But be doers of the word, and not hearers only, deceiving yourselves.” — James 1:22</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>One step is better than a long list.</li>
+        <li>The step should fit the person’s life, not only the counselor’s plan.</li>
+        <li>Review it next time. Unreviewed homework fades.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Rewrite a recent assignment as one sentence a person could do this week.</li>
+        <li>Ask the person to say the step back before they leave.</li>
+      </ul>
+      <h3>Counselor Self-Check</h3>
+      <ul>
+        <li>Did I assign more than they can carry?</li>
+        <li>Will I remember to ask about it?</li>
+        <li>Does the step require the Lord, or only effort?</li>
+      </ul>
+      <h3>One Practice This Week</h3>
+      <p>Assign one step, have them repeat it, and write it down.</p>
+      <h3>Related</h3>
+      <p><a href="#" onclick="showSection('toolkit'); showToolkit('homework-template'); return false;">Homework Template</a> · <a href="#" onclick="showSection('modules'); showModule('change'); return false;">When People Don’t Change</a></p>
+    `
+  },
+  {
+    id: "ending-well",
+    title: "Ending Well",
+    summary: "When to close, and how to leave the person with Christ.",
+    furtherReading: [
+      { title: "The Christian Counselor's Manual", url: "https://www.amazon.com/dp/0310176107", note: "Jay Adams" },
+      { title: "Counseling the Hard Cases", url: "https://www.amazon.com/Counseling-Hard-Cases-Illustrating-Sufficiency/dp/1433685795/", note: "Stuart Scott and Heath Lambert" }
+    ],
+    content: `
+      <h2>Ending Well</h2>
+      <p>Counseling should not go on forever. A good ending points the person to Christ, the church, and a way to keep walking.</p>
+      <div class="verse">“And I am sure of this, that he who began a good work in you will bring it to completion at the day of Jesus Christ.” — Philippians 1:6</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>The goal is not dependence on the counselor.</li>
+        <li>Ending is part of care, not abandonment.</li>
+        <li>Leave them with Scripture, a people, and one ongoing practice.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Write what “ready to end” would look like for one current person.</li>
+        <li>Name who in the church could keep walking with them.</li>
+      </ul>
+      <h3>Counselor Self-Check</h3>
+      <ul>
+        <li>Am I keeping this going because they need it, or because I do?</li>
+        <li>Have I said what remains, not only what improved?</li>
+        <li>Who will they turn to when I am no longer meeting with them?</li>
+      </ul>
+      <h3>One Practice This Week</h3>
+      <p>Tell one person what has changed, what remains, and how they can keep going.</p>
+      <h3>Related</h3>
+      <p><a href="#" onclick="showSection('toolkit'); showToolkit('closing-well'); return false;">Closing Well</a> · <a href="#" onclick="showSection('modules'); showModule('heart-care'); return false;">Guarding Your Own Heart</a></p>
+    `
+  }
+
 ];
 
 const counselingIssues = [
@@ -2275,8 +2495,8 @@ function glyph(name) {
   const body = paths[name] || paths.book;
   return `<span class="glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${body}</svg></span>`;
 }
-const moduleIcons = { burnout:'rest', listening:'listen', change:'sprout', 'session-process':'list', supervision:'people', 'heart-care':'heart', criticism:'shield', boundaries:'clock' };
-const toolkitIcons = { 'session-checklist':'check', 'homework-template':'pencil', 'referral-guide':'medical', 'note-template':'doc', 'self-check':'heart' };
+const moduleIcons = { burnout:'rest', listening:'listen', change:'sprout', 'session-process':'list', supervision:'people', 'heart-care':'heart', criticism:'shield', boundaries:'clock', questions:'message', 'scripture-in-room':'book', 'homework-fits':'pencil', 'ending-well':'check' };
+const toolkitIcons = { 'session-checklist':'check', 'homework-template':'pencil', 'referral-guide':'medical', 'note-template':'doc', 'self-check':'heart', 'what-to-expect':'doc', 'heart-map':'heart', 'safety-check':'shield', 'closing-well':'check' };
 
 // Modules
 function renderModuleList() {
@@ -2355,7 +2575,52 @@ const moduleSynonyms = {
   supervision: ["supervision","supervisor","referral","medical","doctor","physician","consult","out of my depth"],
   "heart-care": ["my heart","guard my heart","self-care","counselor care","accountability","my own struggle"],
   criticism: ["criticism","criticized","critic","difficult session","defensive","hard feedback","attacked"],
-  boundaries: ["boundaries","boundary","after hours","availability","overavailable","saying no","limits"]
+
+  questions: [
+    "Ask one open question and do not follow it with advice.",
+    "Write three questions before the session, and use only one.",
+    "When you want to explain, ask what they think the passage means.",
+    "Ask what they most want you to understand, and wait.",
+    "Replace one why question with a what question.",
+    "After they answer, reflect it back before you ask again.",
+    "Notice one question that steered them. Rewrite it.",
+    "End with, “What will you sit with from this?”"
+  ],
+  "scripture-in-room": [
+    "Open one passage, read it, and build the rest of the session from it.",
+    "Choose the passage the day before, and write one question from it.",
+    "Read the verses aloud instead of summarizing them.",
+    "Ask what the passage shows about God before you apply it.",
+    "Stay with one text even if another comes to mind.",
+    "Have them read the verse that most addressed them.",
+    "Write the one sentence from the passage you want them to remember.",
+    "Do not cite a verse you do not open."
+  ],
+  "homework-fits": [
+    "Assign one step, have them repeat it, and write it down.",
+    "Cut a recent assignment in half.",
+    "Ask what would make the step hard, and adjust it.",
+    "Tie the step to one verse, not a reading plan.",
+    "Review last week’s step before you assign a new one.",
+    "Make the step something they can do in fifteen minutes.",
+    "Ask them to tell one other person the step.",
+    "If they did not do it, ask what got in the way before you assign more."
+  ],
+  "ending-well": [
+    "Tell one person what has changed, what remains, and how they can keep going.",
+    "Write a closing sentence you could say with kindness.",
+    "Name one person in the church who could walk with them.",
+    "Give them one passage to return to after you stop meeting.",
+    "Ask what they would do the next time the struggle returns.",
+    "Say that needing you less is a good thing.",
+    "Set a date to review, rather than meeting indefinitely.",
+    "Pray a blessing over the ending, not only over the problem."
+  ],
+  boundaries: ["boundaries","boundary","after hours","availability","overavailable","saying no","limits"],
+  questions: ["questions","asking","draw out","interrogate"],
+  "scripture-in-room": ["scripture in the room","use scripture","one passage","open the bible"],
+  "homework-fits": ["homework","assignment","one step","fits"],
+  "ending-well": ["ending","close","closing","finish counseling","graduation"]
 };
 function matchesIssue(item, q) {
   if (!q) return true;
