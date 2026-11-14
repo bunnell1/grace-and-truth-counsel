@@ -805,23 +805,8 @@ async function showVerseTip(el, e) {
   const ref = el.dataset.ref;
   if (!ref) return;
   const tip = ensureVerseTip();
-  tip.innerHTML = `<div class="vt-ref">${ref}</div><div class="vt-text">Loading…</div>`;
+  tip.innerHTML = `<div class="vt-ref">${ref}</div><div class="vt-text">Click to open this passage.</div><div class="vt-note">The verse text opens on the linked page</div>`;
   tip.classList.add('show');
-  positionTip(e);
-  if (!verseCache[ref]) {
-    try {
-      const q = encodeURIComponent(ref);
-      const url = 'https://api.esv.org/v3/passage/text/?q=' + q + '&include-headings=false&include-footnotes=false&include-verse-numbers=false&include-short-copyright=false&include-passage-references=false';
-      const res = await fetch(url, { headers: { Authorization: 'Token 73eef17bdb9041297e086a470499564c2db40b42' } });
-      const data = await res.json();
-      const raw = (data.passages && data.passages[0]) || '';
-      verseCache[ref] = raw.replace(/\s+/g, ' ').trim() || 'Verse text unavailable.';
-    } catch (err) {
-      verseCache[ref] = 'Could not load the verse. Click to open it.';
-    }
-  }
-  if (!tip.classList.contains('show')) return;
-  tip.innerHTML = `<div class="vt-ref">${ref} · ESV</div><div class="vt-text">${verseCache[ref]}</div><div class="vt-note">Click to open the full passage</div>`;
   positionTip(e);
 }
 document.addEventListener('mouseover', (e) => {
