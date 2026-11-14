@@ -2448,12 +2448,8 @@ function renderThisWeek() {
       : `showSection('toolkit'); showToolkit('${last.id}')`;
     cont.innerHTML = label ? `Continue: <a href="#" onclick="${go}; return false;">${label}</a>` : 'Open an issue or module and it will be waiting here.';
   }
-  const favModule = modules.find(m => localStorage.getItem('fav-module-' + m.id) === 'true') || modules[(new Date().getDate()) % modules.length];
-  const tmp = document.createElement('div');
-  tmp.innerHTML = favModule.content;
-  const h = [...tmp.querySelectorAll('h3')].find(el => el.textContent.includes('One Practice'));
-  const practice = h && h.nextElementSibling ? h.nextElementSibling.textContent : '';
-  prac.innerHTML = `<strong>Week of ${weekLabel()}.</strong> ${practice} <a href="#" onclick="showSection('modules'); showModule('${favModule.id}'); return false;">${favModule.title}</a>`;
+  const favModule = modules.find(m => localStorage.getItem('fav-module-' + m.id) === 'true') || modules[Math.floor(Date.now() / 604800000) % modules.length];
+  prac.innerHTML = `<strong>Week of ${weekLabel()}.</strong> ${practiceFor(favModule.id)} <a href="#" onclick="showSection('modules'); showModule('${favModule.id}'); return false;">${favModule.title}</a>`;
   const checks = [];
   modules.forEach(m => {
     const box = document.createElement('div');
@@ -2503,6 +2499,96 @@ async function renderSavedSheets() {
     const title = (counselingIssues.find(i => i.id === s.issue_id) || {}).title || s.issue_id;
     return `<li><a href="#" onclick="showSection('issues'); showIssue('${s.issue_id}'); return false;">${s.name}</a> — ${title}</li>`;
   }).join('') + '</ul>';
+}
+
+
+const weeklyPractices = {
+  burnout: [
+    "Protect one block of real rest and tell one person you trust that you are keeping it.",
+    "Name one responsibility you will hand back or share this week.",
+    "Set a time to stop counseling work each day, and keep it twice.",
+    "Take one evening with no counseling calls, messages, or preparation.",
+    "Write down what you are carrying that belongs to the Lord, and pray over that list.",
+    "Ask one trusted person how they see your pace right now.",
+    "Choose one small pleasure that restores you, and put it on the calendar.",
+    "Before the next session, pause and ask the Lord for strength instead of pushing through."
+  ],
+  listening: [
+    "In your next conversation, ask one clarifying question before you offer any counsel.",
+    "Let the person finish. Count to three before you respond.",
+    "Write down one thing you heard that you would have missed if you had spoken sooner.",
+    "Ask, “What do you most want me to understand?” and wait.",
+    "Reflect back one sentence of what you heard before you open Scripture.",
+    "Notice one time you formed an answer while the person was still talking. Confess it and try again.",
+    "In one conversation, ask a second question instead of giving advice.",
+    "End a session by asking what was most helpful to hear, and listen to the answer."
+  ],
+  change: [
+    "Write one sentence that returns the outcome to the Lord, and pray it before your next session.",
+    "Name one way you are tempted to push harder, and choose patience instead.",
+    "Tell the person one small faithful step, and leave the result with God.",
+    "Write what faithfulness looks like this week if nothing visible changes.",
+    "Ask the Lord to show you fruit you have been overlooking.",
+    "Hand one responsibility back to the person that you have been carrying for them.",
+    "Pray for the person by name each day, and resist checking on the outcome.",
+    "Note one place you measured your worth by their progress, and bring it to the Lord."
+  ],
+  "session-process": [
+    "Use the same four-part outline in your next session: pray, listen, apply, assign.",
+    "Begin the next session with prayer before any update.",
+    "Write a one-line aim for the session before it starts.",
+    "Leave the person with one clear step, not three.",
+    "After the session, note where you listened and where you rushed.",
+    "Open Scripture once, and stay with that passage instead of adding another.",
+    "End by asking the person to say the step back to you.",
+    "Review last session’s step before you plan a new one."
+  ],
+  supervision: [
+    "Name one person you will consult, and send the message or make the call.",
+    "Write one sentence about a case you should not carry alone.",
+    "Ask whether a physician should be involved, and note the answer.",
+    "Bring one hard case to a trusted counselor and ask what you are missing.",
+    "Write the limit of what you are able to address in one current case.",
+    "Thank one person who has supervised or advised you.",
+    "Identify one sign that would tell you to refer, and keep it in view.",
+    "Pray for humility to ask for help before you feel desperate."
+  ],
+  "heart-care": [
+    "Tell one trusted person one honest thing about your own heart this week.",
+    "Read Psalm 139:23-24 and write one area that needs attention.",
+    "Confess one hidden struggle to the Lord, and to one safe person if needed.",
+    "Ask, “What is this case stirring in me?” and write the answer.",
+    "Set aside twenty minutes for Scripture that is not for a counselee.",
+    "Name one way you have neglected your own soul while caring for others.",
+    "Ask a friend to pray for a specific burden you are carrying.",
+    "Rest from fixing anyone for one evening, including yourself."
+  ],
+  criticism: [
+    "Write one soft answer you can use the next time a session grows tense, and keep it where you will see it.",
+    "When you feel defensive, ask one question before you explain yourself.",
+    "Write what might be true in the last hard thing someone said to you.",
+    "Pray for the person who criticized you, by name.",
+    "Practice one calm sentence you can use when a session heats up.",
+    "Tell a trusted person about a criticism and ask what you should keep.",
+    "Notice one time you defended your worth instead of listening.",
+    "Before a hard meeting, remind yourself whose approval you are seeking."
+  ],
+  boundaries: [
+    "Choose one boundary, write the kind sentence you will use, and keep it this week.",
+    "Select a time after which you will no longer accept calls, and let people know.",
+    "Say no to one request that would crowd your family or your rest.",
+    "Write the boundary you have let slide, and restore it.",
+    "Tell one person the hour when you are finished for the day.",
+    "Protect one meal or evening and do not explain it at length.",
+    "Decide what you will do when someone pushes past a limit, and practice the sentence.",
+    "Thank the Lord for the people you serve, and for the limits that let you keep serving."
+  ]
+};
+function practiceFor(moduleId) {
+  const list = weeklyPractices[moduleId] || [];
+  if (!list.length) return "";
+  const week = Math.floor(Date.now() / 604800000);
+  return list[week % list.length];
 }
 
 function weekLabel() {
