@@ -805,8 +805,21 @@ async function showVerseTip(el, e) {
   const ref = el.dataset.ref;
   if (!ref) return;
   const tip = ensureVerseTip();
-  tip.innerHTML = `<div class="vt-ref">${ref}</div><div class="vt-text">Click to open this passage.</div><div class="vt-note">The verse text opens on the linked page</div>`;
+  tip.innerHTML = `<div class="vt-ref">${ref}</div><div class="vt-text">Loading…</div>`;
   tip.classList.add('show');
+  positionTip(e);
+  if (!verseCache[ref]) {
+    try {
+      const url = SUPABASE_URL + '/functions/v1/verse?q=' + encodeURIComponent(ref);
+      const res = await fetch(url, { headers: { Authorization: 'Bearer ' + SUPABASE_KEY, apikey: SUPABASE_KEY } });
+      const data = await res.json();
+      verseCache[ref] = (data.text || '').replace(/\s+/g, ' ').trim() || 'Click to open this passage.';
+    } catch (err) {
+      verseCache[ref] = 'Click to open this passage.';
+    }
+  }
+  if (!tip.classList.contains('show')) return;
+  tip.innerHTML = `<div class="vt-ref">${ref} · ESV</div><div class="vt-text">${verseCache[ref]}</div><div class="vt-note">Click to open the full passage</div>`;
   positionTip(e);
 }
 document.addEventListener('mouseover', (e) => {
