@@ -406,7 +406,6 @@ html[data-theme="dark"] .verse-tip .vt-text { color: #F4F1EA; }
 <header>
   <div class="header-inner">
     <a class="brand" href="#" onclick="showSection('home');
-renderThisWeek();
 
 if (window.location.hash.includes('type=recovery')) {
   openAuth();
@@ -483,7 +482,7 @@ refreshAuth(); return false;">
       </div>
     </div>
     
-    <div class="card" id="this-week">
+    <div class="card hidden" id="this-week">
       <h3>This week</h3>
       <p id="week-continue" class="note">Open an issue or module and it will be waiting here.</p>
       <p id="week-practice"></p>
@@ -2946,18 +2945,22 @@ async function refreshAuth() {
   const welcome = document.getElementById('welcome-title');
   const change = document.getElementById('change-password');
   if (change) change.classList.toggle('hidden', !currentUser);
+  const week = document.getElementById('this-week');
   if (currentUser) {
     btn.textContent = 'Sign out';
     btn.title = currentUser.email;
     btn.onclick = signOut;
     const first = (currentUser.user_metadata && currentUser.user_metadata.first_name) || '';
     if (welcome) welcome.textContent = first ? 'Welcome, ' + first : 'Welcome, Counselor';
+    if (week) week.classList.remove('hidden');
     await pullFavorites();
+    renderThisWeek();
   } else {
     btn.textContent = 'Sign in';
     btn.title = 'Sign in';
     btn.onclick = openAuth;
     if (welcome) welcome.textContent = 'Welcome, Counselor';
+    if (week) week.classList.add('hidden');
   }
 }
 async function pullFavorites() {
