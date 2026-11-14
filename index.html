@@ -461,22 +461,23 @@ html[data-theme="dark"] .verse-tip .vt-text { color: #F4F1EA; }
 <div id="auth-modal" class="hidden" style="position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:2500;display:none;align-items:center;justify-content:center;">
   <div class="card" style="width:min(420px,92vw);">
     <h2 id="auth-title">Sign in</h2>
-    <p class="note">Sign in to keep favorites with your account. Notes stay on this device.</p>
-    <label>First name</label>
-    <input id="auth-first" type="text" style="width:100%;margin:.3rem 0 .8rem;padding:.55rem;border:1px solid var(--line);border-radius:8px;font:inherit;">
-    <label>Last name</label>
-    <input id="auth-last" type="text" style="width:100%;margin:.3rem 0 .8rem;padding:.55rem;border:1px solid var(--line);border-radius:8px;font:inherit;">
+    <p class="note" id="auth-note">Sign in to keep favorites with your account. Notes stay on this device.</p>
+    <div id="auth-names" class="hidden">
+      <label>First name</label>
+      <input id="auth-first" type="text" style="width:100%;margin:.3rem 0 .8rem;padding:.55rem;border:1px solid var(--line);border-radius:8px;font:inherit;">
+      <label>Last name</label>
+      <input id="auth-last" type="text" style="width:100%;margin:.3rem 0 .8rem;padding:.55rem;border:1px solid var(--line);border-radius:8px;font:inherit;">
+    </div>
     <label>Email</label>
     <input id="auth-email" type="email" style="width:100%;margin:.3rem 0 .8rem;padding:.55rem;border:1px solid var(--line);border-radius:8px;font:inherit;">
     <label>Password</label>
     <input id="auth-password" type="password" style="width:100%;margin:.3rem 0 .8rem;padding:.55rem;border:1px solid var(--line);border-radius:8px;font:inherit;">
     <p id="auth-msg" class="note"></p>
     <div class="btn-row">
-      <button class="btn" type="button" onclick="signIn()">Sign in</button>
-      <button class="btn secondary" type="button" onclick="signUp()">Create account</button>
+      <button class="btn" id="auth-primary" type="button" onclick="signIn()">Sign in</button>
       <button class="btn secondary" type="button" onclick="closeAuth()">Close</button>
     </div>
-    <p style="margin-top:.8rem;"><a href="#" onclick="forgotPassword(); return false;">Forgot password?</a></p>
+    <p style="margin-top:.8rem;"><a href="#" id="auth-switch" onclick="showCreateAccount(); return false;">Create an account</a> · <a href="#" onclick="forgotPassword(); return false;">Forgot password?</a></p>
     <div id="change-password" class="hidden" style="margin-top:1rem;">
       <label>New password</label>
       <input id="auth-new" type="password" style="width:100%;margin:.3rem 0 .8rem;padding:.55rem;border:1px solid var(--line);border-radius:8px;font:inherit;">
@@ -2937,7 +2938,30 @@ const SUPABASE_KEY = 'sb_publishable_U511agudgV1tcFiEIIGbFg_EPDltBn3';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 let currentUser = null;
 
+
+function showCreateAccount() {
+  document.getElementById('auth-names').classList.remove('hidden');
+  document.getElementById('auth-title').textContent = 'Create account';
+  document.getElementById('auth-note').textContent = 'Enter your name, email, and a password.';
+  const primary = document.getElementById('auth-primary');
+  primary.textContent = 'Create account';
+  primary.onclick = signUp;
+  document.getElementById('auth-switch').textContent = 'Already have an account? Sign in';
+  document.getElementById('auth-switch').onclick = () => { showSignIn(); return false; };
+}
+function showSignIn() {
+  document.getElementById('auth-names').classList.add('hidden');
+  document.getElementById('auth-title').textContent = 'Sign in';
+  document.getElementById('auth-note').textContent = 'Sign in to keep favorites with your account. Notes stay on this device.';
+  const primary = document.getElementById('auth-primary');
+  primary.textContent = 'Sign in';
+  primary.onclick = signIn;
+  document.getElementById('auth-switch').textContent = 'Create an account';
+  document.getElementById('auth-switch').onclick = () => { showCreateAccount(); return false; };
+}
+
 function openAuth() {
+  showSignIn();
   const m = document.getElementById('auth-modal');
   m.style.display = 'flex';
   m.classList.remove('hidden');
@@ -2956,7 +2980,7 @@ async function signUp() {
   if (!first) { document.getElementById('auth-msg').textContent = 'Please enter a first name.'; return; }
   const { data, error } = await sb.auth.signUp({ email, password, options: { data: { first_name: first, last_name: last } } });
   if (!error && data.user) await sb.from('profiles').update({ display_name: first, first_name: first, last_name: last }).eq('id', data.user.id);
-  document.getElementById('auth-msg').textContent = error ? error.message : 'Account created. You can sign in.';
+  document.getElementById('auth-msg').textContent = error ? error.message : 'Account created. Check your email if a confirmation is required, then sign in.';
 }
 async function signIn() {
   const email = document.getElementById('auth-email').value.trim();
