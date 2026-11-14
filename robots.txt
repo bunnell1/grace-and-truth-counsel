@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://graceandtruthcounsel.com/sitemap.xml
