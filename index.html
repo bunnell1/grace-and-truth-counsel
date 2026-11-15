@@ -2530,14 +2530,34 @@ const scriptureData = [
 
 // Navigation
 
+function localMatches(q) {
+  const words = q.toLowerCase().split(/[^a-z0-9]+/).filter(w => w.length > 2);
+  const score = (id, title, summary) => {
+    const hay = ((synonyms[id] || []).join(' ') + ' ' + title + ' ' + (summary || '')).toLowerCase();
+    return words.reduce((n, w) => n + (hay.includes(w) ? 1 : 0), 0);
+  };
+  const issues = counselingIssues.map(i => ({ type: 'issue', id: i.id, title: i.title, n: score(i.id, i.title, i.summary) })).filter(x => x.n);
+  const mods = modules.map(m => ({ type: 'module', id: m.id, title: m.title, n: score(m.id, m.title, m.summary) })).filter(x => x.n);
+  return [...issues, ...mods].sort((a, b) => b.n - a.n).slice(0, 3);
+}
+function renderPicks(picks) {
+  return picks.map(p => {
+    const go = p.type === 'issue'
+      ? `showSection('issues'); showIssue('${p.id}')`
+      : `showSection('modules'); showModule('${p.id}')`;
+    return `<p><a href="#" onclick="${go}; return false;">${p.title}</a>${p.why ? ' <span class="note">' + p.why + '</span>' : ''}</p>`;
+  }).join('');
+}
 async function findPlace() {
   const q = document.getElementById('finder-q').value.trim();
   const out = document.getElementById('finder-results');
   if (!q) { out.innerHTML = '<p class="note">Type a few words first.</p>'; return; }
-  out.innerHTML = '<p class="note">Looking…</p>';
+  const local = localMatches(q);
+  if (local.length) { out.innerHTML = renderPicks(local); return; }
+  out.innerHTML = '<p class="note">Looking further…</p>';
   const catalog = [
-    ...modules.map(m => ({ type: 'module', id: m.id, title: m.title, summary: m.summary })),
-    ...counselingIssues.map(i => ({ type: 'issue', id: i.id, title: i.title, summary: i.summary }))
+    ...modules.map(m => ({ type: 'module', id: m.id, title: m.title })),
+    ...counselingIssues.map(i => ({ type: 'issue', id: i.id, title: i.title }))
   ];
   try {
     const res = await fetch(SUPABASE_URL + '/functions/v1/find', {
@@ -2546,16 +2566,11 @@ async function findPlace() {
       body: JSON.stringify({ q, catalog })
     });
     const data = await res.json();
+    if (!res.ok || data.error) { out.innerHTML = '<p class="note">Nothing on the site matched. Try Issues, or different words.</p>'; return; }
     const picks = data.matches || [];
-    if (!picks.length) { out.innerHTML = '<p class="note">Nothing close. Try different words, or browse Issues.</p>'; return; }
-    out.innerHTML = picks.map(p => {
-      const go = p.type === 'issue'
-        ? `showSection('issues'); showIssue('${p.id}')`
-        : `showSection('modules'); showModule('${p.id}')`;
-      return `<p><a href="#" onclick="${go}; return false;">${p.title}</a> <span class="note">${p.why || ''}</span></p>`;
-    }).join('');
+    out.innerHTML = picks.length ? renderPicks(picks) : '<p class="note">Nothing close. Try different words, or browse Issues.</p>';
   } catch (err) {
-    out.innerHTML = '<p class="note">The finder is not available yet.</p>';
+    out.innerHTML = '<p class="note">Nothing on the site matched. Try Issues.</p>';
   }
 }
 
