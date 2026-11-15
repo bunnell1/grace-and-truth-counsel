@@ -820,7 +820,7 @@ async function showVerseTip(el, e) {
   positionTip(e);
   if (!verseCache[ref]) {
     try {
-      const url = SUPABASE_URL + '/functions/v1/verse?q=' + encodeURIComponent(ref);
+      const url = SUPABASE_URL + '/functions/v1/rapid-api?q=' + encodeURIComponent(ref);
       const res = await fetch(url, { headers: { Authorization: 'Bearer ' + SUPABASE_KEY, apikey: SUPABASE_KEY } });
       const data = await res.json();
       verseCache[ref] = (data.text || '').replace(/\s+/g, ' ').trim() || 'Click to open this passage.';
