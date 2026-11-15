@@ -297,6 +297,12 @@ footer {
   .brand-name { font-size: 1rem; }
 }
 
+
+.letter-bar { display: flex; flex-wrap: wrap; gap: 0.3rem; margin: 0.6rem 0 0.8rem; }
+.letter-bar button { border: 1px solid var(--border); background: var(--surface); color: var(--accent); border-radius: 999px; padding: 0.25rem 0.55rem; font: inherit; font-size: 0.85rem; cursor: pointer; }
+.letter-bar button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.letter-bar button:disabled { opacity: 0.35; cursor: default; }
+
 .print-only { display: none; }
 @media print {
   header, nav, footer, .btn, .no-print, #back-to-top, .favorite-btn, .search { display: none !important; }
@@ -634,6 +640,7 @@ html[data-theme="dark"] .verse-tip .vt-text { color: #F4F1EA; }
     <div class="card">
       <h2>Counseling Issues Database</h2>
       <p>Searchable guidance for common struggles. Issues are grouped using commonly used descriptive terms (including those often associated with DSM categories) for ease of reference. We do not necessarily endorse the DSM classification system. Each entry offers biblical principles and Scripture for counselors.</p>
+      <div class="letter-bar" id="letter-bar"></div>
       <input type="text" class="search" id="issue-search" placeholder="Search issues (e.g., anxious, sad, anger, marriage)...">
       <div class="module-list" id="issue-list"></div>
     </div>
@@ -825,7 +832,7 @@ async function showVerseTip(el, e) {
       const data = await res.json();
       verseCache[ref] = (data.text || '').replace(/\s+/g, ' ').trim() || 'Click to open this passage.';
     } catch (err) {
-      verseCache[ref] = 'Click to open this passage.';
+      verseCache[ref] = 'Could not load the verse. Click to open it.';
     }
   }
   if (!tip.classList.contains('show')) return;
@@ -2507,10 +2514,341 @@ const counselingIssues = [
       <p><strong>Counselee:</strong> “To feel some relief and to know God is with me.”</p>
       <p><strong>Counselor:</strong> “How might the gospel speak to that desire?”</p>
     `
+  },
+  {
+    id: "work-unemployment",
+    title: "Work & Unemployment",
+    summary: "Job loss, a long search, and the fear of not providing.",
+    furtherReading: [
+      { title: "The Gospel at Work", url: "https://www.amazon.com/Gospel-Work-Work-Matters-Matters/dp/0310513979", note: "Sebastian Traeger and Greg Gilbert" },
+      { title: "God at Work", url: "https://www.amazon.com/God-Work-Your-Christian-Vocation/dp/1433524473", note: "Gene Edward Veith" }
+    ],
+    content: `
+      <h2>Work & Unemployment</h2>
+      <p>A lost job or a long search strikes at provision, identity, and hope. Biblical counseling separates a person’s worth from their paycheck and helps them walk faithfully while they wait and work.</p>
+      <div class="verse">“Whatever you do, work heartily, as for the Lord and not for men.” — Colossians 3:23</div>
+      <div class="verse">“And my God will supply every need of yours according to his riches in glory in Christ Jesus.” — Philippians 4:19</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Work is a gift and a calling. It is not the source of a person’s worth.</li>
+        <li>God remains the provider when the paycheck stops.</li>
+        <li>Faithful effort and honest dependence belong together.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read Colossians 3:23. Write one sentence about who you work for, even while you are between jobs.</li>
+        <li>List one concrete step of diligence this week, and one fear you will name in prayer.</li>
+        <li>Tell one believer the search, and ask them to pray for provision and patience.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “The search has gone on longer than you expected. What has that done to the way you see yourself?”</p>
+      <p><strong>Counselee:</strong> “I feel useless. Like I’m failing my family.”</p>
+      <p><strong>Counselor:</strong> “What do you believe God thinks of you on a day with no interview?”</p>
+      <p><strong>Counselee:</strong> “That He’s disappointed, or that I’ve done something wrong.”</p>
+      <p><strong>Counselor:</strong> “How would it change the search if your worth were already settled in Christ?”</p>
+    `
+  },
+  {
+    id: "money-debt",
+    title: "Money & Debt",
+    summary: "Fear, shame, and stewardship when money is tight or debt is heavy.",
+    furtherReading: [
+      { title: "Redeeming Money", url: "https://www.amazon.com/Redeeming-Money-Money-Master-Servant/dp/1433556740", note: "Paul David Tripp" },
+      { title: "The Treasure Principle", url: "https://www.amazon.com/Treasure-Principle-Unlocking-Secret-Joyful/dp/1590525086", note: "Randy Alcorn" }
+    ],
+    content: `
+      <h2>Money & Debt</h2>
+      <p>Money trouble is rarely only about numbers. It exposes fear, shame, desire, and the question of who provides. Biblical counseling aims at the heart and at a wise, concrete plan.</p>
+      <div class="verse">“Keep your life free from love of money, and be content with what you have, for he has said, ‘I will never leave you nor forsake you.’” — Hebrews 13:5</div>
+      <div class="verse">“The borrower is the slave of the lender.” — Proverbs 22:7</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Money is a tool. Love of it is a rival god.</li>
+        <li>Debt binds. A plan to repay is an act of integrity.</li>
+        <li>Contentment is learned. It is not the absence of need.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Write what you most fear will happen if the money does not come.</li>
+        <li>List every debt and one next payment. Share the list with a trusted believer.</li>
+        <li>Read Hebrews 13:5 each day and name one way God has already provided.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “When the bills come, what goes through your mind first?”</p>
+      <p><strong>Counselee:</strong> “Panic. And shame that we let it get this far.”</p>
+      <p><strong>Counselor:</strong> “What are you trusting money to give you that Christ has already given?”</p>
+      <p><strong>Counselee:</strong> “Safety. The sense that we’re okay.”</p>
+      <p><strong>Counselor:</strong> “What would one honest step of stewardship look like this week?”</p>
+    `
+  },
+  {
+    id: "illness-suffering",
+    title: "Illness & Suffering",
+    summary: "Chronic pain, a diagnosis, or a body that will not cooperate.",
+    furtherReading: [
+      { title: "Suffering", url: "https://www.amazon.com/Suffering-Gospel-Hope-When-Life/dp/1433556775", note: "Paul David Tripp" },
+      { title: "When the Darkness Will Not Lift", url: "https://www.amazon.com/When-Darkness-Will-Not-Lift/dp/1581348762", note: "John Piper" }
+    ],
+    content: `
+      <h2>Illness & Suffering</h2>
+      <p>Pain and a hard diagnosis raise questions about God’s goodness. Biblical counseling does not explain the suffering away. It helps a person lament honestly and hold to Christ in it.</p>
+      <div class="verse">“My grace is sufficient for you, for my power is made perfect in weakness.” — 2 Corinthians 12:9</div>
+      <div class="verse">“The Lord is near to the brokenhearted and saves the crushed in spirit.” — Psalm 34:18</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Suffering is real. Lament is faithful, not faithless.</li>
+        <li>The body matters. A physician is not a rival to prayer.</li>
+        <li>God’s goodness is not measured by the absence of pain.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read Psalm 34:18. Write one honest sentence of lament and one truth about God’s nearness.</li>
+        <li>Name one person who can sit with you this week without trying to fix it.</li>
+        <li>If a medical question remains, make the appointment.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “This diagnosis has changed the shape of your days. What has been hardest to carry?”</p>
+      <p><strong>Counselee:</strong> “The fear that this is all there is now.”</p>
+      <p><strong>Counselor:</strong> “What do you still believe is true about Jesus in the middle of that fear?”</p>
+      <p><strong>Counselee:</strong> “That He is with me. I just can’t feel it.”</p>
+      <p><strong>Counselor:</strong> “How might you bring that honestly to Him this week?”</p>
+    `
+  },
+  {
+    id: "doubt-dryness",
+    title: "Doubt & Spiritual Dryness",
+    summary: "When prayer feels empty and God seems far.",
+    furtherReading: [
+      { title: "When I Don't Desire God", url: "https://www.amazon.com/When-Dont-Desire-God-Christian/dp/1596440123", note: "John Piper" },
+      { title: "A Hunger for God", url: "https://www.amazon.com/Hunger-God-Desiring-Through-Fasting/dp/1433532522", note: "John Piper" }
+    ],
+    content: `
+      <h2>Doubt & Spiritual Dryness</h2>
+      <p>A dry season is not proof that God has left. Biblical counseling helps a person tell the truth about the dryness and keep the ordinary means of grace.</p>
+      <div class="verse">“Why are you cast down, O my soul, and why are you in turmoil within me? Hope in God.” — Psalm 42:5</div>
+      <div class="verse">“Draw near to God, and he will draw near to you.” — James 4:8</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Feelings are real. They are not the measure of God’s presence.</li>
+        <li>Doubt is best spoken, not hidden.</li>
+        <li>The Word, prayer, and the church remain the path, even when they feel dry.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read Psalm 42 each day. Write one line of the psalm that matches you.</li>
+        <li>Pray for five minutes even if it feels empty. Note what you said.</li>
+        <li>Tell one mature believer about the dryness and ask them to pray.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “You’ve said God feels far. When did you first notice that?”</p>
+      <p><strong>Counselee:</strong> “Prayer started feeling like I was talking to the ceiling.”</p>
+      <p><strong>Counselor:</strong> “What do you still know is true, even if you cannot feel it?”</p>
+      <p><strong>Counselee:</strong> “That Christ died and rose. I’m just not sure He hears me.”</p>
+      <p><strong>Counselor:</strong> “What would it look like to keep coming, and to say that to Him?”</p>
+    `
+  },
+  {
+    id: "abuse",
+    title: "Abuse",
+    summary: "When someone is being harmed. Safety comes before insight.",
+    furtherReading: [
+      { title: "The Heart of Domestic Abuse", url: "https://www.amazon.com/Heart-Domestic-Abuse-Gospel-Hope/dp/1629951439", note: "Chris Moles" },
+      { title: "Counseling the Hard Cases", url: "https://www.amazon.com/Counseling-Hard-Cases-Illustrating-Sufficiency/dp/1433685795", note: "Stuart Scott and Heath Lambert" }
+    ],
+    content: `
+      <h2>Abuse</h2>
+      <p>Abuse is the use of power to harm. Biblical counseling tells the truth about it, protects the person in danger, and does not treat oppression as an ordinary conflict.</p>
+      <div class="verse">“The Lord is a stronghold for the oppressed, a stronghold in times of trouble.” — Psalm 9:9</div>
+      <div class="verse">“Learn to do good; seek justice, correct oppression.” — Isaiah 1:17</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Safety comes before a counseling plan.</li>
+        <li>Oppression is sin against the image of God. It is not a communication problem.</li>
+        <li>The church protects. It does not ask the harmed person to keep the peace at any cost.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>If you are in danger, tell a safe person and make a plan to get to safety. Do this before any other step.</li>
+        <li>Write what has happened in plain words. Truth is the start of help.</li>
+        <li>Ask a pastor or a trusted believer to walk with you. Do not carry this alone.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Are you safe today? I need to know that before we go further.”</p>
+      <p><strong>Counselee:</strong> “I’m not sure. It depends on the day.”</p>
+      <p><strong>Counselor:</strong> “Then safety is the first thing we will plan. Who can you call if it turns?”</p>
+      <p><strong>Counselee:</strong> “My sister. I’ve been afraid to tell her.”</p>
+      <p><strong>Counselor:</strong> “Telling her is not betrayal. It is wisdom. What would you say?”</p>
+    `
+  },
+  {
+    id: "decisions",
+    title: "Decisions & God’s Will",
+    summary: "Paralysis over a choice, and the fear of missing God’s will.",
+    furtherReading: [
+      { title: "Just Do Something", url: "https://www.amazon.com/Just-Do-Something-Decision-Without/dp/0802411592", note: "Kevin DeYoung" },
+      { title: "Decision Making and the Will of God", url: "https://www.amazon.com/Decision-Making-Will-God-Alternative/dp/1590522052", note: "Garry Friesen" }
+    ],
+    content: `
+      <h2>Decisions & God’s Will</h2>
+      <p>Some people wait for a sign and call the waiting faith. Biblical counseling helps them use Scripture, wisdom, counsel, and then act.</p>
+      <div class="verse">“Trust in the Lord with all your heart, and do not lean on your own understanding.” — Proverbs 3:5-6</div>
+      <div class="verse">“If any of you lacks wisdom, let him ask God, who gives generously.” — James 1:5</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>God’s moral will is clear in Scripture. Most decisions are wisdom, not mystery.</li>
+        <li>Waiting can be obedience. It can also be fear.</li>
+        <li>A decision made in faith is not ruined by an imperfect outcome.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Write the decision, the options, and what Scripture already rules out.</li>
+        <li>Ask one wise believer what they would weigh. Write their answer.</li>
+        <li>Set a date to decide, and pray James 1:5 until then.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “You’ve been holding this decision for a long time. What are you afraid will happen if you choose?”</p>
+      <p><strong>Counselee:</strong> “That I’ll miss God’s will and regret it.”</p>
+      <p><strong>Counselor:</strong> “Is there a command here, or is this a matter of wisdom?”</p>
+      <p><strong>Counselee:</strong> “No command. I just want to be sure.”</p>
+      <p><strong>Counselor:</strong> “What would faithful action look like if certainty is not promised?”</p>
+    `
+  },
+  {
+    id: "divorce",
+    title: "Divorce & Remarriage",
+    summary: "A marriage ending, and the questions that follow.",
+    furtherReading: [
+      { title: "Marriage, Divorce, and Remarriage in the Bible", url: "https://www.amazon.com/Marriage-Divorce-Remarriage-Bible-Jay/dp/0310511119", note: "Jay Adams" },
+      { title: "When Sinners Say I Do", url: "https://www.amazon.com/When-Sinners-Say-I-Do-ebook/dp/B004EHZVGI", note: "Dave Harvey" }
+    ],
+    content: `
+      <h2>Divorce & Remarriage</h2>
+      <p>A marriage ending is grief, failure, and often sin. Biblical counseling tells the truth about the covenant, cares for the people, and does not rush the next chapter.</p>
+      <div class="verse">“What therefore God has joined together, let not man separate.” — Mark 10:9</div>
+      <div class="verse">“If possible, so far as it depends on you, live peaceably with all.” — Romans 12:18</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Marriage is a covenant. It is not ended lightly.</li>
+        <li>Where there has been sin, there is room for repentance. Reconciliation is not always possible.</li>
+        <li>The church walks with both people. It does not take a side to avoid discomfort.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read Mark 10:1-12. Write what you believe God says about your situation.</li>
+        <li>Name one step of peace that depends on you, and one that does not.</li>
+        <li>Ask your pastor to help you think before you decide anything further.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “This has cost you more than you expected. What do you most want now?”</p>
+      <p><strong>Counselee:</strong> “For it to be over. And to know I didn’t ruin everything.”</p>
+      <p><strong>Counselor:</strong> “What part of this is yours to own, and what part is not?”</p>
+      <p><strong>Counselee:</strong> “I was harsh. But I couldn’t make them stay.”</p>
+      <p><strong>Counselor:</strong> “Owning your part is faithful. Carrying theirs is not. How might you do the first?”</p>
+    `
+  },
+  {
+    id: "infertility",
+    title: "Infertility & Childlessness",
+    summary: "Longing for a child, and a wait that has no date.",
+    furtherReading: [
+      { title: "Holding On to Hope", url: "https://www.amazon.com/Holding-Hope-Joy-Comes-Morning/dp/0842372420", note: "Nancy Guthrie" },
+      { title: "Suffering", url: "https://www.amazon.com/Suffering-Gospel-Hope-When-Life/dp/1433556775", note: "Paul David Tripp" }
+    ],
+    content: `
+      <h2>Infertility & Childlessness</h2>
+      <p>The desire for a child is good. An unanswered desire is a real grief. Biblical counseling makes room for the ache and refuses to treat it as a lack of faith.</p>
+      <div class="verse">“Hope deferred makes the heart sick, but a desire fulfilled is a tree of life.” — Proverbs 13:12</div>
+      <div class="verse">“He gives the barren woman a home, making her the joyous mother of children.” — Psalm 113:9</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>The longing is good. The pain of waiting is not a spiritual failure.</li>
+        <li>God’s goodness is not proven by a pregnancy.</li>
+        <li>The church should weep with those who weep, not rush them to a lesson.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read Psalm 113. Write one honest sentence to the Lord about the wait.</li>
+        <li>Name one person who can hear the grief without offering a fix.</li>
+        <li>If a medical question remains, ask it. Faith and a physician can sit together.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Another month has passed. What has that been like?”</p>
+      <p><strong>Counselee:</strong> “I smile at church and cry in the car.”</p>
+      <p><strong>Counselor:</strong> “What do you fear people think, or what do you fear God thinks?”</p>
+      <p><strong>Counselee:</strong> “That we’re being punished. Or that I should be over it.”</p>
+      <p><strong>Counselor:</strong> “Grief is not unbelief. What would it look like to bring the ache to Him without pretending?”</p>
+    `
+  },
+  {
+    id: "in-laws",
+    title: "In-Laws & Extended Family",
+    summary: "Loyalty, boundaries, and peace with the family you married into.",
+    furtherReading: [
+      { title: "The Peacemaker", url: "https://www.amazon.com/Peacemaker-Biblical-Resolving-Personal-Conflict/dp/0801064856", note: "Ken Sande" },
+      { title: "When Sinners Say I Do", url: "https://www.amazon.com/When-Sinners-Say-I-Do-ebook/dp/B004EHZVGI", note: "Dave Harvey" }
+    ],
+    content: `
+      <h2>In-Laws & Extended Family</h2>
+      <p>Marriage makes one household. It does not erase the others. Biblical counseling helps a couple honor parents without letting them rule the new home.</p>
+      <div class="verse">“Therefore a man shall leave his father and his mother and hold fast to his wife.” — Genesis 2:24</div>
+      <div class="verse">“If possible, so far as it depends on you, live peaceably with all.” — Romans 12:18</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Leaving and cleaving is God’s design. Honor is not the same as obedience to parents.</li>
+        <li>A couple speaks with one voice about the extended family.</li>
+        <li>Peace is pursued. It is not purchased by silence or resentment.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>As a couple, write one boundary you both will keep, and the kind sentence you will use.</li>
+        <li>Name one way you can honor a parent without surrendering the marriage.</li>
+        <li>Pray together before the next family gathering.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “The visits have been costing the two of you. What happens after you leave?”</p>
+      <p><strong>Counselee:</strong> “We fight. One of us feels loyal. The other feels exposed.”</p>
+      <p><strong>Counselor:</strong> “What would it mean to leave and cleave in this one situation?”</p>
+      <p><strong>Counselee:</strong> “To decide together, before we walk in.”</p>
+      <p><strong>Counselor:</strong> “What sentence could you both stand behind?”</p>
+    `
+  },
+  {
+    id: "technology",
+    title: "Technology & Distraction",
+    summary: "The phone, wasted hours, and a mind that will not be still.",
+    furtherReading: [
+      { title: "12 Ways Your Phone Is Changing You", url: "https://www.amazon.com/Ways-Your-Phone-Changing-You/dp/1433552436", note: "Tony Reinke" },
+      { title: "The Tech-Wise Family", url: "https://www.amazon.com/Tech-Wise-Family-Everyday-Putting-Technology/dp/0801018668", note: "Andy Crouch" }
+    ],
+    content: `
+      <h2>Technology & Distraction</h2>
+      <p>A phone is a tool. It becomes a problem when it steals attention, sleep, and presence. Biblical counseling treats it as a matter of worship and wisdom, not only of habit.</p>
+      <div class="verse">“Look carefully then how you walk, not as unwise but as wise, making the best use of the time.” — Ephesians 5:15-16</div>
+      <div class="verse">“I will ponder the way that is blameless… I will walk with integrity of heart within my house.” — Psalm 101:2</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Attention is a stewardship. What fills the eyes shapes the heart.</li>
+        <li>Rest requires limits. A device does not get the last word of the day.</li>
+        <li>Presence with people is love. A screen can be a way of leaving the room.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Choose one hour each day when the phone is in another room. Keep it for a week.</li>
+        <li>Write what you reach for the phone to avoid.</li>
+        <li>Read Ephesians 5:15-16 and name one use of time you will change.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “When you pick up the phone, what are you usually leaving?”</p>
+      <p><strong>Counselee:</strong> “A hard conversation. Or just silence.”</p>
+      <p><strong>Counselor:</strong> “What does the phone give you in that moment?”</p>
+      <p><strong>Counselee:</strong> “Relief. And then I feel worse.”</p>
+      <p><strong>Counselor:</strong> “What limit would love look like this week?”</p>
+    `
   }
 ];
 
 const scriptureData = [
+
   { topic: "Rest & Burnout", verses: ["Matthew 11:28-30", "2 Corinthians 12:9", "Psalm 23", "Exodus 18:17-23", "Mark 2:27", "Isaiah 40:28-31", "Psalm 127:1-2", "Mark 6:31", "Luke 5:16", "Galatians 6:9", "Hebrews 4:9-11", "Jeremiah 31:25"] },
   { topic: "Listening & Presence", verses: ["Proverbs 18:13", "James 1:19", "Proverbs 20:5", "Job 2:11-13", "Proverbs 18:2", "Proverbs 18:17", "Ecclesiastes 5:1-2", "Isaiah 50:4", "John 4:7-26", "Luke 24:13-27", "Proverbs 15:28", "1 Peter 3:8"] },
   { topic: "Sufficiency & Growth", verses: ["1 Corinthians 3:6-7", "2 Corinthians 3:5", "Philippians 1:6", "John 15:5", "Philippians 2:13", "2 Corinthians 9:8", "Ephesians 3:20", "Colossians 1:28-29", "2 Peter 1:3", "Isaiah 55:10-11", "Galatians 6:7-9", "Hebrews 13:20-21"] },
@@ -2531,10 +2869,20 @@ const scriptureData = [
 // Navigation
 
 function localMatches(q) {
-  const words = q.toLowerCase().split(/[^a-z0-9]+/).filter(w => w.length > 2);
+  const stop = new Set(['the','and','for','with','that','this','have','having','trouble','finding','find','been','was','are','not','but','from','about','into','over','just','really','very','some','what','when','where','who','how','can','cant']);
+  const qn = q.toLowerCase();
+  const words = qn.split(/[^a-z0-9]+/).filter(w => w.length > 2 && !stop.has(w));
   const score = (id, title, summary) => {
-    const hay = ((issueSynonyms[id] || []).join(' ') + ' ' + title + ' ' + (summary || '')).toLowerCase();
-    return words.reduce((n, w) => n + (hay.includes(w) ? 1 : 0), 0);
+    const terms = issueSynonyms[id] || [];
+    const hay = (terms.join(' ') + ' ' + title + ' ' + (summary || '')).toLowerCase();
+    let n = 0;
+    terms.forEach(t => { if (t.includes(' ') && qn.includes(t)) n += 3; });
+    words.forEach(w => {
+      const hit = terms.some(t => t === w || t.split(' ').includes(w));
+      if (hit) n += 2;
+      else if (new RegExp('\\b' + w + '\\b').test(hay)) n += 1;
+    });
+    return n;
   };
   const issues = counselingIssues.map(i => ({ type: 'issue', id: i.id, title: i.title, n: score(i.id, i.title, i.summary) })).filter(x => x.n);
   const mods = modules.map(m => ({ type: 'module', id: m.id, title: m.title, n: score(m.id, m.title, m.summary) })).filter(x => x.n);
@@ -2694,8 +3042,19 @@ const issueSynonyms = {
   "shame-guilt": ["shame","ashamed","guilt","guilty","worthless","condemned","condemnation","failure","I am bad","not good enough","dirty"],
   singleness: ["single","singleness","lonely","loneliness","alone","unmarried","dating","desire for marriage","want to be married","left out"],
   "church-hurt": ["church","church hurt","hurt by the church","spiritual abuse","betrayed","betrayal","pastor","leadership","left the church","don't trust church","gossip","church conflict","wounded"],
-  "ministry-burnout": ["burnout","burned out","burnt out","ministry","calling","exhausted","exhaustion","tired","weary","work","overworked","depleted","compassion fatigue"],
-  "child-anxiety": ["child anxiety","anxious child","teen","teenager","teen anxiety","kid","kids worry","my child is anxious","school anxiety"]
+  "ministry-burnout": ["burnout","burned out","burnt out","ministry","calling","exhausted","exhaustion","tired","weary","work","overworked","depleted","compassion fatigue","job","jobs","unemployed","unemployment","laid off","can't find a job","job search","career","no work","out of work","finding a job"],
+  "child-anxiety": ["child anxiety","anxious child","teen","teenager","teen anxiety","kid","kids worry","my child is anxious","school anxiety"],
+
+  "work-unemployment": ["job","jobs","unemployed","unemployment","laid off","can't find a job","job search","career","no work","out of work","finding a job","can't find work","between jobs","fired","let go"],
+  "money-debt": ["money","debt","bills","broke","finances","financial","stewardship","credit card","mortgage","can't pay","overspent","budget"],
+  "illness-suffering": ["illness","sick","sickness","pain","chronic","diagnosis","disability","disease","cancer","suffering","hospital","health"],
+  "doubt-dryness": ["doubt","dry","dryness","spiritual dryness","don't feel God","far from God","can't pray","unanswered prayer","assurance","cold spiritually"],
+  abuse: ["abuse","abused","abusive","domestic","hit","violence","violent","controlling spouse","afraid at home","unsafe","oppression"],
+  decisions: ["decision","decide","God's will","gods will","what should I do","paralyzed","can't choose","guidance","which job","move or stay"],
+  divorce: ["divorce","divorced","separation","separated","remarriage","remarry","end the marriage","papers"],
+  infertility: ["infertility","infertile","can't get pregnant","miscarriage","childless","no children","trying to conceive","barren","ivf"],
+  "in-laws": ["in-laws","in laws","mother-in-law","father-in-law","extended family","his family","her family","parents interfere"],
+  technology: ["phone","screen","social media","scrolling","distracted","distraction","internet","wasted time","can't put it down","tech"],
 };
 const moduleSynonyms = {
   burnout: ["burnout","burned out","exhausted","tired","weary","compassion fatigue","depleted","overwhelmed","rest","sabbath"],
@@ -2772,10 +3131,32 @@ function matchesIssue(item, q) {
   return words.some(w => w.includes(q) || q.includes(w));
 }
 
+let issueLetter = 'all';
+function renderLetterBar() {
+  const bar = document.getElementById('letter-bar');
+  if (!bar) return;
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  const used = new Set(counselingIssues.map(i => i.title[0].toUpperCase()));
+  bar.innerHTML = `<button type="button" data-letter="all" class="${issueLetter === 'all' ? 'active' : ''}">All</button>` +
+    letters.map(L => `<button type="button" data-letter="${L}" class="${issueLetter === L ? 'active' : ''}" ${used.has(L) ? '' : 'disabled'}>${L}</button>`).join('');
+  bar.querySelectorAll('button').forEach(b => b.onclick = () => {
+    if (b.disabled) return;
+    issueLetter = b.dataset.letter;
+    document.getElementById('issue-search').value = '';
+    renderIssueList('');
+  });
+}
 function renderIssueList(filter = '') {
+  renderLetterBar();
+  const bar = document.getElementById('letter-bar');
+  if (bar) bar.classList.remove('hidden');
   const list = document.getElementById('issue-list');
   const q = filter.toLowerCase();
-  const filtered = counselingIssues.filter(item => matchesIssue(item, q));
+  const sorted = [...counselingIssues].sort((a, b) => a.title.localeCompare(b.title));
+  const filtered = sorted.filter(item => {
+    if (issueLetter !== 'all' && item.title[0].toUpperCase() !== issueLetter) return false;
+    return matchesIssue(item, q);
+  });
   list.innerHTML = filtered.map(m => {
     const title = q ? m.title.replace(new RegExp(`(${filter})`, 'gi'), '<mark>$1</mark>') : m.title;
     const summary = q ? m.summary.replace(new RegExp(`(${filter})`, 'gi'), '<mark>$1</mark>') : m.summary;
@@ -2797,6 +3178,8 @@ function showIssue(id) {
   localStorage.setItem('last-opened', JSON.stringify({ type: 'issue', id }));
   const issue = counselingIssues.find(m => m.id === id);
   document.getElementById('issue-list').classList.add('hidden');
+  const bar = document.getElementById('letter-bar');
+  if (bar) bar.classList.add('hidden');
   const detail = document.getElementById('issue-detail');
   const linkedContent = linkifyVerses(issue.content);
   const isFav = localStorage.getItem('fav-' + id) === 'true';
@@ -3174,6 +3557,7 @@ function saveNotes(id) {
 }
 
 document.getElementById('issue-search').addEventListener('input', (e) => {
+  if (e.target.value) issueLetter = 'all';
   renderIssueList(e.target.value);
 });
 
