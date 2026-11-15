@@ -401,8 +401,9 @@ html[data-theme="dark"] .verse-tip .vt-text { color: #F4F1EA; }
 #mobile-print .mp-content h1 { font-size: 1.3rem; color: #1F4D3A; margin: 0 0 .25rem; }
 #mobile-print .mp-content h2, #mobile-print .mp-content h3 { color: #1F4D3A; }
 @media print {
-  body > *:not(#mobile-print) { display: none !important; }
-  #mobile-print, #mobile-print.show { display: block !important; position: static; overflow: visible; }
+  body.printing > *:not(#mobile-print) { display: none !important; }
+  body.printing #mobile-print,
+  body.printing #mobile-print.show { display: block !important; position: static; overflow: visible; }
   #mobile-print .mp-bar { display: none !important; }
 }
 
@@ -3362,8 +3363,9 @@ function sendToPrint(html, inner) {
       overlay.id = 'mobile-print';
       document.body.appendChild(overlay);
     }
-    overlay.innerHTML = '<div class="mp-bar"><button type="button" onclick="window.print()">Print</button><button type="button" onclick="document.getElementById(\'mobile-print\').classList.remove(\'show\')">Close</button></div><div class="mp-content">' + inner + '</div>';
+    overlay.innerHTML = '<div class="mp-bar"><button type="button" onclick="printOverlay()">Print</button><button type="button" onclick="closePrintOverlay()">Close</button></div><p class="note" style="margin:.6rem .9rem 0;">If Print does nothing, tap the Share button, then Print.</p><div class="mp-content">' + inner + '</div>';
     overlay.classList.add('show');
+    document.body.classList.add('printing');
     return;
   }
   const win = window.open('', '_blank');
@@ -3606,12 +3608,44 @@ function printHeaderHtml(formName) {
   </div>`;
 }
 
+function printOverlay() {
+  document.body.classList.add('printing');
+  window.print();
+}
+function closePrintOverlay() {
+  const overlay = document.getElementById('mobile-print');
+  if (overlay) overlay.classList.remove('show');
+  document.body.classList.remove('printing');
+}
 function preparePagePrint(name) {
+  const title = name || 'Counselor Form';
+  const root = document.querySelector('#toolkit-detail') || document.querySelector('#issue-detail') || document.querySelector('main');
+  let body = '<h1>' + title + '</h1>';
+  if (root) {
+    root.querySelectorAll('form label, form .check-item, form h3').forEach(el => {
+      if (el.classList.contains('check-item')) {
+        const cb = el.querySelector('input');
+        const lab = el.querySelector('label');
+        body += '<div class="check">' + (cb && cb.checked ? '☑' : '☐') + ' ' + (lab ? lab.textContent : '') + '</div>';
+      } else if (el.tagName === 'LABEL') {
+        const id = el.getAttribute('for');
+        const input = id ? document.getElementById(id) : el.nextElementSibling;
+        const val = input && 'value' in input ? (input.value || '') : '';
+        body += '<label>' + el.textContent + '</label><div class="val">' + (val || '&nbsp;') + '</div>';
+      } else {
+        body += el.outerHTML;
+      }
+    });
+  }
+  if (isTouchDevice()) {
+    openPrintDoc(title, body);
+    return;
+  }
   const logo = document.querySelector('.brand-mark');
   const printLogo = document.getElementById('print-logo');
   const printName = document.getElementById('print-form-name');
   if (logo && printLogo) printLogo.src = logo.src;
-  if (printName) printName.textContent = name || '';
+  if (printName) printName.textContent = title;
   window.print();
 }
 
