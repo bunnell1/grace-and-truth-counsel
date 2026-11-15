@@ -2533,7 +2533,7 @@ const scriptureData = [
 function localMatches(q) {
   const words = q.toLowerCase().split(/[^a-z0-9]+/).filter(w => w.length > 2);
   const score = (id, title, summary) => {
-    const hay = ((synonyms[id] || []).join(' ') + ' ' + title + ' ' + (summary || '')).toLowerCase();
+    const hay = ((issueSynonyms[id] || []).join(' ') + ' ' + title + ' ' + (summary || '')).toLowerCase();
     return words.reduce((n, w) => n + (hay.includes(w) ? 1 : 0), 0);
   };
   const issues = counselingIssues.map(i => ({ type: 'issue', id: i.id, title: i.title, n: score(i.id, i.title, i.summary) })).filter(x => x.n);
@@ -2552,7 +2552,8 @@ async function findPlace() {
   const q = document.getElementById('finder-q').value.trim();
   const out = document.getElementById('finder-results');
   if (!q) { out.innerHTML = '<p class="note">Type a few words first.</p>'; return; }
-  const local = localMatches(q);
+  let local = [];
+  try { local = localMatches(q); } catch (e) { local = []; }
   if (local.length) { out.innerHTML = renderPicks(local); return; }
   out.innerHTML = '<p class="note">Looking further…</p>';
   const catalog = [
