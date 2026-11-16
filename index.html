@@ -3736,14 +3736,14 @@ function renderQuiz() {
 }
 
 const submitQuizBtn = document.getElementById('submit-quiz');
-if (submitQuizBtn) submitQuizBtn.addEventListener('click', () => {
-  let score = 0;
+if (submitQuizBtn) submitQuizBtn.addEventListener('click', async () => {
+  const answers = [];
   let answered = 0;
-  questions.forEach((_, i) => {
+  questions.forEach((item, i) => {
     const sel = document.querySelector(`input[name="q${i}"]:checked`);
     if (sel) {
-      score += parseInt(sel.value);
       answered++;
+      answers.push(item.q + ' ' + item.options[Number(sel.value)]);
     }
   });
   if (answered < questions.length) {
@@ -3751,12 +3751,22 @@ if (submitQuizBtn) submitQuizBtn.addEventListener('click', () => {
     return;
   }
   const result = document.getElementById('quiz-result');
-  let suggestion = "";
-  if (score >= 10) suggestion = "You may benefit most from the <strong>Burnout & Compassion Fatigue</strong> and <strong>Boundaries</strong> modules.";
-  else if (score >= 6) suggestion = "Consider reviewing <strong>Listening Before Speaking</strong> and <strong>Sin and Suffering</strong>.";
-  else suggestion = "You appear to be stewarding yourself well. The modules on <strong>When People Don’t Change</strong> can still be helpful for perspective.";
-  result.innerHTML = `<p><strong>Reflection complete.</strong></p><p>${suggestion}</p><button class="btn" onclick="showSection('modules')">Explore Modules</button>`;
+  result.innerHTML = '<p class="note">Looking for modules…</p>';
   result.classList.remove('hidden');
+  const catalog = modules.map(m => ({ type: 'module', id: m.id, title: m.title, summary: m.summary || '' }));
+  try {
+    const res = await fetch(SUPABASE_URL + '/functions/v1/find', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + SUPABASE_KEY, apikey: SUPABASE_KEY },
+      body: JSON.stringify({ q: 'Counselor self-assessment. Suggest the most relevant modules. ' + answers.join('. '), catalog })
+    });
+    const data = await res.json();
+    const picks = (data.matches || []).filter(m => catalog.some(c => c.id === m.id)).slice(0, 3);
+    if (!picks.length) throw new Error('none');
+    result.innerHTML = '<p><strong>Reflection complete.</strong> These modules fit your answers.</p>' + picks.map(m => `<p style="margin:.5rem 0;"><button class="btn" type="button" onclick="showSection('modules'); showModule('${m.id}')">${m.title}</button>${m.why ? '<br><span class="note">' + m.why + '</span>' : ''}</p>`).join('');
+  } catch (err) {
+    result.innerHTML = '<p><strong>Reflection complete.</strong></p><p>Open the Growth Modules and start with the one that matches what you marked.</p><button class="btn" onclick="showSection(\'modules\')">Explore Modules</button>';
+  }
 });
 
 // Init
@@ -4141,33 +4151,48 @@ showSection('home');
 </script>
 <button id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="position:fixed;bottom:1.5rem;right:1.5rem;padding:0.6rem 1rem;background:var(--accent);color:white;border:none;border-radius:8px;cursor:pointer;display:none;z-index:100;">↑ Top</button>
 <script>
-function processAssessment() {
+function moduleButton(id, title) {
+  return `<p style="margin:.5rem 0;"><button class="btn" type="button" onclick="showSection('modules'); showModule('${id}')">${title}</button></p>`;
+}
+async function processAssessment() {
   const form = document.getElementById('assessment-form');
   if (!form) return;
+  const labels = {
+    q1: 'I regularly protect time for rest and spiritual nourishment',
+    q2: 'I remember that I am not the Savior of those I counsel',
+    q3: 'I ask clarifying questions before offering counsel',
+    q4: 'I seek to understand the person’s story before applying Scripture',
+    q5: 'I measure faithfulness by dependence on God rather than visible results',
+    q6: 'I return responsibility for change to the Lord and the person',
+    q7: 'I follow a clear process in sessions',
+    q8: 'I maintain wise boundaries around availability',
+    q9: 'I regularly examine my own heart and seek accountability',
+    q10: 'I respond to criticism or difficult sessions with humility'
+  };
   const data = new FormData(form);
-  const scores = {};
-  for (let [k,v] of data.entries()) {
-    if (k.startsWith('q')) scores[k] = Number(v);
+  const answers = [];
+  for (let [k, v] of data.entries()) {
+    if (k.startsWith('q')) answers.push(labels[k] + ': ' + v + ' of 5');
   }
-  const suggestions = [];
-  if ((scores.q1 || 5) <= 3 || (scores.q2 || 5) <= 3) suggestions.push("Burnout & Compassion Fatigue");
-  if ((scores.q3 || 5) <= 3 || (scores.q4 || 5) <= 3) suggestions.push("Listening Before Speaking");
-  if ((scores.q5 || 5) <= 3 || (scores.q6 || 5) <= 3) suggestions.push("When People Don’t Change");
-  if ((scores.q7 || 5) <= 3 || (scores.q8 || 5) <= 3) suggestions.push("A Simple Session Process");
-  if ((scores.q8 || 5) <= 3) suggestions.push("Boundaries & After-Hours Care");
-  if ((scores.q9 || 5) <= 3 || (scores.q10 || 5) <= 3) suggestions.push("Guarding Your Own Heart");
-  if ((scores.q10 || 5) <= 3) suggestions.push("Handling Criticism & Difficult Sessions");
-
-  const unique = [...new Set(suggestions)];
   const result = document.getElementById('assessment-result');
   if (!result) return;
   result.style.display = 'block';
-  if (unique.length === 0) {
-    result.innerHTML = `<h3>Reflection</h3><p>Your responses suggest strength in these areas. You may still review any Growth Module that interests you.</p><p><a href="#" onclick="showSection('modules'); return false;">Go to Growth Modules</a></p>`;
-  } else {
-    result.innerHTML = `<h3>Suggested Modules for Growth</h3><p>Based on your responses, these modules may be especially helpful:</p><ul>${unique.map(m => `<li>${m}</li>`).join('')}</ul><p><a href="#" onclick="showSection('modules'); return false;">Go to Growth Modules</a></p>`;
+  result.innerHTML = '<p class="note">Looking for modules…</p>';
+  result.scrollIntoView({ behavior: 'smooth' });
+  const catalog = modules.map(m => ({ type: 'module', id: m.id, title: m.title, summary: m.summary || '' }));
+  try {
+    const res = await fetch(SUPABASE_URL + '/functions/v1/find', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + SUPABASE_KEY, apikey: SUPABASE_KEY },
+      body: JSON.stringify({ q: 'Counselor self-assessment, lower numbers are weaker. Suggest the most relevant modules. ' + answers.join('. '), catalog })
+    });
+    const data2 = await res.json();
+    const picks = (data2.matches || []).filter(m => catalog.some(c => c.id === m.id)).slice(0, 3);
+    if (!picks.length) throw new Error('none');
+    result.innerHTML = '<h3>Suggested Modules for Growth</h3><p>Based on your responses, these modules may be especially helpful:</p>' + picks.map(m => moduleButton(m.id, m.title)).join('');
+  } catch (err) {
+    result.innerHTML = '<h3>Suggested Modules for Growth</h3><p>Open the Growth Modules and start with the one that matches what you marked.</p><p><button class="btn" type="button" onclick="showSection(\'modules\')">Go to Growth Modules</button></p>';
   }
-  result.scrollIntoView({behavior:'smooth'});
 }
 
 function renderToolkitList() {
