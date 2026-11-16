@@ -638,6 +638,10 @@ html[data-theme="dark"] .verse-tip .vt-text { color: #F4F1EA; }
       <p>Searchable guidance for common struggles. Issues are grouped using commonly used descriptive terms (including those often associated with DSM categories) for ease of reference. We do not necessarily endorse the DSM classification system. Each entry offers biblical principles and Scripture for counselors.</p>
       <div class="letter-bar" id="letter-bar"></div>
       <input type="text" class="search" id="issue-search" placeholder="Search issues (e.g., anxious, sad, anger, marriage)...">
+      <p class="note" style="margin:.8rem 0 .3rem;">Or describe the struggle</p>
+      <input type="text" class="search" id="issue-describe" placeholder="For example, my adult child will not speak to me">
+      <button class="btn secondary" type="button" onclick="describeIssue()">Find</button>
+      <div id="issue-describe-results"></div>
       <div class="module-list" id="issue-list"></div>
     </div>
     <div id="issue-detail" class="hidden"></div>
@@ -2030,6 +2034,88 @@ const counselingIssues = [
     `
   },
     {
+    id: "starting-family",
+    title: "Starting a Family",
+    summary: "The desire for children, the fear of it, and trusting God with the timing.",
+    dsm: "May relate to adjustment or relational categories",
+    furtherReading: [
+      { title: "Preparing for Motherhood", url: "https://www.amazon.com/Preparing-Motherhood-Inside-Scoop-Your-ebook/dp/B09QK1NMTG", note: "Jennifer Huang" },
+      { title: "Should We Get Married?", url: "https://www.amazon.com/dp/B088TSYY14", note: "A biblical look at readiness" }
+    ],
+    content: `
+      <h2>Starting a Family</h2>
+      <p>Wanting children, delaying children, or fearing the cost of children are all matters of the heart. Biblical counseling treats children as a gift, not a right or a project, and helps a couple seek the Lord together.</p>
+      <div class="verse">“Behold, children are a heritage from the Lord, the fruit of the womb a reward.” — Psalm 127:3</div>
+      <div class="verse">“Trust in the Lord with all your heart, and do not lean on your own understanding.” — Proverbs 3:5</div>
+      <div class="verse">“Did not he who made me in the womb make him?” — Job 31:15</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Children are a gift from the Lord, not a possession or a measure of a marriage.</li>
+        <li>A couple decides together, under Scripture, not by fear or by pressure from others.</li>
+        <li>Timing belongs to God. Planning is wisdom. Control is not.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Help each spouse say what they want and what they fear.</li>
+        <li>Name any pressure from family, church, or comparison.</li>
+        <li>Point them to seek the Lord together, not to a formula.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read Psalm 127. Each spouse writes what they want, what they fear, and one thing they will entrust to the Lord.</li>
+        <li>Set one conversation this week with phones away. Listen before you answer.</li>
+        <li>Pray together once this week for wisdom, not only for an outcome.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “When you think about having a child, what rises first, desire or fear?”</p>
+      <p><strong>Counselee:</strong> “Both. We want children. We are also afraid we are not ready.”</p>
+      <p><strong>Counselor:</strong> “What would ‘ready’ have to look like before you could trust God with this?”</p>
+      <p><strong>Counselee:</strong> “More money. More certainty.”</p>
+      <p><strong>Counselor:</strong> “What would it look like to seek the Lord together instead of waiting for a feeling of certainty?”</p>
+    `
+  },
+  {
+    id: "education-homeschool",
+    title: "Education & Homeschooling",
+    summary: "School choice, homeschooling, and the pressure to get it right.",
+    dsm: "May relate to adjustment or anxiety categories",
+    furtherReading: [
+      { title: "Caring for the Souls of Children", url: "https://www.amazon.com/Caring-Souls-Children-Biblical-Counselors-ebook/dp/B08DV38KYG", note: "Amy Baker" },
+      { title: "Safeguards", url: "https://www.amazon.com/dp/164507286X", note: "Julie Lowe" }
+    ],
+    content: `
+      <h2>Education & Homeschooling</h2>
+      <p>Where a child learns is a real decision. It is not the measure of a faithful parent. Biblical counseling helps a family seek wisdom, name fear and pride, and remember that formation happens at home in any school.</p>
+      <div class="verse">“These words that I command you today shall be on your heart. You shall teach them diligently to your children.” — Deuteronomy 6:6-7</div>
+      <div class="verse">“Fathers, do not provoke your children to anger, but bring them up in the discipline and instruction of the Lord.” — Ephesians 6:4</div>
+      <div class="verse">“The fear of the Lord is the beginning of wisdom.” — Proverbs 9:10</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Parents are responsible for a child’s formation. A school does not replace that.</li>
+        <li>Homeschool, private school, and public school are matters of wisdom, not of righteousness by themselves.</li>
+        <li>Fear of other people’s opinion, or pride in a method, can drive the decision more than love.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Help the parents say what they are protecting and what they are afraid of.</li>
+        <li>Separate a conviction from a preference. Both can be held with humility.</li>
+        <li>Ask what formation at home will look like, whatever the school.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read Deuteronomy 6:4-9. Write three things you will teach at home no matter where your child goes to school.</li>
+        <li>Each spouse writes the real reason for the school choice you are considering. Share them without defending.</li>
+        <li>Name one comparison or fear you will lay down this week.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “What are you most afraid will happen if you choose the other option?”</p>
+      <p><strong>Counselee:</strong> “That we will fail our child. Or that people at church will judge us.”</p>
+      <p><strong>Counselor:</strong> “Which of those is actually driving the decision?”</p>
+      <p><strong>Counselee:</strong> “Probably what other people think.”</p>
+      <p><strong>Counselor:</strong> “What would it look like to decide from wisdom and love, and let the Lord hold the outcome?”</p>
+    `
+  },
+  {
     id: "parenting",
     title: "Parenting",
     summary: "Raising children as stewards, pointing them to Christ rather than controlling outcomes.",
@@ -2830,6 +2916,7 @@ const counselingIssues = [
     title: "Divorce & Remarriage",
     summary: "A marriage ending, and the questions that follow.",
     furtherReading: [
+      { title: "Marriage, Divorce, and Remarriage", url: "https://www.amazon.com/Marriage-Divorce-Remarriage-Critical-Questions-ebook/dp/B073SGBWPL", note: "Jim Newheiser" },
       { title: "Marriage, Divorce, and Remarriage in the Bible", url: "https://www.amazon.com/Marriage-Divorce-Remarriage-Bible-Jay/dp/0310511119", note: "Jay Adams" },
       { title: "When Sinners Say I Do", url: "https://www.amazon.com/When-Sinners-Say-I-Do-ebook/dp/B004EHZVGI", note: "Dave Harvey" }
     ],
@@ -2863,8 +2950,8 @@ const counselingIssues = [
     title: "Infertility & Childlessness",
     summary: "Longing for a child, and a wait that has no date.",
     furtherReading: [
-      { title: "Holding On to Hope", url: "https://www.amazon.com/Holding-Hope-Joy-Comes-Morning/dp/0842372420", note: "Nancy Guthrie" },
-      { title: "Suffering", url: "https://www.amazon.com/Suffering-Gospel-Hope-Doesnt-Sense-ebook/dp/B07GXW8132", note: "Paul David Tripp" }
+      { title: "Infertility: Comfort for Your Empty Arms and Heavy Heart", url: "https://www.amazon.com/Infertility-Comfort-Empty-Heavy-Heart-ebook/dp/B09QK13QQS", note: "Jennifer Huang" },
+      { title: "Holding On to Hope", url: "https://www.amazon.com/Holding-Hope-Pathway-through-Suffering/dp/1414312962", note: "Nancy Guthrie" }
     ],
     content: `
       <h2>Infertility & Childlessness</h2>
@@ -2975,6 +3062,8 @@ const scriptureData = [
   { topic: "Trauma & Comfort", verses: ["2 Corinthians 1:3-4", "Psalm 147:3", "Isaiah 61:1-3", "Romans 8:28", "Psalm 34:18", "Psalm 46:1-2", "Isaiah 43:1-2", "Psalm 23", "2 Corinthians 4:8-10", "Isaiah 53:4-5", "Psalm 56:8", "Revelation 21:4"] },
   { topic: "Addiction & Freedom", verses: ["John 8:34-36", "1 Corinthians 10:13", "2 Corinthians 5:17", "Romans 6:6-14", "Galatians 5:1", "Romans 8:1-2", "Titus 2:11-14", "1 Corinthians 6:19-20", "Psalm 119:45", "2 Peter 2:19", "James 1:14-15", "Philippians 4:13"] },
   { topic: "OCD & Trust", verses: ["Proverbs 3:5-6", "Philippians 4:6-7", "Romans 8:1", "Isaiah 26:3", "Matthew 6:25-34", "Psalm 55:22", "1 Peter 5:7", "Psalm 37:5", "Isaiah 41:10", "John 14:27", "2 Timothy 1:7", "Psalm 56:3"] },
+  { topic: "Starting a Family", verses: ["Psalm 127:3-5", "Proverbs 3:5-6", "Genesis 1:28", "Malachi 2:15", "1 Samuel 1:10-11", "Matthew 19:14"] },
+  { topic: "Education & Homeschooling", verses: ["Deuteronomy 6:4-9", "Ephesians 6:4", "Proverbs 9:10", "Proverbs 22:6", "Colossians 3:21", "2 Timothy 3:14-15"] },
   { topic: "Parenting", verses: ["Ephesians 6:1-4", "Colossians 3:21", "Deuteronomy 6:4-9", "Proverbs 22:6", "Psalm 127:3-5", "Matthew 18:6", "Proverbs 13:24", "Proverbs 29:17"] },
   { topic: "Parental Alienation", verses: ["Psalm 34:18", "Malachi 4:6", "Luke 15:11-32", "Romans 12:18", "Isaiah 61:1-3", "Joel 2:25", "Genesis 37:3-4", "1 Peter 5:7"] }
 ];
@@ -3166,6 +3255,8 @@ const issueSynonyms = {
   anger: ["angry","anger","mad","rage","furious","irritated","irritable","resentful","resentment","blow up","lose my temper","temper","frustrated","frustration","bitter","yelling","shouting","outburst"],
   marriage: ["marriage","married","spouse","husband","wife","marital","marriage problems","we fight","disconnected","affair","divorce","communication","cold","roommate","not intimate","separation"],
   forgiveness: ["forgive","forgiveness","forgiving","bitter","bitterness","unforgiving","resentment","resent","can't let go","holding a grudge","grudge","offended"],
+  "starting-family": ["starting a family","have a baby","want kids","ready for kids","family planning","when to have children","afraid to have kids"],
+  "education-homeschool": ["homeschool","home school","homeschooling","school choice","private school","public school","education","curriculum","which school"],
   "parenting": ["parent","parenting","child","children","kids","discipline","raising","teen","teenager","father","mother","adult children"],
   "parental-alienation": ["alienation","alienated","parental alienation","estranged","estrangement","custody","rejected by my child","won't talk to me","cut off","shut out","adult child will not speak"],
   grief: ["grief","grieving","loss","lost","died","death","dying","mourning","mourn","bereaved","bereavement","widow","widower","funeral","miss them","sad","miscarriage","stillbirth"],
@@ -3281,6 +3372,29 @@ function renderLetterBar() {
     renderIssueList('');
   });
 }
+
+async function describeIssue() {
+  const q = (document.getElementById('issue-describe').value || '').trim();
+  const out = document.getElementById('issue-describe-results');
+  if (!q) { out.innerHTML = '<p class="note">Type a few words first.</p>'; return; }
+  out.innerHTML = '<p class="note">Looking…</p>';
+  const catalog = counselingIssues.map(i => ({ type: 'issue', id: i.id, title: i.title, summary: i.summary || '' }));
+  try {
+    const res = await fetch(SUPABASE_URL + '/functions/v1/find', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + SUPABASE_KEY, apikey: SUPABASE_KEY },
+      body: JSON.stringify({ q, catalog })
+    });
+    const data = await res.json();
+    const picks = (data.matches || []).filter(m => catalog.some(c => c.id === m.id)).slice(0, 3);
+    out.innerHTML = picks.length
+      ? picks.map(m => `<p style="margin:.4rem 0;"><button class="btn secondary" type="button" onclick="showIssue('${m.id}')">${m.title}</button></p>`).join('')
+      : '<p class="note">Nothing close. Try different words, or use the search above.</p>';
+  } catch (err) {
+    out.innerHTML = '<p class="note">Not available right now. Use the search above.</p>';
+  }
+}
+
 function renderIssueList(filter = '') {
   renderLetterBar();
   const bar = document.getElementById('letter-bar');
