@@ -546,10 +546,6 @@ html[data-theme="dark"] .verse-tip .vt-text { color: #F4F1EA; }
       
     </div>
     </div>
-    <div class="site-search">
-      <input id="site-search" type="search" placeholder="Search by keyword…" autocomplete="off">
-      <div id="search-results" class="search-results"></div>
-    </div>
     <div class="card">
       <p>Grace & Truth Counsel is a support tool designed for biblical counselors. It offers self-assessment, growth modules on counselor challenges, a searchable database of counseling issues, Scripture resources, a prayer guide, sample dialogues, suggested homework, and printable session tools.</p>
       <p class="note"><strong>How to use this:</strong> Start with the Self-Assessment if you want personal reflection, browse Growth Modules for counselor care, open the Toolkit for fillable session forms, or search Counseling Issues for specific struggles. Everything is meant to be tested against Scripture and used alongside wise supervision. No tool replaces prayer, the local church, or a living relationship with Christ.</p>
@@ -858,6 +854,70 @@ document.addEventListener('mouseout', (e) => {
 });
 
 const toolkit = [
+  {
+    id: "consent",
+    title: "Consent to Counseling",
+    summary: "A fillable consent form. Church name is left blank. Adapt it for your church.",
+    content: `
+      <h2>Consent to Counseling</h2>
+      <p class="note">A template. Fill the church name. Remove or change any line that does not fit your church. This is not legal advice.</p>
+      <form class="toolkit-form" id="form-consent">
+        <label>Church name</label>
+        <input type="text" id="cn-church" placeholder="Church name">
+        <p><strong>Biblical Counseling Policies & Procedures</strong></p>
+
+        <h3>Our Goal</h3>
+        <p>The mission of this counseling ministry is to equip you to meet the challenges of life by the transforming power of Jesus Christ for the glory of God. Counseling is offered as a ministry of the church. You have no obligation to pay a fee for the counseling you receive.</p>
+        <label>Initials</label><input type="text" id="cn-i1" style="max-width:6rem;">
+
+        <h3>Biblical Basis</h3>
+        <p>This counseling is religious in nature and is conducted under the authority of the local church. We believe that God, through His revelation in the Old and New Testaments, has provided His people with guidance for faith and life (2 Timothy 3:16-17; 2 Peter 1:3-4). Counseling is based on Scripture. Counselors are not licensed as psychotherapists or mental health professionals and do not follow the methods of such persons.</p>
+        <label>Initials</label><input type="text" id="cn-i2" style="max-width:6rem;">
+
+        <h3>Other Professional Advice</h3>
+        <p>If you have significant medical, legal, financial, or other technical questions, you should seek advice from a competent independent professional. Counselors will help you consider such advice in the light of Scripture. Counsel is not intended to replace a qualified physician where a physical problem is present or where medication has been prescribed.</p>
+        <label>Initials</label><input type="text" id="cn-i3" style="max-width:6rem;">
+
+        <h3>Confidentiality</h3>
+        <p>Counselors will carefully protect what you share, subject to these limits:</p>
+        <ul>
+          <li>A counselor may seek advice from church leadership, or from the leaders of another church you attend, when wisdom is needed.</li>
+          <li>Information may be shared when a person is in imminent danger of serious harm unless others intervene.</li>
+          <li>Information may be shared when a person refuses to repent and church discipline becomes necessary.</li>
+          <li>Information may be shared when the law requires a report.</li>
+          <li>Observers may sit in on a session to assist or for training.</li>
+        </ul>
+        <p>The intent is to help, never to harm. A name will be withheld and the matter discussed in general terms unless the specifics are necessary.</p>
+        <label>Initials</label><input type="text" id="cn-i4" style="max-width:6rem;">
+
+        <h3>Counseling Minors</h3>
+        <p>The primary responsibility for shepherding children and teenagers rests with their parents. When counseling a minor, the counselor may share information from the sessions with a custodial parent if the counselor believes it is wise.</p>
+        <label>Initials</label><input type="text" id="cn-i5" style="max-width:6rem;">
+
+        <h3>Conflict Resolution</h3>
+        <p>First Corinthians 6:1-8 calls Christians not to bring lawsuits against one another in secular courts. Any dispute with a counselor or with this church will be settled by mediation and, if necessary, arbitration under biblical principles. By signing, you agree not to subpoena a counselor, or any notes, in a legal proceeding about matters discussed in counseling.</p>
+        <label>Initials</label><input type="text" id="cn-i6" style="max-width:6rem;">
+
+        <h3>Consent to Record</h3>
+        <p>Recordings, if used, are for the counseling process and for counselor training. A full name will not be attached to a recording, and it will not be shared beyond those involved in the case or reviewing it for training. You may request that a recording be destroyed when counseling ends. Refusal to consent to recording does not affect eligibility for counseling.</p>
+        <div class="check-item"><input type="checkbox" id="cn-record"><label for="cn-record">I give consent to record sessions</label></div>
+        <label>Initials</label><input type="text" id="cn-i7" style="max-width:6rem;">
+
+        <h3>Signature of Consent</h3>
+        <p>Your signature indicates that you have read these guidelines and give informed consent to them.</p>
+        <label>Counselee name</label><input type="text" id="cn-name">
+        <label>Signature</label><input type="text" id="cn-sign" placeholder="Sign or type name">
+        <label>Date</label><input type="text" id="cn-date">
+
+        <h3>Custodial Parent</h3>
+        <p class="note">Required when counseling a teenager. Signed by the teen and a custodial parent.</p>
+        <div class="check-item"><input type="checkbox" id="cn-parent-needed"><label for="cn-parent-needed">Parental consent needed</label></div>
+        <label>Parent name</label><input type="text" id="cn-parent-name">
+        <label>Parent signature</label><input type="text" id="cn-parent-sign">
+        <label>Date</label><input type="text" id="cn-parent-date">
+      </form>
+    `
+  },
   {
     id: "session-checklist",
     title: "Session Checklist",
@@ -2901,21 +2961,44 @@ function renderPicks(picks) {
   return picks.map(p => {
     const go = p.type === 'issue'
       ? `showSection('issues'); showIssue('${p.id}')`
+      : p.type === 'toolkit'
+      ? `showSection('toolkit'); showToolkit('${p.id}')`
       : `showSection('modules'); showModule('${p.id}')`;
-    return `<p><a href="#" onclick="${go}; return false;">${p.title}</a>${p.why ? ' <span class="note">' + p.why + '</span>' : ''}</p>`;
+    const passage = p.type === 'issue'
+      ? ` <button class="btn secondary" type="button" style="margin-left:.4rem;padding:.2rem .5rem;font-size:.85rem;" onclick="openMainPassage('${p.id}')">Open the main passage</button><span id="passage-${p.id}"></span>`
+      : '';
+    return `<p><a href="#" onclick="${go}; return false;">${p.title}</a>${p.why ? ' <span class="note">' + p.why + '</span>' : ''}${passage}</p>`;
   }).join('');
+}
+async function openMainPassage(id) {
+  const issue = counselingIssues.find(i => i.id === id);
+  const box = document.getElementById('passage-' + id);
+  if (!issue || !box) return;
+  const verses = extractVerses(issue.content);
+  if (!verses.length) { box.innerHTML = '<p class="note">No passage listed on this issue.</p>'; return; }
+  const ref = verses[0].split('—').pop().trim();
+  box.innerHTML = '<p class="note">Loading…</p>';
+  try {
+    const res = await fetch(SUPABASE_URL + '/functions/v1/rapid-api?q=' + encodeURIComponent(ref), {
+      headers: { Authorization: 'Bearer ' + SUPABASE_KEY, apikey: SUPABASE_KEY }
+    });
+    const data = await res.json();
+    box.innerHTML = `<div class="verse" style="margin-top:.4rem;"><strong>${ref}</strong><br>${data.text || 'Text not available.'}</div>`;
+  } catch (e) {
+    box.innerHTML = `<p class="note">${verseLink(ref)}</p>`;
+  }
 }
 async function findPlace() {
   const q = document.getElementById('finder-q').value.trim();
   const out = document.getElementById('finder-results');
   if (!q) { out.innerHTML = '<p class="note">Type a few words first.</p>'; return; }
+  out.innerHTML = '<p class="note">Looking…</p>';
   let local = [];
   try { local = localMatches(q); } catch (e) { local = []; }
-  if (local.length) { out.innerHTML = renderPicks(local); return; }
-  out.innerHTML = '<p class="note">Looking further…</p>';
   const catalog = [
-    ...modules.map(m => ({ type: 'module', id: m.id, title: m.title })),
-    ...counselingIssues.map(i => ({ type: 'issue', id: i.id, title: i.title }))
+    ...modules.map(m => ({ type: 'module', id: m.id, title: m.title, summary: m.summary || '' })),
+    ...counselingIssues.map(i => ({ type: 'issue', id: i.id, title: i.title, summary: i.summary || '' })),
+    ...toolkit.map(t => ({ type: 'toolkit', id: t.id, title: t.title, summary: t.summary || '' }))
   ];
   try {
     const res = await fetch(SUPABASE_URL + '/functions/v1/find', {
@@ -2924,11 +3007,12 @@ async function findPlace() {
       body: JSON.stringify({ q, catalog })
     });
     const data = await res.json();
-    if (!res.ok || data.error) { out.innerHTML = '<p class="note">Nothing on the site matched. Try Issues, or different words.</p>'; return; }
-    const picks = data.matches || [];
-    out.innerHTML = picks.length ? renderPicks(picks) : '<p class="note">Nothing close. Try different words, or browse Issues.</p>';
+    const ai = (data.matches || []).filter(m => catalog.some(c => c.id === m.id));
+    const seen = new Set(ai.map(m => m.id));
+    const merged = [...ai, ...local.filter(m => !seen.has(m.id))].slice(0, 4);
+    out.innerHTML = merged.length ? renderPicks(merged) : '<p class="note">Nothing close. Try different words, or browse Issues.</p>';
   } catch (err) {
-    out.innerHTML = '<p class="note">Nothing on the site matched. Try Issues.</p>';
+    out.innerHTML = local.length ? renderPicks(local) : '<p class="note">Nothing on the site matched. Try Issues.</p>';
   }
 }
 
@@ -3054,8 +3138,8 @@ const issueSynonyms = {
   "ministry-burnout": ["burnout","burned out","burnt out","ministry","calling","exhausted","exhaustion","tired","weary","work","overworked","depleted","compassion fatigue","job","jobs","unemployed","unemployment","laid off","can't find a job","job search","career","no work","out of work","finding a job"],
   "child-anxiety": ["child anxiety","anxious child","teen","teenager","teen anxiety","kid","kids worry","my child is anxious","school anxiety"],
 
-  "work-unemployment": ["job","jobs","unemployed","unemployment","laid off","can't find a job","job search","career","no work","out of work","finding a job","can't find work","between jobs","fired","let go"],
-  "money-debt": ["money","debt","bills","broke","finances","financial","stewardship","credit card","mortgage","can't pay","overspent","budget"],
+  "work-unemployment": ["job","jobs","unemployed","unemployment","laid off","can't find a job","job search","career","no work","out of work","finding a job","can't find work","between jobs","fired","let go","financial","finance","finances","money","money problems","financial crisis","financial problems","financial worry","financial worries","worried about money"],
+  "money-debt": ["money","debt","bills","broke","finances","financial","finance","money problems","financial worry","financial worries","worried about money","stewardship","credit card","mortgage","can't pay","overspent","budget"],
   "illness-suffering": ["illness","sick","sickness","pain","chronic","diagnosis","disability","disease","cancer","suffering","hospital","health"],
   "doubt-dryness": ["doubt","dry","dryness","spiritual dryness","don't feel God","far from God","can't pray","unanswered prayer","assurance","cold spiritually"],
   abuse: ["abuse","abused","abusive","domestic","hit","violence","violent","controlling spouse","afraid at home","unsafe","oppression"],
@@ -3223,7 +3307,14 @@ function showIssue(id) {
         <button class="icon-btn danger" type="button" onclick="clearNotes('notes-${id}')" title="Clear — remove the notes and form fields on this page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M7 7l1 13h8l1-13"/></svg></button>
       </div>
       <button class="btn secondary" onclick="sessionPrep('${id}')">Session Prep Sheet</button>
-      <button class="btn secondary" onclick="homeworkBuilder('${id}')">Homework Builder</button>
+      <button class="btn secondary" onclick="makeHomeworkFromIssue('${id}')">Homework</button>
+      <div class="card" style="margin-top:1rem;">
+        <h3>What passage fits this?</h3>
+        <p class="note">Type what the person said. This looks for a fitting passage anywhere in the ESV. It does not counsel.</p>
+        <input id="fit-q" type="text" placeholder="For example, I feel like God is far" style="width:100%;margin:.4rem 0;padding:.5rem;border:1px solid var(--border);border-radius:8px;font:inherit;background:var(--input-bg);color:inherit;">
+        <button class="btn secondary" type="button" onclick="fitPassage('${id}')">Find passages</button>
+        <div id="fit-results"></div>
+      </div>
       <button class="btn secondary print-btn" onclick="preparePagePrint(document.querySelector('#issue-detail h2')?.textContent || 'Counseling Issue')">Print / Save as PDF</button>
       <button class="btn secondary" onclick="renderIssueList()">← Back to Issues</button>
     </div>`;
@@ -3692,8 +3783,10 @@ function runSiteSearch(q) {
   box.classList.add('show');
   box._hits = hits;
 }
-document.getElementById('site-search').addEventListener('input', (e) => runSiteSearch(e.target.value));
-document.getElementById('search-results').addEventListener('click', (e) => {
+const siteSearch = document.getElementById('site-search');
+if (siteSearch) siteSearch.addEventListener('input', (e) => runSiteSearch(e.target.value));
+const searchResults = document.getElementById('search-results');
+if (searchResults) searchResults.addEventListener('click', (e) => {
   const btn = e.target.closest('button[data-hit]');
   if (!btn) return;
   const hit = document.getElementById('search-results')._hits[Number(btn.dataset.hit)];
@@ -3702,7 +3795,8 @@ document.getElementById('search-results').addEventListener('click', (e) => {
   hit.go();
 });
 document.addEventListener('click', (e) => {
-  if (!e.target.closest('.site-search')) document.getElementById('search-results').classList.remove('show');
+  const box = document.getElementById('search-results');
+  if (box && !e.target.closest('.site-search')) box.classList.remove('show');
 });
 
 // Notes export / import
@@ -3817,7 +3911,7 @@ function isTouchDevice() {
   return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 }
 function printCss() {
-  return 'body{font-family:Georgia,serif;color:#1c1c1c;padding:1.6rem 1.8rem;line-height:1.5;background:#fff;}h1{font-size:1.35rem;color:#1F4D3A;margin:0 0 .25rem;}h2,h3{color:#1F4D3A;}h2{font-size:1.05rem;margin:1.15rem 0 .35rem;padding-bottom:.2rem;border-bottom:1px solid #d9d3c8;}.sub{color:#6B6560;margin:0 0 1rem;}.box{border:1px solid #d9d3c8;border-radius:10px;padding:.85rem 1rem;margin:.4rem 0 .8rem;}li{margin:.35rem 0;}.line{border-bottom:1px solid #cfc8bc;height:1.7rem;margin:.3rem 0;}.foot{margin-top:1.4rem;padding-top:.6rem;border-top:1px solid #d9d3c8;font-size:.78rem;color:#6B6560;}label{font-weight:600;display:block;margin-top:.75rem;}.val{margin:.25rem 0 1rem;min-height:1.2em;border-bottom:1px solid #ccc;white-space:pre-wrap;}.check{margin:.3rem 0;}';
+  return 'body{font-family:Georgia,serif;color:#1c1c1c;padding:1.6rem 1.8rem;line-height:1.5;background:#fff;}h1{font-size:1.35rem;color:#1F4D3A;margin:0 0 .25rem;}h2,h3{color:#1F4D3A;}h2{font-size:1.05rem;margin:1.15rem 0 .35rem;padding-bottom:.2rem;border-bottom:1px solid #d9d3c8;}.sub{color:#6B6560;margin:0 0 1rem;}.box{border:1px solid #d9d3c8;border-radius:10px;padding:.85rem 1rem;margin:.4rem 0 .8rem;overflow:visible;page-break-inside:auto;}li{page-break-inside:avoid;}li{margin:.35rem 0;}.line{border-bottom:1px solid #cfc8bc;height:1.7rem;margin:.3rem 0;}.foot{margin-top:1.4rem;padding-top:.6rem;border-top:1px solid #d9d3c8;font-size:.78rem;color:#6B6560;}label{font-weight:600;display:block;margin-top:.75rem;}.val{margin:.25rem 0 1rem;min-height:1.2em;border-bottom:1px solid #ccc;white-space:pre-wrap;}.check{margin:.3rem 0;}';
 }
 function printFooter() {
   return '<div class="foot">Scripture quotations marked “ESV” are from the ESV® Bible (The Holy Bible, English Standard Version®), © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by permission. All rights reserved.</div>';
@@ -3896,6 +3990,11 @@ function sessionPrep(id) {
   detail._prep = { dialogue };
 }
 function printSessionPrep(id) {
+  const missing = [];
+  if (!document.getElementById('prep-sec-scripture').checked) missing.push('a passage');
+  if (!document.getElementById('prep-sec-dialogue').checked && !document.getElementById('prep-sec-notes').checked) missing.push('a question');
+  if (!document.getElementById('prep-sec-homework').checked) missing.push('one step');
+  if (missing.length && !confirm('This prep sheet has no ' + missing.join(', ') + '. Print anyway?')) return;
   const issue = counselingIssues.find(i => i.id === id);
   const chosen = group => [...document.querySelectorAll(`.prep-item[data-group="${group}"]`)].filter(el => el.checked).map(el => el.nextElementSibling.textContent);
   const on = name => document.getElementById('prep-sec-' + name).checked;
@@ -3909,6 +4008,84 @@ function printSessionPrep(id) {
   if (on('notes')) body += `<h2>Session Notes</h2><div class="box">${'<div class="line"></div>'.repeat(6)}</div>`;
   openPrintDoc('Session Prep — ' + issue.title, body);
 }
+
+function makeHomeworkFromIssue(id) {
+  const issue = counselingIssues.find(i => i.id === id);
+  const verses = extractVerses(issue.content);
+  const principles = extractList(issue.content, 'principle');
+  const hw = extractList(issue.content, 'homework');
+  const detail = document.getElementById('issue-detail');
+  detail.innerHTML = `
+    <div class="card">
+      <h2>Homework for the Counselee</h2>
+      <p class="sub">${issue.title}</p>
+      <label>Counselee name (optional)</label>
+      <input type="text" id="hw-name" style="width:100%;margin:.3rem 0 1rem;padding:.5rem;border:1px solid var(--line);border-radius:8px;font:inherit;">
+      <h3>Scripture</h3>
+      ${verses.map((v, n) => `<div class="check-item"><input type="checkbox" id="hws-${n}" checked><label for="hws-${n}">${esc(v)}</label></div>`).join('')}
+      <h3>Principles</h3>
+      ${principles.map((p, n) => `<div class="check-item"><input type="checkbox" id="hwp-${n}" checked><label for="hwp-${n}">${esc(p)}</label></div>`).join('')}
+      <h3>One step</h3>
+      ${hw.map((h, n) => `<div class="check-item"><input type="checkbox" id="hwh-${n}" checked><label for="hwh-${n}">${esc(h)}</label></div>`).join('')}
+      <h3>For Further Reading</h3>
+      ${(issue.furtherReading || []).map((r, n) => `<div class="check-item"><input type="checkbox" id="hwr-${n}" checked><label for="hwr-${n}">${esc(r.title)}${r.note ? ' — ' + esc(r.note) : ''}</label></div>`).join('') || '<p class="note">None listed.</p>'}
+      <label style="display:block;margin-top:1rem;">Add a specific step</label>
+      <textarea id="hw-extra" class="notes-area" placeholder="One clear next step…"></textarea>
+      <div class="btn-row" style="margin-top:1rem;">
+        <button class="btn" type="button" onclick="printFullHomework('${id}')">Print homework</button>
+        <button class="btn secondary" type="button" onclick="showIssue('${id}')">Back</button>
+      </div>
+    </div>`;
+}
+function esc(s) {
+  return String(s || '').replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>');
+}
+function printFullHomework(id) {
+  const issue = counselingIssues.find(i => i.id === id);
+  const name = (document.getElementById('hw-name').value || '').trim();
+  const extra = (document.getElementById('hw-extra').value || '').trim();
+  const groups = [
+    ['Scripture', 'hws-'],
+    ['Principles', 'hwp-'],
+    ['One step', 'hwh-'],
+    ['For Further Reading', 'hwr-']
+  ];
+  let body = `<h1>Homework${name ? ' for ' + esc(name) : ''}</h1><div class="sub">${esc(issue.title)}</div>`;
+  groups.forEach(([title, prefix]) => {
+    const items = [...document.querySelectorAll('#issue-detail .check-item')].filter(el => {
+      const input = el.querySelector('input');
+      return input && input.id.startsWith(prefix) && input.checked;
+    }).map(el => el.querySelector('label').textContent);
+    if (items.length) body += `<h2>${title}</h2><div class="box"><ol>${items.map(c => `<li>${esc(c)}</li>`).join('')}</ol></div>`;
+  });
+  if (extra) body += `<h2>Added step</h2><div class="box"><p>${esc(extra)}</p></div>`;
+  body += `<h2>Notes</h2><div class="box">${'<div class="line"></div>'.repeat(5)}<p style="margin-top:.8rem;">Date ______________ &nbsp;&nbsp; Signature ______________________</p></div>`;
+  openPrintDoc('Homework — ' + issue.title, body);
+}
+async function fitPassage(id) {
+  const q = (document.getElementById('fit-q').value || '').trim();
+  const out = document.getElementById('fit-results');
+  if (!q) { out.innerHTML = '<p class="note">Type a few words first.</p>'; return; }
+  out.innerHTML = '<p class="note">Looking in the ESV…</p>';
+  try {
+    const res = await fetch(SUPABASE_URL + '/functions/v1/passage', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + SUPABASE_KEY, apikey: SUPABASE_KEY },
+      body: JSON.stringify({ q })
+    });
+    const data = await res.json();
+    const hits = data.passages || [];
+    if (!hits.length) { out.innerHTML = '<p class="note">No passage found. Try a few more words.</p>'; return; }
+    out.innerHTML = hits.map(h => `
+      <div class="scripture-item">
+        <strong>${verseLink(h.ref)}</strong>
+        <p style="margin:.4rem 0 0;">${h.text || ''}</p>
+      </div>`).join('');
+  } catch (err) {
+    out.innerHTML = '<p class="note">Passage search is not available yet.</p>';
+  }
+}
+
 function homeworkBuilder(id) {
   const issue = counselingIssues.find(i => i.id === id);
   const hw = extractList(issue.content, 'homework');
