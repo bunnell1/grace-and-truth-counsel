@@ -2964,10 +2964,7 @@ function renderPicks(picks) {
       : p.type === 'toolkit'
       ? `showSection('toolkit'); showToolkit('${p.id}')`
       : `showSection('modules'); showModule('${p.id}')`;
-    const passage = p.type === 'issue'
-      ? ` <button class="btn secondary" type="button" style="margin-left:.4rem;padding:.2rem .5rem;font-size:.85rem;" onclick="openMainPassage('${p.id}')">Open the main passage</button><span id="passage-${p.id}"></span>`
-      : '';
-    return `<p><a href="#" onclick="${go}; return false;">${p.title}</a>${p.why ? ' <span class="note">' + p.why + '</span>' : ''}${passage}</p>`;
+    return `<p style="margin:.4rem 0;"><button class="btn secondary" type="button" style="padding:.35rem .7rem;font-size:.9rem;" onclick="${go}">${p.title}</button>${p.why ? ' <span class="note">' + p.why + '</span>' : ''}</p>`;
   }).join('');
 }
 async function openMainPassage(id) {
