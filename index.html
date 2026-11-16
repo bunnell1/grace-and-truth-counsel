@@ -3968,15 +3968,15 @@ function sessionPrep(id) {
       <h2>Session Prep Sheet</h2>
       <p class="sub">${issue.title}</p>
       <p>Check the headings and items to include.</p>
-      <div class="check-item"><input type="checkbox" id="prep-sec-scripture" checked><label for="prep-sec-scripture"><strong>Key Scripture</strong></label></div>
-      <div data-section="scripture">${prepItems(verses, 'scripture')}</div>
-      <div class="check-item"><input type="checkbox" id="prep-sec-principles" checked><label for="prep-sec-principles"><strong>Biblical Principles</strong></label></div>
-      <div data-section="principles">${prepItems(principles, 'principles')}</div>
-      <div class="check-item"><input type="checkbox" id="prep-sec-focus" checked><label for="prep-sec-focus"><strong>Counseling Focus</strong></label></div>
-      <div data-section="focus">${prepItems(focus, 'focus')}</div>
+      <div class="check-item"><input type="checkbox" id="prep-sec-scripture" data-group="scripture" checked><label for="prep-sec-scripture"><strong>Key Scripture</strong></label></div>
+      <div data-section="scripture" style="margin-left:1.4rem;">${prepItems(verses, 'scripture')}</div>
+      <div class="check-item"><input type="checkbox" id="prep-sec-principles" data-group="principles" checked><label for="prep-sec-principles"><strong>Biblical Principles</strong></label></div>
+      <div data-section="principles" style="margin-left:1.4rem;">${prepItems(principles, 'principles')}</div>
+      <div class="check-item"><input type="checkbox" id="prep-sec-focus" data-group="focus" checked><label for="prep-sec-focus"><strong>Counseling Focus</strong></label></div>
+      <div data-section="focus" style="margin-left:1.4rem;">${prepItems(focus, 'focus')}</div>
       <div class="check-item"><input type="checkbox" id="prep-sec-dialogue" checked><label for="prep-sec-dialogue"><strong>Sample Dialogue</strong></label></div>
-      <div class="check-item"><input type="checkbox" id="prep-sec-homework" checked><label for="prep-sec-homework"><strong>Suggested Homework</strong></label></div>
-      <div data-section="homework">${prepItems(hw, 'homework')}</div>
+      <div class="check-item"><input type="checkbox" id="prep-sec-homework" data-group="homework" checked><label for="prep-sec-homework"><strong>Suggested Homework</strong></label></div>
+      <div data-section="homework" style="margin-left:1.4rem;">${prepItems(hw, 'homework')}</div>
       <div class="check-item"><input type="checkbox" id="prep-sec-notes" checked><label for="prep-sec-notes"><strong>Session Notes</strong></label></div>
       <div class="btn-row" style="margin-top:1rem;">
         <button class="btn" type="button" onclick="printSessionPrep('${id}')">Print prep sheet</button>
@@ -3985,6 +3985,11 @@ function sessionPrep(id) {
       </div>
     </div>`;
   detail._prep = { dialogue };
+  detail.querySelectorAll('input[id^="prep-sec-"][data-group]').forEach(box => {
+    box.addEventListener('change', () => {
+      detail.querySelectorAll(`.prep-item[data-group="${box.dataset.group}"]`).forEach(item => { item.checked = box.checked; });
+    });
+  });
 }
 function printSessionPrep(id) {
   const missing = [];
