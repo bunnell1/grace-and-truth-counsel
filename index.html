@@ -547,7 +547,7 @@ html[data-theme="dark"] .verse-tip .vt-text { color: #F4F1EA; }
     </div>
     </div>
     <div class="site-search">
-      <input id="site-search" type="search" placeholder="Search modules, issues, tools, and Scripture…" autocomplete="off">
+      <input id="site-search" type="search" placeholder="Search by keyword…" autocomplete="off">
       <div id="search-results" class="search-results"></div>
     </div>
     <div class="card">
@@ -1551,6 +1551,8 @@ const counselingIssues = [
     summary: "Persistent low mood, loss of interest, and related symptoms. Offer gospel hope amid real suffering.",
     dsm: "Depressive Disorders",
     furtherReading: [
+      { title: "Someone I Know Is Grieving", url: "https://www.amazon.com/dp/B0CH8RTPRY", note: "Paul David Tripp" },
+      { title: "Grief: Finding Hope Again", url: "https://www.amazon.com/dp/B089QWV275", note: "Paul David Tripp" },
       { title: "Out of the Blues", url: "https://www.amazon.com/Out-Blues-Dealing-Depression-Loneliness/dp/1885904592/", note: "Wayne Mack" },
       { title: "Spiritual Depression", url: "https://www.amazon.com/Spiritual-Depression-Causes-Cure-Lloyd-Jones/dp/0802813879", note: "Martyn Lloyd-Jones" }
     ],
@@ -1758,7 +1760,9 @@ const counselingIssues = [
   {
     id: "bipolar",
     furtherReading: [
-      { title: "Counseling the Hard Cases", author: "Stuart Scott & Heath Lambert", url: "https://www.amazon.com/Counseling-Hard-Cases-Illustrating-Sufficiency/dp/1433685795/" }
+      { title: "Eating Disorders", url: "https://www.amazon.com/dp/1934885495/", note: "Edward T. Welch" },
+      { title: "Table for Two", url: "https://www.amazon.com/Table-Two-Biblical-Counsel-Disorders/dp/1645070743", note: "David R. Dunham" },
+      { title: "Counseling the Hard Cases", url: "https://www.amazon.com/Counseling-Hard-Cases-Illustrating-Sufficiency/dp/1433685795/", note: "Stuart Scott & Heath Lambert" }
     ],
     title: "Bipolar and Related Disorders",
     summary: "Cycles of elevated and depressed mood. Coordinate with medical care while addressing heart responses.",
@@ -2524,8 +2528,8 @@ const counselingIssues = [
     title: "Work & Unemployment",
     summary: "Job loss, a long search, and the fear of not providing.",
     furtherReading: [
-      { title: "The Gospel at Work", url: "https://www.amazon.com/Gospel-Work-Work-Matters-Matters/dp/0310513979", note: "Sebastian Traeger and Greg Gilbert" },
-      { title: "God at Work", url: "https://www.amazon.com/God-Work-Your-Christian-Vocation/dp/1433524473", note: "Gene Edward Veith" }
+      { title: "Financial Crisis", url: "https://www.amazon.com/Financial-Crisis-What-Bottom-Drops/dp/164507126X", note: "Jim Newheiser" },
+      { title: "What's Next?", url: "https://www.amazon.com/Whats-Next-Gods-Design-Change/dp/1597550248", note: "Chris Brauns" }
     ],
     content: `
       <h2>Work & Unemployment</h2>
@@ -2557,7 +2561,7 @@ const counselingIssues = [
     title: "Money & Debt",
     summary: "Fear, shame, and stewardship when money is tight or debt is heavy.",
     furtherReading: [
-      { title: "Redeeming Money", url: "https://www.amazon.com/Redeeming-Money-Money-Master-Servant/dp/1433556740", note: "Paul David Tripp" },
+      { title: "Redeeming Money", url: "https://www.amazon.com/Redeeming-Money-Reveals-Reorients-Hearts-ebook/dp/B07C7GTD8L", note: "Paul David Tripp" },
       { title: "The Treasure Principle", url: "https://www.amazon.com/Treasure-Principle-Unlocking-Secret-Joyful/dp/1590525086", note: "Randy Alcorn" }
     ],
     content: `
@@ -2590,7 +2594,7 @@ const counselingIssues = [
     title: "Illness & Suffering",
     summary: "Chronic pain, a diagnosis, or a body that will not cooperate.",
     furtherReading: [
-      { title: "Suffering", url: "https://www.amazon.com/Suffering-Gospel-Hope-When-Life/dp/1433556775", note: "Paul David Tripp" },
+      { title: "Suffering", url: "https://www.amazon.com/Suffering-Gospel-Hope-Doesnt-Sense-ebook/dp/B07GXW8132", note: "Paul David Tripp" },
       { title: "When the Darkness Will Not Lift", url: "https://www.amazon.com/When-Darkness-Will-Not-Lift/dp/1581348762", note: "John Piper" }
     ],
     content: `
@@ -2623,8 +2627,8 @@ const counselingIssues = [
     title: "Doubt & Spiritual Dryness",
     summary: "When prayer feels empty and God seems far.",
     furtherReading: [
-      { title: "When I Don't Desire God", url: "https://www.amazon.com/When-Dont-Desire-God-Christian/dp/1596440123", note: "John Piper" },
-      { title: "A Hunger for God", url: "https://www.amazon.com/Hunger-God-Desiring-Through-Fasting/dp/1433532522", note: "John Piper" }
+      { title: "When I Don't Desire God", url: "https://www.amazon.com/When-Dont-Desire-God-Redesign/dp/1433543176", note: "John Piper" },
+      { title: "A Hunger for God", url: "https://www.amazon.com/Hunger-God-Redesign-Desiring-through/dp/1433537265", note: "John Piper" }
     ],
     content: `
       <h2>Doubt & Spiritual Dryness</h2>
@@ -2656,8 +2660,9 @@ const counselingIssues = [
     title: "Abuse",
     summary: "When someone is being harmed. Safety comes before insight.",
     furtherReading: [
-      { title: "The Heart of Domestic Abuse", url: "https://www.amazon.com/Heart-Domestic-Abuse-Gospel-Hope/dp/1629951439", note: "Chris Moles" },
-      { title: "Counseling the Hard Cases", url: "https://www.amazon.com/Counseling-Hard-Cases-Illustrating-Sufficiency/dp/1433685795", note: "Stuart Scott and Heath Lambert" }
+      { title: "The Heart of Domestic Abuse", url: "https://www.amazon.com/Heart-Domestic-Abuse-Solutions-Violence/dp/1936141272", note: "Chris Moles" },
+      { title: "Is It Abuse?", url: "https://www.amazon.com/Abuse-Biblical-Identifying-Domestic-Helping-ebook/dp/B08HSJ84QL", note: "Darby Strickland" },
+      { title: "Caring for Families Caught in Domestic Abuse", url: "https://www.amazon.com/Caring-Families-Caught-Domestic-Abuse/dp/1645072584", note: "Darby Strickland" }
     ],
     content: `
       <h2>Abuse</h2>
@@ -2756,7 +2761,7 @@ const counselingIssues = [
     summary: "Longing for a child, and a wait that has no date.",
     furtherReading: [
       { title: "Holding On to Hope", url: "https://www.amazon.com/Holding-Hope-Joy-Comes-Morning/dp/0842372420", note: "Nancy Guthrie" },
-      { title: "Suffering", url: "https://www.amazon.com/Suffering-Gospel-Hope-When-Life/dp/1433556775", note: "Paul David Tripp" }
+      { title: "Suffering", url: "https://www.amazon.com/Suffering-Gospel-Hope-Doesnt-Sense-ebook/dp/B07GXW8132", note: "Paul David Tripp" }
     ],
     content: `
       <h2>Infertility & Childlessness</h2>
@@ -2821,8 +2826,8 @@ const counselingIssues = [
     title: "Technology & Distraction",
     summary: "The phone, wasted hours, and a mind that will not be still.",
     furtherReading: [
-      { title: "12 Ways Your Phone Is Changing You", url: "https://www.amazon.com/Ways-Your-Phone-Changing-You/dp/1433552436", note: "Tony Reinke" },
-      { title: "The Tech-Wise Family", url: "https://www.amazon.com/Tech-Wise-Family-Everyday-Putting-Technology/dp/0801018668", note: "Andy Crouch" }
+      { title: "12 Ways Your Phone Is Changing You", url: "https://www.amazon.com/Ways-Your-Phone-Changing-You-ebook/dp/B01N6371LN", note: "Tony Reinke" },
+      { title: "Obsessed With Your Phone", url: "https://www.amazon.com/Obsessed-Your-Phone-Disconnecting-Connect-ebook/dp/B088GVJYQF", note: "Anthony Selvaggio" }
     ],
     content: `
       <h2>Technology & Distraction</h2>
