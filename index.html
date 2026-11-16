@@ -651,7 +651,11 @@ html[data-theme="dark"] .verse-tip .vt-text { color: #F4F1EA; }
   <section id="scripture" class="hidden">
     <div class="card">
       <h2>Scripture Resources</h2>
-      <input type="text" class="search" id="scripture-search" placeholder="Search topics or keywords (e.g., burnout, listening, grace)...">
+      <p class="note">Type a phrase to find the passage. Or search the topic lists below.</p>
+      <input type="text" class="search" id="passage-q" placeholder="For example, the Lord is my shepherd">
+      <button class="btn" type="button" onclick="findPassage()">Find passage</button>
+      <div id="passage-results"></div>
+      <input type="text" class="search" id="scripture-search" placeholder="Search topics or keywords (e.g., burnout, listening, grace)..." style="margin-top:1rem;">
       <div id="scripture-list"></div>
     </div>
   </section>
@@ -3562,6 +3566,31 @@ document.getElementById('issue-search').addEventListener('input', (e) => {
 });
 
 // Scripture
+
+async function findPassage() {
+  const q = document.getElementById('passage-q').value.trim();
+  const out = document.getElementById('passage-results');
+  if (!q) { out.innerHTML = '<p class="note">Type a phrase first.</p>'; return; }
+  out.innerHTML = '<p class="note">Looking…</p>';
+  try {
+    const res = await fetch(SUPABASE_URL + '/functions/v1/passage', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + SUPABASE_KEY, apikey: SUPABASE_KEY },
+      body: JSON.stringify({ q })
+    });
+    const data = await res.json();
+    const hits = data.passages || [];
+    if (!hits.length) { out.innerHTML = '<p class="note">No passage found. Try a few more words.</p>'; return; }
+    out.innerHTML = hits.map(h => `
+      <div class="scripture-item">
+        <strong>${verseLink(h.ref)}</strong>
+        <p style="margin:.4rem 0 0;">${h.text || ''}</p>
+      </div>`).join('');
+  } catch (err) {
+    out.innerHTML = '<p class="note">Passage search is not available yet.</p>';
+  }
+}
+
 function renderScripture(filter = '') {
   const list = document.getElementById('scripture-list');
   const filtered = scriptureData.filter(item =>
