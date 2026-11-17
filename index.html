@@ -795,7 +795,7 @@ html[data-theme="dark"] .verse-tip .vt-text { color: #F4F1EA; }
   Scripture quotations marked “ESV” are from the ESV® Bible (The Holy Bible, English Standard Version®), © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by permission. All rights reserved.<br>
   <a href="#" onclick="showSection('about'); return false;">About</a>
   ·
-  <a href="Grace-and-Truth-Counsel-Feature-Sheet.pdf" target="_blank" rel="noopener">Feature Sheet</a>
+  <a href="#" onclick="openSheet(); return false;">Feature Sheet</a>
   ·
   <a href="#" onclick="showSection('terms'); return false;">Terms of Use</a>
   ·
@@ -3149,6 +3149,22 @@ async function findPlace() {
   }
 }
 
+
+function openSheet() {
+  const view = document.getElementById('sheet-view');
+  const frame = document.getElementById('sheet-frame');
+  frame.src = 'Grace-and-Truth-Counsel-Feature-Sheet.pdf';
+  view.style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+function closeSheet() {
+  const view = document.getElementById('sheet-view');
+  const frame = document.getElementById('sheet-frame');
+  view.style.display = 'none';
+  frame.src = '';
+  document.body.style.overflow = '';
+}
+
 function showSection(id) {
   document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
   document.getElementById(id).classList.remove('hidden');
@@ -4583,5 +4599,16 @@ window.addEventListener('scroll', () => {
 <!-- Cloudflare Web Analytics -->
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "53864a0d455640278257b904e15ec89b"}'></script>
 <!-- End Cloudflare Web Analytics -->
+
+<div id="sheet-view" style="display:none;position:fixed;inset:0;z-index:4000;background:#fff;color:#1c1c1c;">
+  <div style="position:sticky;top:0;display:flex;gap:.5rem;justify-content:space-between;align-items:center;padding:.6rem .8rem;background:#1F4D3A;color:#fff;">
+    <strong>Feature Sheet</strong>
+    <span>
+      <button type="button" onclick="window.open('Grace-and-Truth-Counsel-Feature-Sheet.pdf','_blank')" style="border:0;border-radius:999px;padding:.4rem .8rem;font:inherit;background:#fff;color:#1F4D3A;margin-right:.4rem;">Open</button>
+      <button type="button" onclick="closeSheet()" style="border:0;border-radius:999px;padding:.4rem .8rem;font:inherit;background:#fff;color:#1F4D3A;">Close</button>
+    </span>
+  </div>
+  <iframe id="sheet-frame" title="Feature Sheet" style="width:100%;height:calc(100% - 52px);border:0;background:#fff;"></iframe>
+</div>
 </body>
 </html>
