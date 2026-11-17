@@ -913,7 +913,7 @@ const toolkit = [
         <div class="check-item"><input type="checkbox" id="fm-low"><label for="fm-low">Depression or apathy</label></div>
         <div class="check-item"><input type="checkbox" id="fm-divorce"><label for="fm-divorce">Divorce</label></div>
         <div class="check-item"><input type="checkbox" id="fm-doubt"><label for="fm-doubt">Doubt or dryness</label></div>
-        <div class="check-item"><input type="checkbox" id="fm-eat"><label for="fm-eat">Eating or appetite</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-eat"><label for="fm-eat">Feeding and eating</label></div>
         <div class="check-item"><input type="checkbox" id="fm-edu"><label for="fm-edu">Education</label></div>
         <div class="check-item"><input type="checkbox" id="fm-envy"><label for="fm-envy">Envy</label></div>
         <div class="check-item"><input type="checkbox" id="fm-fear"><label for="fm-fear">Fear of man</label></div>
@@ -1654,53 +1654,13 @@ const modules = [
 const counselingIssues = [
 
   {
-    id: "eating",
-    title: "Eating & Appetite",
-    summary: "Food used for comfort, control, or refusal, and the body that bears it.",
-    dsm: "May relate to feeding or eating categories",
-    furtherReading: [
-      { title: "Table for Two", url: "https://www.amazon.com/Table-Two-Biblical-Counsel-Disorders/dp/1645070743", note: "Biblical counsel" },
-      { title: "Eating Disorders", url: "https://www.amazon.com/dp/1934885495/", note: "Edward Welch" }
-    ],
-    content: `
-      <h2>Eating & Appetite</h2>
-      <p>Food can become a way to quiet fear, manage shame, or take control. Biblical counseling does not treat the body as the enemy. It asks what the heart is doing with food, and it does not ignore a physician.</p>
-      <div class="verse">“So, whether you eat or drink, or whatever you do, do all to the glory of God.” — 1 Corinthians 10:31</div>
-      <div class="verse">“Their end is destruction, their god is their belly.” — Philippians 3:19</div>
-      <h3>Biblical Principles</h3>
-      <ul>
-        <li>Food is a gift. It is not a god, and it is not a way to punish the body.</li>
-        <li>The pattern may be sin, suffering, or both. Ask before you name it.</li>
-        <li>A physician belongs in the room when the body is in danger.</li>
-      </ul>
-      <h3>Counseling Focus</h3>
-      <ul>
-        <li>Ask what food is doing for them. Comfort, control, punishment, or habit.</li>
-        <li>Look for fear and shame under the pattern.</li>
-        <li>Give one small, concrete step. Do not assign a diet.</li>
-      </ul>
-      <h3>Suggested Homework</h3>
-      <ul>
-        <li>Read 1 Corinthians 10:31. Write one way food has been serving something other than thanksgiving.</li>
-        <li>Name one meal this week you will eat with thanksgiving, and one person you will tell.</li>
-        <li>If the body is failing, make one appointment with a physician.</li>
-      </ul>
-      <h3>Sample Dialogue</h3>
-      <p><strong>Counselor:</strong> “When the day is hard, what do you do with food?”</p>
-      <p><strong>Counselee:</strong> “I either will not eat, or I cannot stop.”</p>
-      <p><strong>Counselor:</strong> “What are you trying to quiet when you do that?”</p>
-      <p><strong>Counselee:</strong> “The feeling that I am too much, or not enough.”</p>
-      <p><strong>Counselor:</strong> “What would it look like to bring that to the Lord before you bring it to the kitchen?”</p>
-    `
-  },
-  {
     id: "envy",
     title: "Envy & Coveting",
     summary: "Wanting what another person has, and the resentment that follows.",
     dsm: "May relate to relational categories",
     furtherReading: [
-      { title: "The Peacemaker", url: "https://www.amazon.com/Peacemaker-Biblical-Resolving-Personal-Conflict/dp/0801064856", note: "Ken Sande" },
-      { title: "When People Are Big and God Is Small", url: "https://www.amazon.com/When-People-Are-Big-Small/dp/0875526004", note: "Edward Welch" }
+      { title: "Discontentment: Why Am I So Unhappy?", url: "https://www.amazon.com/dp/1596384131/", note: "Lou Priolo" },
+      { title: "The Peacemaker", url: "https://www.amazon.com/Peacemaker-Biblical-Resolving-Personal-Conflict/dp/0801064856", note: "Ken Sande" }
     ],
     content: `
       <h2>Envy & Coveting</h2>
@@ -1739,8 +1699,7 @@ const counselingIssues = [
     summary: "The ache of being alone, and the God who draws near.",
     dsm: "May relate to adjustment or relational categories",
     furtherReading: [
-      { title: "When People Are Big and God Is Small", url: "https://www.amazon.com/When-People-Are-Big-Small/dp/0875526004", note: "Edward Welch" },
-      { title: "Redeeming Singleness", url: "https://www.amazon.com/Redeeming-Singleness-Storyline-Scripture-Affirms/dp/1433505886", note: "Barry Danylak" }
+      { title: "Loneliness: Connecting with God and Others", url: "https://www.amazon.com/Loneliness-Connecting-Others-Resources-Biblical-ebook/dp/B0BZWBPHP3", note: "Lou Priolo" }
     ],
     content: `
       <h2>Loneliness</h2>
@@ -1779,8 +1738,8 @@ const counselingIssues = [
     summary: "Hiding the truth to protect an image or avoid a cost.",
     dsm: "May relate to relational categories",
     furtherReading: [
-      { title: "The Peacemaker", url: "https://www.amazon.com/Peacemaker-Biblical-Resolving-Personal-Conflict/dp/0801064856", note: "Ken Sande" },
-      { title: "Instruments in the Redeemer’s Hands", url: "https://www.amazon.com/Instruments-Redeemers-Hands-People-Change/dp/0875526071", note: "Paul Tripp" }
+      { title: "Deception: Letting Go of Lying", url: "https://www.amazon.com/dp/1629959200", note: "Lou Priolo" },
+      { title: "The Peacemaker", url: "https://www.amazon.com/Peacemaker-Biblical-Resolving-Personal-Conflict/dp/0801064856", note: "Ken Sande" }
     ],
     content: `
       <h2>Deception & Lying</h2>
@@ -1819,8 +1778,8 @@ const counselingIssues = [
     summary: "A desire that does not define the person, and a call to holiness.",
     dsm: "May relate to identity or relational categories",
     furtherReading: [
-      { title: "Finally Free", url: "https://www.amazon.com/Finally-Free-Fighting-Purity-Power/dp/0310499232/", note: "Heath Lambert" },
-      { title: "Who Am I?", url: "https://www.amazon.com/Who-Am-I-Identity-Christ-ebook/dp/B007GIXRPE", note: "Jerry Bridges" }
+      { title: "Helping Students with Same-Sex Attraction", url: "https://www.amazon.com/Helping-Students-Same-Sex-Attraction-Guidance/dp/1945270713", note: "Mike McGarry" },
+      { title: "Homosexuality and the Bible: Outdated Advice or Words of Life?", url: "https://www.amazon.com/Homosexuality-Bible-Outdated-Advice-Words-ebook/dp/B06XT1XMWD", note: "Kevin DeYoung" }
     ],
     content: `
       <h2>Same-Sex Desire</h2>
@@ -1859,8 +1818,8 @@ const counselingIssues = [
     summary: "A settled no to rightful authority, in a child or in an adult.",
     dsm: "May relate to relational or conduct categories",
     furtherReading: [
-      { title: "Shepherding a Child’s Heart", url: "https://www.amazon.com/Shepherding-Childs-Heart-Tedd-Tripp/dp/0966378601", note: "Tedd Tripp" },
-      { title: "Uprooting Anger", url: "https://www.amazon.com/Uprooting-Anger-Biblical-Common-Problem-ebook/dp/B01COCPKI8", note: "Robert Jones" }
+      { title: "Authority Issues", url: "https://www.amazon.com/Authority-Issues-When-Hard-Being-ebook/dp/B08B11LQDR", note: "Robert Jones" },
+      { title: "Help! My Teen is Rebellious", url: "https://www.amazon.com/Rebellious-LifeLine-Mini-Book-Life-Line-Mini-Books/dp/1633420485", note: "A LifeLine mini-book" }
     ],
     content: `
       <h2>Rebellion</h2>
@@ -3384,7 +3343,6 @@ const scriptureData = [
   { topic: "OCD & Trust", verses: ["Proverbs 3:5-6", "Philippians 4:6-7", "Romans 8:1", "Isaiah 26:3", "Matthew 6:25-34", "Psalm 55:22", "1 Peter 5:7", "Psalm 37:5", "Isaiah 41:10", "John 14:27", "2 Timothy 1:7", "Psalm 56:3"] },
   { topic: "Starting a Family", verses: ["Psalm 127:3-5", "Proverbs 3:5-6", "Genesis 1:28", "Malachi 2:15", "1 Samuel 1:10-11", "Matthew 19:14"] },
   { topic: "Education & Homeschooling", verses: ["Deuteronomy 6:4-9", "Ephesians 6:4", "Proverbs 9:10", "Proverbs 22:6", "Colossians 3:21", "2 Timothy 3:14-15"] },
-  { topic: "Eating & Appetite", verses: ["1 Corinthians 10:31", "Philippians 3:19", "Proverbs 23:20-21", "Matthew 6:25"] },
   { topic: "Envy & Coveting", verses: ["Exodus 20:17", "Proverbs 14:30", "James 3:16", "Galatians 5:26"] },
   { topic: "Loneliness", verses: ["Psalm 25:16", "Hebrews 13:5", "Psalm 68:6", "Genesis 2:18"] },
   { topic: "Deception & Lying", verses: ["Ephesians 4:25", "John 8:32", "Proverbs 12:22", "Colossians 3:9"] },
@@ -3603,7 +3561,7 @@ const issueSynonyms = {
   "envy": ["envy","envious","covet","coveting","jealous","jealousy"],
   "loneliness": ["lonely","loneliness","alone","no friends","isolated"],
   "deception": ["lying","lie","liar","deception","deceit","not telling the truth"],
-  "same-sex-desire": ["same sex","homosexuality","gay","same-sex","ssa"],
+  "same-sex-desire": ["same sex","homosexuality","homosexual","gay","lesbian","lesbianism","same-sex","ssa"],
   "rebellion": ["rebellion","rebel","will not obey","defiant","authority"],
   "parenting": ["parent","parenting","child","children","kids","discipline","raising","teen","teenager","father","mother","adult children"],
   "parental-alienation": ["alienation","alienated","parental alienation","estranged","estrangement","custody","rejected by my child","won't talk to me","cut off","shut out","adult child will not speak"],
@@ -3796,7 +3754,7 @@ function showIssue(id) {
   "envy": ["envy","envious","covet","coveting","jealous","jealousy"],
   "loneliness": ["lonely","loneliness","alone","no friends","isolated"],
   "deception": ["lying","lie","liar","deception","deceit","not telling the truth"],
-  "same-sex-desire": ["same sex","homosexuality","gay","same-sex","ssa"],
+  "same-sex-desire": ["same sex","homosexuality","homosexual","gay","lesbian","lesbianism","same-sex","ssa"],
   "rebellion": ["rebellion","rebel","will not obey","defiant","authority"],
   "parenting": ["education-homeschool", "starting-family", "parental-alienation"],
     "parental-alienation": ["parenting", "divorce", "grief"],
