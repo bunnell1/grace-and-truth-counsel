@@ -3383,7 +3383,7 @@ function renderPicks(picks) {
       : p.type === 'toolkit'
       ? `showSection('toolkit'); showToolkit('${p.id}')`
       : `showSection('modules'); showModule('${p.id}')`;
-    return `<p style="margin:.4rem 0;"><button class="btn secondary" type="button" style="padding:.35rem .7rem;font-size:.9rem;" onclick="${go}">${p.title}</button>${p.why ? ' <span class="note">' + p.why + '</span>' : ''}</p>`;
+    return `<p style="margin:.55rem 0;"><button class="btn secondary" type="button" style="padding:.35rem .7rem;font-size:.9rem;" onclick="${go}">${p.title}</button>${p.why ? '<span class="note" style="display:block;margin:.2rem 0 .2rem .15rem;">' + p.why + '</span>' : ''}</p>`;
   }).join('');
 }
 async function openMainPassage(id) {
