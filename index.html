@@ -3376,6 +3376,37 @@ function localMatches(q) {
   const mods = modules.map(m => ({ type: 'module', id: m.id, title: m.title, n: score(m.id, m.title, m.summary) })).filter(x => x.n);
   return [...issues, ...mods].sort((a, b) => b.n - a.n).slice(0, 3);
 }
+
+function cacheGet(key) {
+  try {
+    const raw = localStorage.getItem('ai-cache');
+    const all = raw ? JSON.parse(raw) : {};
+    const hit = all[key];
+    if (!hit) return null;
+    if (Date.now() - hit.t > 1000 * 60 * 60 * 24 * 14) return null;
+    return hit.v;
+  } catch (e) { return null; }
+}
+function cacheSet(key, value) {
+  try {
+    const raw = localStorage.getItem('ai-cache');
+    const all = raw ? JSON.parse(raw) : {};
+    all[key] = { t: Date.now(), v: value };
+    const keys = Object.keys(all);
+    if (keys.length > 40) delete all[keys[0]];
+    localStorage.setItem('ai-cache', JSON.stringify(all));
+  } catch (e) {}
+}
+function pickWhy(p) {
+  if (p.why) return p.why;
+  const all = [
+    ...counselingIssues.map(x => ({ ...x, type: 'issue' })),
+    ...modules.map(x => ({ ...x, type: 'module' })),
+    ...toolkit.map(x => ({ ...x, type: 'toolkit' }))
+  ];
+  const item = all.find(x => x.id === p.id) || all.find(x => x.title === p.title);
+  return (item && item.summary) || '';
+}
 function renderPicks(picks) {
   return picks.map(p => {
     const go = p.type === 'issue'
@@ -3383,7 +3414,8 @@ function renderPicks(picks) {
       : p.type === 'toolkit'
       ? `showSection('toolkit'); showToolkit('${p.id}')`
       : `showSection('modules'); showModule('${p.id}')`;
-    return `<p style="margin:.55rem 0;"><button class="btn secondary" type="button" style="padding:.35rem .7rem;font-size:.9rem;" onclick="${go}">${p.title}</button>${p.why ? '<span class="note" style="display:block;margin:.2rem 0 .2rem .15rem;">' + p.why + '</span>' : ''}</p>`;
+    const why = pickWhy(p);
+    return `<div style="margin:.7rem 0;"><button class="btn secondary" type="button" style="padding:.35rem .7rem;font-size:.9rem;" onclick="${go}">${p.title}</button>${why ? '<div style="margin:.25rem 0 0;color:var(--muted);font-size:.9rem;line-height:1.35;">' + why + '</div>' : ''}</div>`;
   }).join('');
 }
 async function openMainPassage(id) {
@@ -3411,21 +3443,30 @@ async function findPlace() {
   out.innerHTML = '<p class="note">Looking…</p>';
   let local = [];
   try { local = localMatches(q); } catch (e) { local = []; }
+  if (local.length >= 2 && local[0].n >= 3) {
+    out.innerHTML = renderPicks(local.slice(0, 3));
+    return;
+  }
   const catalog = [
     ...modules.map(m => ({ type: 'module', id: m.id, title: m.title, summary: m.summary || '' })),
     ...counselingIssues.map(i => ({ type: 'issue', id: i.id, title: i.title, summary: i.summary || '' })),
     ...toolkit.map(t => ({ type: 'toolkit', id: t.id, title: t.title, summary: t.summary || '' }))
   ];
   try {
-    const res = await fetch(SUPABASE_URL + '/functions/v1/find', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + SUPABASE_KEY, apikey: SUPABASE_KEY },
-      body: JSON.stringify({ q, catalog })
-    });
-    const data = await res.json();
+    const cacheKey = 'find:' + q.toLowerCase();
+    let data = cacheGet(cacheKey);
+    if (!data) {
+      const res = await fetch(SUPABASE_URL + '/functions/v1/find', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + SUPABASE_KEY, apikey: SUPABASE_KEY },
+        body: JSON.stringify({ q, catalog })
+      });
+      data = await res.json();
+      if (data && data.matches) cacheSet(cacheKey, data);
+    }
     const ai = (data.matches || []).filter(m => catalog.some(c => c.id === m.id));
     const seen = new Set(ai.map(m => m.id));
-    const merged = [...ai, ...local.filter(m => !seen.has(m.id))].slice(0, 4);
+    const merged = [...ai, ...local.filter(m => !seen.has(m.id))].slice(0, 3);
     out.innerHTML = merged.length ? renderPicks(merged) : '<p class="note">Nothing close. Try different words, or browse Issues.</p>';
   } catch (err) {
     out.innerHTML = local.length ? renderPicks(local) : '<p class="note">Nothing on the site matched. Try Issues.</p>';
@@ -3569,7 +3610,7 @@ const issueSynonyms = {
   "parental-alienation": ["alienation","alienated","parental alienation","estranged","estrangement","custody","rejected by my child","won't talk to me","cut off","shut out","adult child will not speak"],
   grief: ["grief","grieving","loss","lost","died","death","dying","mourning","mourn","bereaved","bereavement","widow","widower","funeral","miss them","sad","miscarriage","stillbirth"],
   "sexual-sin": ["sexual","sex","sexual sin","porn","pornography","lust","lustful","purity","impure","affair","adultery","masturbation","tempted","struggle with purity","hookup","sexting","fantasy"],
-  "fear-of-man": ["people-pleasing","people pleasing","people pleaser","approval","approval junkie","fear of man","insecure","what will they think","can't say no","need to be liked","peer pressure","fitting in","afraid of rejection","rejection","image","reputation"],
+  "fear-of-man": ["people-pleasing","people pleasing","people pleaser","approval","approval junkie","fear of man","insecure","what will they think","can't say no","need to be liked","peer pressure","fitting in","afraid of rejection","rejection","image","reputation","co-dependency","codependency","codependent"],
   conflict: ["conflict","fight","fighting","argument","arguing","quarrel","peace","peacemaking","tension","we don't get along","hard conversation"],
   identity: ["identity","who am i","who am I","worth","self-worth","self worth","in Christ","performance","what I do","not enough"],
   "worry-control": ["control","controlling","controller","worry","worried","micromanage","can't let go","outcomes","fix it","manage everything"],
@@ -3688,12 +3729,17 @@ async function describeIssue() {
   out.innerHTML = '<p class="note">Looking…</p>';
   const catalog = counselingIssues.map(i => ({ type: 'issue', id: i.id, title: i.title, summary: i.summary || '' }));
   try {
-    const res = await fetch(SUPABASE_URL + '/functions/v1/find', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + SUPABASE_KEY, apikey: SUPABASE_KEY },
-      body: JSON.stringify({ q, catalog })
-    });
-    const data = await res.json();
+    const cacheKey = 'describe:' + q.toLowerCase();
+    let data = cacheGet(cacheKey);
+    if (!data) {
+      const res = await fetch(SUPABASE_URL + '/functions/v1/find', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + SUPABASE_KEY, apikey: SUPABASE_KEY },
+        body: JSON.stringify({ q, catalog })
+      });
+      data = await res.json();
+      if (data && data.matches) cacheSet(cacheKey, data);
+    }
     const picks = (data.matches || []).filter(m => catalog.some(c => c.id === m.id)).slice(0, 3);
     out.innerHTML = picks.length
       ? picks.map(m => `<p style="margin:.4rem 0;"><button class="btn secondary" type="button" onclick="showIssue('${m.id}')">${m.title}</button></p>`).join('')
@@ -4263,12 +4309,17 @@ if (submitQuizBtn) submitQuizBtn.addEventListener('click', async () => {
   result.classList.remove('hidden');
   const catalog = modules.map(m => ({ type: 'module', id: m.id, title: m.title, summary: m.summary || '' }));
   try {
-    const res = await fetch(SUPABASE_URL + '/functions/v1/find', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + SUPABASE_KEY, apikey: SUPABASE_KEY },
-      body: JSON.stringify({ q: 'Counselor self-assessment. Suggest the most relevant modules. ' + answers.join('. '), catalog })
-    });
-    const data = await res.json();
+    const cacheKey = 'assess:' + answers.join('|').toLowerCase();
+    let data = cacheGet(cacheKey);
+    if (!data) {
+      const res = await fetch(SUPABASE_URL + '/functions/v1/find', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + SUPABASE_KEY, apikey: SUPABASE_KEY },
+        body: JSON.stringify({ q: 'Counselor self-assessment. Suggest the most relevant modules. ' + answers.join('. '), catalog })
+      });
+      data = await res.json();
+      if (data && data.matches) cacheSet(cacheKey, data);
+    }
     const picks = (data.matches || []).filter(m => catalog.some(c => c.id === m.id)).slice(0, 3);
     if (!picks.length) throw new Error('none');
     result.innerHTML = '<p><strong>Reflection complete.</strong> These modules fit your answers.</p>' + picks.map(m => `<p style="margin:.5rem 0;"><button class="btn" type="button" onclick="showSection('modules'); showModule('${m.id}')">${m.title}</button>${m.why ? '<br><span class="note">' + m.why + '</span>' : ''}</p>`).join('');
