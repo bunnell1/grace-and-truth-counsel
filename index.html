@@ -263,6 +263,8 @@ html[data-theme="dark"] .btn.secondary:hover { color: #0F241C; }
 }
 .favorite-btn.active { color: var(--gold); border-color: var(--gold); }
 .related { margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; }
+.check-grid { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:.15rem .8rem; }
+@media (max-width:700px){ .check-grid { grid-template-columns: 1fr 1fr; } }
 .related a {
   background: var(--gold-soft); color: var(--accent-deep);
   text-decoration: none; border-radius: 999px; padding: 0.25rem 0.7rem; font-size: 0.88rem;
@@ -866,28 +868,104 @@ document.addEventListener('mouseout', (e) => {
 
 const toolkit = [
   {
+    id: "first-meeting",
+    title: "First Meeting Notes",
+    summary: "A counselor’s page for the first conversation. Covers home, health, church, and the struggles they name.",
+    content: `
+      <h2>First Meeting Notes</h2>
+      <p class="note">For the counselor’s preparation. Do not store a counselee’s name or story on the site. Download the file to your device if you keep it.</p>
+      <form class="toolkit-form" id="form-first">
+        <label>Church</label><input type="text" id="fm-church" placeholder="Church name">
+        <label>Date</label><input type="text" id="fm-date">
+
+        <h3>Why they came</h3>
+        <label>What they say is wrong</label><textarea id="fm-problem"></textarea>
+        <label>What they have already tried</label><textarea id="fm-tried"></textarea>
+        <label>What they hope will be different</label><textarea id="fm-hope"></textarea>
+
+        <h3>Home</h3>
+        <label>Marriage, or singleness</label><textarea id="fm-marriage" placeholder="Married, single, divorced, separated. How long. Any earlier marriage."></textarea>
+        <label>Children</label><textarea id="fm-children"></textarea>
+        <label>Parents and in-laws</label><textarea id="fm-parents" placeholder="The relationship with father, mother, and in-laws."></textarea>
+
+        <h3>Body and habits</h3>
+        <label>Health, sleep, appetite</label><textarea id="fm-health"></textarea>
+        <label>Medications, or a physician’s care</label><textarea id="fm-meds"></textarea>
+        <label>Alcohol, or another substance</label><textarea id="fm-substance"></textarea>
+
+        <h3>Church and walk with God</h3>
+        <label>Church, and how often they are there</label><textarea id="fm-churchlife"></textarea>
+        <label>Prayer, Scripture, and any recent change</label><textarea id="fm-walk"></textarea>
+
+        <h3>What is present</h3>
+        <p class="note">Check what they name. Labels match the Issues list. They do not define the person.</p>
+        <div class="check-grid">
+        <div class="check-item"><input type="checkbox" id="fm-abuse"><label for="fm-abuse">Abuse</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-anger"><label for="fm-anger">Anger</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-anxiety"><label for="fm-anxiety">Anxiety</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-childanx"><label for="fm-childanx">Anxiety in a child</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-addiction"><label for="fm-addiction">Addiction or drunkenness</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-bitter"><label for="fm-bitter">Bitterness</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-church"><label for="fm-church">Church hurt</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-conflict"><label for="fm-conflict">Conflict</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-deceive"><label for="fm-deceive">Deception</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-decide"><label for="fm-decide">Decisions</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-low"><label for="fm-low">Depression or apathy</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-divorce"><label for="fm-divorce">Divorce</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-doubt"><label for="fm-doubt">Doubt or dryness</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-eat"><label for="fm-eat">Eating or appetite</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-edu"><label for="fm-edu">Education</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-envy"><label for="fm-envy">Envy</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-fear"><label for="fm-fear">Fear of man</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-grief"><label for="fm-grief">Grief</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-identity"><label for="fm-identity">Identity</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-illness"><label for="fm-illness">Illness, sleep, or memory</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-infert"><label for="fm-infert">Infertility</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-inlaw"><label for="fm-inlaw">In-laws</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-lonely"><label for="fm-lonely">Loneliness</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-marriage"><label for="fm-marriage">Marriage</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-money"><label for="fm-money">Money and debt</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-ocd"><label for="fm-ocd">Obsessive thoughts</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-parent"><label for="fm-parent">Parenting</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-alien"><label for="fm-alien">Parental alienation</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-rebel"><label for="fm-rebel">Rebellion</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-ss"><label for="fm-ss">Same-sex desire</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-sex"><label for="fm-sex">Sexual sin or pornography</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-shame"><label for="fm-shame">Shame or guilt</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-single"><label for="fm-single">Singleness</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-start"><label for="fm-start">Starting a family</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-tech"><label for="fm-tech">Technology</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-trauma"><label for="fm-trauma">Trauma</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-work"><label for="fm-work">Work or unemployment</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-burnout"><label for="fm-burnout">Work or ministry burnout</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-worry"><label for="fm-worry">Worry or perfectionism</label></div>
+        <div class="check-item"><input type="checkbox" id="fm-other"><label for="fm-other">Other</label></div>
+        </div>
+        <label>If other, what</label><textarea id="fm-other-note"></textarea>
+
+        <h3>Anything else</h3>
+        <textarea id="fm-else"></textarea>
+      </form>
+    `
+  },
+  {
     id: "consent",
     title: "Consent to Counseling",
     summary: "A fillable consent form. Church name is left blank. Adapt it for your church.",
     content: `
       <h2>Consent to Counseling</h2>
-      <p class="note">A template. Fill the church name. Remove or change any line that does not fit your church. This is not legal advice.</p>
+      <p class="note">A template for your church. Change any line that does not fit. This is not legal advice.</p>
       <form class="toolkit-form" id="form-consent">
         <label>Church name</label>
         <input type="text" id="cn-church" placeholder="Church name">
-        <p><strong>Biblical Counseling Policies & Procedures</strong></p>
 
-        <h3>Our Goal</h3>
-        <p>The mission of this counseling ministry is to equip you to meet the challenges of life by the transforming power of Jesus Christ for the glory of God. Counseling is offered as a ministry of the church. You have no obligation to pay a fee for the counseling you receive.</p>
-        <label>Initials</label><input type="text" id="cn-i1" style="max-width:6rem;">
+        <h3>What this is</h3>
+        <p>This is biblical counseling, offered as a ministry of the church. The aim is to help you face what is in front of you by the Word of God and the grace of Christ. There is no fee required.</p>
 
-        <h3>Biblical Basis</h3>
-        <p>This counseling is religious in nature and is conducted under the authority of the local church. We believe that God, through His revelation in the Old and New Testaments, has provided His people with guidance for faith and life (2 Timothy 3:16-17; 2 Peter 1:3-4). Counseling is based on Scripture. Counselors are not licensed as psychotherapists or mental health professionals and do not follow the methods of such persons.</p>
-        <label>Initials</label><input type="text" id="cn-i2" style="max-width:6rem;">
+        <h3>What we use</h3>
+        <p>Counsel is given from Scripture, under the care of the local church (2 Timothy 3:16-17). The counselor is not a licensed therapist and does not use the methods of secular psychology. A medical, legal, or financial question should go to a qualified person in that field. Counsel does not replace a physician.</p>
 
-        <h3>Other Professional Advice</h3>
-        <p>If you have significant medical, legal, financial, or other technical questions, you should seek advice from a competent independent professional. Counselors will help you consider such advice in the light of Scripture. Counsel is not intended to replace a qualified physician where a physical problem is present or where medication has been prescribed.</p>
-        <label>Initials</label><input type="text" id="cn-i3" style="max-width:6rem;">
+
 
         <h3>Confidentiality</h3>
         <p>Counselors will carefully protect what you share, subject to these limits:</p>
@@ -899,20 +977,16 @@ const toolkit = [
           <li>Observers may sit in on a session to assist or for training.</li>
         </ul>
         <p>The intent is to help, never to harm. A name will be withheld and the matter discussed in general terms unless the specifics are necessary.</p>
-        <label>Initials</label><input type="text" id="cn-i4" style="max-width:6rem;">
 
         <h3>Counseling Minors</h3>
         <p>The primary responsibility for shepherding children and teenagers rests with their parents. When counseling a minor, the counselor may share information from the sessions with a custodial parent if the counselor believes it is wise.</p>
-        <label>Initials</label><input type="text" id="cn-i5" style="max-width:6rem;">
 
         <h3>Conflict Resolution</h3>
         <p>First Corinthians 6:1-8 calls Christians not to bring lawsuits against one another in secular courts. Any dispute with a counselor or with this church will be settled by mediation and, if necessary, arbitration under biblical principles. By signing, you agree not to subpoena a counselor, or any notes, in a legal proceeding about matters discussed in counseling.</p>
-        <label>Initials</label><input type="text" id="cn-i6" style="max-width:6rem;">
 
         <h3>Consent to Record</h3>
         <p>Recordings, if used, are for the counseling process and for counselor training. A full name will not be attached to a recording, and it will not be shared beyond those involved in the case or reviewing it for training. You may request that a recording be destroyed when counseling ends. Refusal to consent to recording does not affect eligibility for counseling.</p>
         <div class="check-item"><input type="checkbox" id="cn-record"><label for="cn-record">I give consent to record sessions</label></div>
-        <label>Initials</label><input type="text" id="cn-i7" style="max-width:6rem;">
 
         <h3>Signature of Consent</h3>
         <p>Your signature indicates that you have read these guidelines and give informed consent to them.</p>
@@ -1578,6 +1652,247 @@ const modules = [
 ];
 
 const counselingIssues = [
+
+  {
+    id: "eating",
+    title: "Eating & Appetite",
+    summary: "Food used for comfort, control, or refusal, and the body that bears it.",
+    dsm: "May relate to feeding or eating categories",
+    furtherReading: [
+      { title: "Table for Two", url: "https://www.amazon.com/Table-Two-Biblical-Counsel-Disorders/dp/1645070743", note: "Biblical counsel" },
+      { title: "Eating Disorders", url: "https://www.amazon.com/dp/1934885495/", note: "Edward Welch" }
+    ],
+    content: `
+      <h2>Eating & Appetite</h2>
+      <p>Food can become a way to quiet fear, manage shame, or take control. Biblical counseling does not treat the body as the enemy. It asks what the heart is doing with food, and it does not ignore a physician.</p>
+      <div class="verse">“So, whether you eat or drink, or whatever you do, do all to the glory of God.” — 1 Corinthians 10:31</div>
+      <div class="verse">“Their end is destruction, their god is their belly.” — Philippians 3:19</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Food is a gift. It is not a god, and it is not a way to punish the body.</li>
+        <li>The pattern may be sin, suffering, or both. Ask before you name it.</li>
+        <li>A physician belongs in the room when the body is in danger.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Ask what food is doing for them. Comfort, control, punishment, or habit.</li>
+        <li>Look for fear and shame under the pattern.</li>
+        <li>Give one small, concrete step. Do not assign a diet.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read 1 Corinthians 10:31. Write one way food has been serving something other than thanksgiving.</li>
+        <li>Name one meal this week you will eat with thanksgiving, and one person you will tell.</li>
+        <li>If the body is failing, make one appointment with a physician.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “When the day is hard, what do you do with food?”</p>
+      <p><strong>Counselee:</strong> “I either will not eat, or I cannot stop.”</p>
+      <p><strong>Counselor:</strong> “What are you trying to quiet when you do that?”</p>
+      <p><strong>Counselee:</strong> “The feeling that I am too much, or not enough.”</p>
+      <p><strong>Counselor:</strong> “What would it look like to bring that to the Lord before you bring it to the kitchen?”</p>
+    `
+  },
+  {
+    id: "envy",
+    title: "Envy & Coveting",
+    summary: "Wanting what another person has, and the resentment that follows.",
+    dsm: "May relate to relational categories",
+    furtherReading: [
+      { title: "The Peacemaker", url: "https://www.amazon.com/Peacemaker-Biblical-Resolving-Personal-Conflict/dp/0801064856", note: "Ken Sande" },
+      { title: "When People Are Big and God Is Small", url: "https://www.amazon.com/When-People-Are-Big-Small/dp/0875526004", note: "Edward Welch" }
+    ],
+    content: `
+      <h2>Envy & Coveting</h2>
+      <p>Envy is not admiration. It is sorrow at another person’s good, and a demand that God should have given it to me. Biblical counseling names it as sin and points to a God who is enough.</p>
+      <div class="verse">“You shall not covet.” — Exodus 20:17</div>
+      <div class="verse">“A tranquil heart gives life to the flesh, but envy makes the bones rot.” — Proverbs 14:30</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Coveting is a command against. It is not a personality.</li>
+        <li>Envy says God has been unfair. Contentment says God has been good.</li>
+        <li>The cure is not getting the thing. It is worship.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Name the specific good they resent in another person.</li>
+        <li>Ask what they believe that good would give them.</li>
+        <li>Move from comparison to thanksgiving.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read Exodus 20:17 and James 3:16. Write the one thing you covet and what you think it would fix.</li>
+        <li>Each day this week, thank God for one good thing in the person you envy.</li>
+        <li>Tell one trusted person the envy, and ask them to ask you about it.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Whose life has been hard to watch lately?”</p>
+      <p><strong>Counselee:</strong> “A friend. Everything seems to work for them.”</p>
+      <p><strong>Counselor:</strong> “What do you want from their life that you believe God has kept from you?”</p>
+      <p><strong>Counselee:</strong> “Ease. And the sense that I matter.”</p>
+      <p><strong>Counselor:</strong> “What would it look like to tell the Lord that, instead of keeping score?”</p>
+    `
+  },
+  {
+    id: "loneliness",
+    title: "Loneliness",
+    summary: "The ache of being alone, and the God who draws near.",
+    dsm: "May relate to adjustment or relational categories",
+    furtherReading: [
+      { title: "When People Are Big and God Is Small", url: "https://www.amazon.com/When-People-Are-Big-Small/dp/0875526004", note: "Edward Welch" },
+      { title: "Redeeming Singleness", url: "https://www.amazon.com/Redeeming-Singleness-Storyline-Scripture-Affirms/dp/1433505886", note: "Barry Danylak" }
+    ],
+    content: `
+      <h2>Loneliness</h2>
+      <p>Loneliness is a real ache. It is not proof that God has left. Biblical counseling makes room for the pain and refuses to treat people as the cure.</p>
+      <div class="verse">“Turn to me and be gracious to me, for I am lonely and afflicted.” — Psalm 25:16</div>
+      <div class="verse">“I will never leave you nor forsake you.” — Hebrews 13:5</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>God made us for one another. The ache of being alone is not strange.</li>
+        <li>People are a gift. They are not a savior.</li>
+        <li>The church is the ordinary place God answers loneliness. It is not instant.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Let them say how alone they feel. Do not correct it away.</li>
+        <li>Ask whether they have withdrawn, or whether they have been left.</li>
+        <li>Point to one concrete step toward a person, and to the God who stays.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read Psalm 25:16-18. Write the loneliness in a prayer.</li>
+        <li>Take one step toward a person this week. A meal, a call, or a church gathering.</li>
+        <li>Name one way you have made people the answer, and one truth about God’s presence.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “When is the loneliness loudest?”</p>
+      <p><strong>Counselee:</strong> “Sunday night. Everyone else seems to have somewhere to be.”</p>
+      <p><strong>Counselor:</strong> “What do you believe that says about you?”</p>
+      <p><strong>Counselee:</strong> “That I am forgettable.”</p>
+      <p><strong>Counselor:</strong> “What would it look like to bring that to the Lord, and also to one person this week?”</p>
+    `
+  },
+  {
+    id: "deception",
+    title: "Deception & Lying",
+    summary: "Hiding the truth to protect an image or avoid a cost.",
+    dsm: "May relate to relational categories",
+    furtherReading: [
+      { title: "The Peacemaker", url: "https://www.amazon.com/Peacemaker-Biblical-Resolving-Personal-Conflict/dp/0801064856", note: "Ken Sande" },
+      { title: "Instruments in the Redeemer’s Hands", url: "https://www.amazon.com/Instruments-Redeemers-Hands-People-Change/dp/0875526071", note: "Paul Tripp" }
+    ],
+    content: `
+      <h2>Deception & Lying</h2>
+      <p>A lie protects something. An image, a relationship, or an escape from consequence. Biblical counseling tells the truth about the lie and points to the God who already knows.</p>
+      <div class="verse">“Therefore, having put away falsehood, let each one of you speak the truth with his neighbor.” — Ephesians 4:25</div>
+      <div class="verse">“You will know the truth, and the truth will set you free.” — John 8:32</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Lying is sin, even when it feels like protection.</li>
+        <li>Truth is costly in the moment and freeing over time.</li>
+        <li>Confession is the way back. Hiding is not.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Ask what the lie is protecting.</li>
+        <li>Do not help them manage the story. Help them tell the truth.</li>
+        <li>Plan the confession. Who, when, and what words.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read Ephesians 4:25. Write the lie and what it is protecting.</li>
+        <li>Write the true sentence you will say, and to whom.</li>
+        <li>Tell one person the truth this week. Report back.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “What are you afraid will happen if you tell the truth?”</p>
+      <p><strong>Counselee:</strong> “They will leave. Or I will lose the job.”</p>
+      <p><strong>Counselor:</strong> “And what is the lie costing you now?”</p>
+      <p><strong>Counselee:</strong> “I cannot rest. I am always managing the story.”</p>
+      <p><strong>Counselor:</strong> “What would one true sentence sound like, said to the right person?”</p>
+    `
+  },
+  {
+    id: "same-sex-desire",
+    title: "Same-Sex Desire",
+    summary: "A desire that does not define the person, and a call to holiness.",
+    dsm: "May relate to identity or relational categories",
+    furtherReading: [
+      { title: "Finally Free", url: "https://www.amazon.com/Finally-Free-Fighting-Purity-Power/dp/0310499232/", note: "Heath Lambert" },
+      { title: "Who Am I?", url: "https://www.amazon.com/Who-Am-I-Identity-Christ-ebook/dp/B007GIXRPE", note: "Jerry Bridges" }
+    ],
+    content: `
+      <h2>Same-Sex Desire</h2>
+      <p>Same-sex desire is a real struggle. It is not an identity, and it is not the person’s name. Biblical counseling holds both the kindness of Christ and the call of Scripture.</p>
+      <div class="verse">“Or do you not know that the unrighteous will not inherit the kingdom of God? … And such were some of you. But you were washed.” — 1 Corinthians 6:9-11</div>
+      <div class="verse">“Flee from sexual immorality.” — 1 Corinthians 6:18</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Desire is not the same as obedience. Temptation is not the same as sin acted on.</li>
+        <li>Scripture names same-sex practice as sin. It also names washing, sanctification, and justification.</li>
+        <li>The person is in Christ, or called to Christ. The desire does not name them.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Do not shame the person for naming the struggle. Do not rename it as an identity.</li>
+        <li>Ask what the desire promises. Belonging, comfort, or being known.</li>
+        <li>Point to ordinary holiness. Flee, confess, stay in the church, tell one person.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read 1 Corinthians 6:9-11. Write what “such were some of you” means for hope.</li>
+        <li>Name one situation you will flee this week, and one person you will tell.</li>
+        <li>Pray each day that Christ, not the desire, would name you.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “You named a desire you did not choose. What has that been like to carry?”</p>
+      <p><strong>Counselee:</strong> “Lonely. And I am afraid it means this is who I am.”</p>
+      <p><strong>Counselor:</strong> “Scripture does not give the desire the right to name you. What do you still believe is true about Christ?”</p>
+      <p><strong>Counselee:</strong> “That he can wash a person. I am not sure he will wash me.”</p>
+      <p><strong>Counselor:</strong> “What would it look like to bring that doubt to him, and to one believer who will walk with you?”</p>
+    `
+  },
+  {
+    id: "rebellion",
+    title: "Rebellion",
+    summary: "A settled no to rightful authority, in a child or in an adult.",
+    dsm: "May relate to relational or conduct categories",
+    furtherReading: [
+      { title: "Shepherding a Child’s Heart", url: "https://www.amazon.com/Shepherding-Childs-Heart-Tedd-Tripp/dp/0966378601", note: "Tedd Tripp" },
+      { title: "Uprooting Anger", url: "https://www.amazon.com/Uprooting-Anger-Biblical-Common-Problem-ebook/dp/B01COCPKI8", note: "Robert Jones" }
+    ],
+    content: `
+      <h2>Rebellion</h2>
+      <p>Rebellion is more than a hard day. It is a settled refusal of rightful authority. In a child it is a heart issue. In an adult it is the same heart, aimed at God, a parent, a church, or an employer.</p>
+      <div class="verse">“Children, obey your parents in the Lord, for this is right.” — Ephesians 6:1</div>
+      <div class="verse">“Whoever resists the authorities resists what God has appointed.” — Romans 13:2</div>
+      <h3>Biblical Principles</h3>
+      <ul>
+        <li>Authority is God’s idea. Resistance to rightful authority is resistance to him.</li>
+        <li>Not every no is rebellion. Abuse and a command to sin are not to be obeyed.</li>
+        <li>The gospel calls a rebel to repentance, not to a tighter system of control.</li>
+      </ul>
+      <h3>Counseling Focus</h3>
+      <ul>
+        <li>Ask who they are saying no to, and what they want instead.</li>
+        <li>Separate a hard providence from a rightful command.</li>
+        <li>Call for one concrete act of submission this week.</li>
+      </ul>
+      <h3>Suggested Homework</h3>
+      <ul>
+        <li>Read Ephesians 6:1-3 or Romans 13:1-2. Write the authority you are resisting and why.</li>
+        <li>Do one thing this week that you have been refusing, and tell someone.</li>
+        <li>Pray that God would soften the no.</li>
+      </ul>
+      <h3>Sample Dialogue</h3>
+      <p><strong>Counselor:</strong> “Who are you saying no to right now?”</p>
+      <p><strong>Counselee:</strong> “My parents. And if I am honest, God.”</p>
+      <p><strong>Counselor:</strong> “What are you afraid you will lose if you yield?”</p>
+      <p><strong>Counselee:</strong> “The life I want.”</p>
+      <p><strong>Counselor:</strong> “What would one small yes look like this week?”</p>
+    `
+  },
   {
     id: "anxiety",
     title: "Anxiety Disorders (GAD, Panic, Phobias, Social Anxiety)",
@@ -3069,6 +3384,12 @@ const scriptureData = [
   { topic: "OCD & Trust", verses: ["Proverbs 3:5-6", "Philippians 4:6-7", "Romans 8:1", "Isaiah 26:3", "Matthew 6:25-34", "Psalm 55:22", "1 Peter 5:7", "Psalm 37:5", "Isaiah 41:10", "John 14:27", "2 Timothy 1:7", "Psalm 56:3"] },
   { topic: "Starting a Family", verses: ["Psalm 127:3-5", "Proverbs 3:5-6", "Genesis 1:28", "Malachi 2:15", "1 Samuel 1:10-11", "Matthew 19:14"] },
   { topic: "Education & Homeschooling", verses: ["Deuteronomy 6:4-9", "Ephesians 6:4", "Proverbs 9:10", "Proverbs 22:6", "Colossians 3:21", "2 Timothy 3:14-15"] },
+  { topic: "Eating & Appetite", verses: ["1 Corinthians 10:31", "Philippians 3:19", "Proverbs 23:20-21", "Matthew 6:25"] },
+  { topic: "Envy & Coveting", verses: ["Exodus 20:17", "Proverbs 14:30", "James 3:16", "Galatians 5:26"] },
+  { topic: "Loneliness", verses: ["Psalm 25:16", "Hebrews 13:5", "Psalm 68:6", "Genesis 2:18"] },
+  { topic: "Deception & Lying", verses: ["Ephesians 4:25", "John 8:32", "Proverbs 12:22", "Colossians 3:9"] },
+  { topic: "Same-Sex Desire", verses: ["1 Corinthians 6:9-11", "1 Corinthians 6:18", "Romans 1:26-27", "Genesis 2:24"] },
+  { topic: "Rebellion", verses: ["Ephesians 6:1", "Romans 13:1-2", "1 Samuel 15:23", "Proverbs 29:1"] },
   { topic: "Parenting", verses: ["Ephesians 6:1-4", "Colossians 3:21", "Deuteronomy 6:4-9", "Proverbs 22:6", "Psalm 127:3-5", "Matthew 18:6", "Proverbs 13:24", "Proverbs 29:17"] },
   { topic: "Parental Alienation", verses: ["Psalm 34:18", "Malachi 4:6", "Luke 15:11-32", "Romans 12:18", "Isaiah 61:1-3", "Joel 2:25", "Genesis 37:3-4", "1 Peter 5:7"] }
 ];
@@ -3278,6 +3599,12 @@ const issueSynonyms = {
   forgiveness: ["forgive","forgiveness","forgiving","bitter","bitterness","unforgiving","resentment","resent","can't let go","holding a grudge","grudge","offended"],
   "starting-family": ["starting a family","have a baby","want kids","ready for kids","family planning","when to have children","afraid to have kids"],
   "education-homeschool": ["homeschool","home school","homeschooling","school choice","private school","public school","education","curriculum","which school"],
+  "eating": ["appetite","eating","food","gluttony","binge","not eating","weight"],
+  "envy": ["envy","envious","covet","coveting","jealous","jealousy"],
+  "loneliness": ["lonely","loneliness","alone","no friends","isolated"],
+  "deception": ["lying","lie","liar","deception","deceit","not telling the truth"],
+  "same-sex-desire": ["same sex","homosexuality","gay","same-sex","ssa"],
+  "rebellion": ["rebellion","rebel","will not obey","defiant","authority"],
   "parenting": ["parent","parenting","child","children","kids","discipline","raising","teen","teenager","father","mother","adult children"],
   "parental-alienation": ["alienation","alienated","parental alienation","estranged","estrangement","custody","rejected by my child","won't talk to me","cut off","shut out","adult child will not speak"],
   grief: ["grief","grieving","loss","lost","died","death","dying","mourning","mourn","bereaved","bereavement","widow","widower","funeral","miss them","sad","miscarriage","stillbirth"],
@@ -3465,7 +3792,13 @@ function showIssue(id) {
     "forgiveness": ["bitterness", "anger", "church-hurt"],
     "marriage": ["conflict", "divorce", "starting-family"],
     "divorce": ["marriage", "conflict", "parental-alienation"],
-    "parenting": ["education-homeschool", "starting-family", "parental-alienation"],
+    "eating": ["appetite","eating","food","gluttony","binge","not eating","weight"],
+  "envy": ["envy","envious","covet","coveting","jealous","jealousy"],
+  "loneliness": ["lonely","loneliness","alone","no friends","isolated"],
+  "deception": ["lying","lie","liar","deception","deceit","not telling the truth"],
+  "same-sex-desire": ["same sex","homosexuality","gay","same-sex","ssa"],
+  "rebellion": ["rebellion","rebel","will not obey","defiant","authority"],
+  "parenting": ["education-homeschool", "starting-family", "parental-alienation"],
     "parental-alienation": ["parenting", "divorce", "grief"],
     "starting-family": ["infertility", "marriage", "parenting"],
     "infertility": ["starting-family", "grief", "illness"],
