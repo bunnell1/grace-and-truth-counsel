@@ -3433,11 +3433,49 @@ function showIssue(id) {
   const linkedContent = linkifyVerses(issue.content);
   const isFav = localStorage.getItem('fav-' + id) === 'true';
   const notes = localStorage.getItem('notes-' + id) || '';
-  const related = counselingIssues
-    .filter(i => i.id !== id)
-    .slice(0, 3)
-    .map(i => `<a href="#" onclick="showIssue('${i.id}'); return false;">${i.title}</a>`)
-    .join('');
+  const relatedMap = {
+    "anxiety": ["worry-control", "fear-of-man", "ocd", "depression"],
+    "worry-control": ["anxiety", "fear-of-man", "money-debt"],
+    "fear-of-man": ["anxiety", "worry-control", "people-pleasing"],
+    "depression": ["grief", "anxiety", "shame", "illness"],
+    "grief": ["depression", "illness", "aging-parents"],
+    "anger": ["conflict", "bitterness", "marriage"],
+    "bitterness": ["anger", "forgiveness", "church-hurt"],
+    "forgiveness": ["bitterness", "anger", "church-hurt"],
+    "marriage": ["conflict", "divorce", "starting-family"],
+    "divorce": ["marriage", "conflict", "parental-alienation"],
+    "parenting": ["education-homeschool", "starting-family", "parental-alienation"],
+    "parental-alienation": ["parenting", "divorce", "grief"],
+    "starting-family": ["infertility", "marriage", "parenting"],
+    "infertility": ["starting-family", "grief", "illness"],
+    "education-homeschool": ["parenting", "worry-control", "fear-of-man"],
+    "addiction": ["sexual-sin", "shame", "technology"],
+    "sexual-sin": ["addiction", "shame", "marriage"],
+    "shame": ["guilt", "depression", "identity"],
+    "guilt": ["shame", "forgiveness", "depression"],
+    "identity": ["shame", "fear-of-man", "depression"],
+    "church-hurt": ["bitterness", "forgiveness", "ministry-burnout"],
+    "ministry-burnout": ["church-hurt", "work-unemployment", "burnout"],
+    "work-unemployment": ["money-debt", "worry-control", "ministry-burnout"],
+    "money-debt": ["work-unemployment", "worry-control", "marriage"],
+    "illness": ["grief", "depression", "aging-parents"],
+    "aging-parents": ["grief", "illness", "parenting"],
+    "technology": ["addiction", "worry-control", "sexual-sin"],
+    "ocd": ["anxiety", "worry-control", "shame"],
+    "trauma": ["grief", "anxiety", "depression"],
+    "abuse": ["trauma", "marriage", "safety"],
+    "singleness": ["marriage", "identity", "fear-of-man"],
+    "doubt": ["depression", "identity", "spiritual-dryness"]
+  };
+  const words = s => new Set((issueSynonyms[s] || []).concat((counselingIssues.find(i => i.id === s) || {}).title.toLowerCase().split(/[^a-z]+/)).filter(w => w && w.length > 3));
+  const mine = words(id);
+  const scored = counselingIssues.filter(i => i.id !== id).map(i => {
+    const theirs = words(i.id);
+    let n = [...mine].filter(w => theirs.has(w)).length;
+    if ((relatedMap[id] || []).includes(i.id)) n += 5;
+    return { i, n };
+  }).filter(x => x.n > 0).sort((a, b) => b.n - a.n).slice(0, 3);
+  const related = scored.map(x => `<a href="#" onclick="showIssue('${x.i.id}'); return false;">${x.i.title}</a>`).join('');
 
   const further = (issue.furtherReading || []).map(r => 
     `<li><a href="${r.url}" target="_blank" rel="noopener">${r.title}</a>${r.note ? ' — ' + r.note : ''}</li>`
@@ -3449,10 +3487,7 @@ function showIssue(id) {
       <button class="favorite-btn ${isFav ? 'active' : ''}" onclick="toggleFavorite('${id}', this)" title="Favorite">★</button>
       ${linkedContent}
       ${furtherHtml}
-      <div class="related">
-        <strong>Related topics:</strong><br>
-        ${related}
-      </div>
+      ${related ? `<div class="related"><strong>Related topics:</strong><br>${related}</div>` : ''}
       <h3 style="margin-top:1.5rem;">Personal Notes</h3>
       <textarea class="notes-area" id="notes-${id}" placeholder="Private notes…">${notes}</textarea>
       <p class="note" style="margin:.4rem 0 .6rem;">Stored in this browser only. Download a named file to keep a copy.</p>
