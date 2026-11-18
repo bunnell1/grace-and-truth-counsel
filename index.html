@@ -263,6 +263,9 @@ html[data-theme="dark"] .btn.secondary:hover { color: #0F241C; }
 }
 .favorite-btn.active { color: var(--gold); border-color: var(--gold); }
 .related { margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; }
+#scripture-list { column-count: 2; column-gap: 1.5rem; }
+.scripture-item { break-inside: avoid; margin-bottom: 1rem; }
+@media (max-width:700px){ #scripture-list { column-count: 1; } }
 .check-grid { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:.15rem .8rem; }
 @media (max-width:700px){ .check-grid { grid-template-columns: 1fr 1fr; } }
 .related a {
@@ -668,6 +671,11 @@ html[data-theme="dark"] .verse-tip .vt-text { color: #F4F1EA; }
     <div class="card">
       <h2>Prayer Guide for Counselors</h2>
       <p>Short, Scripture-based prayers for before, during, and after counseling.</p>
+      <h3>A prayer for this</h3>
+      <p class="note">Type what you want to pray for. This writes a short prayer for what you typed, with a Scripture reference. It does not counsel.</p>
+      <input type="text" class="search" id="prayer-q" placeholder="For example, wisdom before a hard conversation">
+      <button class="btn" type="button" onclick="makePrayer()">Write a prayer</button>
+      <div id="prayer-result"></div>
       <div class="card">
         <h3>Before a Session</h3>
         <p>“Lord, give me wisdom and a listening heart today. Help me to be quick to hear and slow to speak. Guard me from relying on my own understanding or from seeking the approval of others. May I speak the truth in love and point this person to You. (James 1:5; Proverbs 18:13; Galatians 1:10)”</p>
@@ -704,7 +712,6 @@ html[data-theme="dark"] .verse-tip .vt-text { color: #F4F1EA; }
     <div class="card">
       <h2>About</h2>
       <p>Grace & Truth Counsel is a counseling preparation aid for people who already care for others in the church. It is meant to be used with Scripture open, alongside prayer, the local church, and wise supervision.</p>
-      <p><em>It does not replace Scripture, prayer, the local church, supervision, or training. It helps a counselor show up prepared, stay faithful to the Word, and leave the counselee with clear steps forward towards putting Christ at the center of their life.</em></p>
       <h3>Statement of convictions</h3>
       <ul>
         <li>The Bible is sufficient for the struggles of the heart. Scripture, not psychology theory, is our authority.</li>
@@ -718,7 +725,7 @@ html[data-theme="dark"] .verse-tip .vt-text { color: #F4F1EA; }
       <p>It helps a counselor show up prepared to give good biblical counsel: applicable Scripture, biblical principles, session example questions, counselee homework, and care for the counselor’s own heart. Search for a counseling issue, describe the struggle, or take the assessment for suggested Growth Modules. Save and print session guides and homework.</p>
       <p>Find a starting place, the Issues search, and the passage search point you to material on the site or to a passage in the ESV. They do not counsel.</p>
       <h3>What this site is not</h3>
-      <p>It is not counseling, a diagnosis, a case file, a crisis service, or a certificate of competence. Sample dialogue is a direction, not a script. Entered data stays on your device. It is not uploaded to the website. Do not enter a counselee’s name or identifying data. The Consent to Counseling form is a template to adapt. It is not legal advice.</p>
+      <p>It is not counseling, a diagnosis, a case file, a crisis service, or a certificate of competence. It does not replace Scripture, prayer, the local church, supervision, or training. It helps a counselor show up prepared, stay faithful to the Word, and leave the counselee with clear steps forward towards keeping Christ at the center of their life. Sample dialogue is a direction, not a script. Entered data stays on your device. It is not uploaded to the website. Do not enter a counselee’s name or identifying data. The Consent to Counseling form is a template to adapt. It is not legal advice.</p>
       <h3>For questions or suggestions contact:</h3>
       <p>Lawrence Bunnell<br>Member, Grace Bible Church<br>Midlothian, Virginia<br><a href="mailto:graceandtruthcounsel@gmail.com">graceandtruthcounsel@gmail.com</a></p>
     </div>
@@ -4235,6 +4242,41 @@ async function findPassage() {
       </div>`).join('');
   } catch (err) {
     out.innerHTML = '<p class="note">Passage search is not available yet.</p>';
+  }
+}
+
+
+async function makePrayer() {
+  const typed = (document.getElementById('prayer-q').value || '').trim();
+  const q = typed.toLowerCase();
+  const out = document.getElementById('prayer-result');
+  if (!q) { out.innerHTML = '<p class="note">Type a few words first.</p>'; return; }
+  out.innerHTML = '<p class="note">Writing…</p>';
+  const words = q.split(/[^a-z0-9]+/).filter(w => w.length > 3);
+  const scored = scriptureData.map(item => {
+    const hay = (item.topic + ' ' + item.verses.join(' ')).toLowerCase();
+    const n = words.filter(w => hay.includes(w)).length;
+    return { item, n };
+  }).filter(x => x.n).sort((a, b) => b.n - a.n);
+  const verses = (scored[0] ? scored[0].item.verses : scriptureData[0].verses).slice(0, 4);
+  const show = (prayer) => {
+    out.innerHTML = `<div class="card" style="margin-top:1rem;"><p>${linkifyVerses(prayer)}</p><p class="note">A starting place. Test it against the passages.</p></div>`;
+  };
+  const cacheKey = 'prayer:' + q;
+  const cached = cacheGet(cacheKey);
+  if (cached) { show(cached); return; }
+  try {
+    const res = await fetch(SUPABASE_URL + '/functions/v1/pray', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + SUPABASE_KEY, apikey: SUPABASE_KEY },
+      body: JSON.stringify({ q: typed, verses })
+    });
+    const data = await res.json();
+    if (data && data.prayer) { cacheSet(cacheKey, data.prayer); show(data.prayer); return; }
+    throw new Error('none');
+  } catch (e) {
+    const refs = verses.slice(0, 2).map(v => v.split('—').pop().trim()).join('; ');
+    show(`Lord, you see what I am bringing to you: ${typed}. Give me a true heart and a quiet mind. Help me trust you with what I cannot change, and obey you in what I can. Keep Christ at the center of this. (${refs})`);
   }
 }
 
