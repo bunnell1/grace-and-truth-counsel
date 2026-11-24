@@ -120,10 +120,14 @@ function showIssue(issue) {
       '</ul>';
   }
 
+  // Strip leading h2 from content to avoid duplicate title
+  let content = issue.content || '';
+  content = content.replace(/<h2>[\s\S]*?<\/h2>/i, '');
+
   detail.innerHTML = `
     <h2>${issue.title}</h2>
     <p>${issue.summary || ''}</p>
-    <div id="issue-content">${issue.content || ''}</div>
+    <div id="issue-content">${content}</div>
     ${reading}
     <h3>Your Notes</h3>
     <textarea class="notes-area" id="iss-notes" placeholder="Notes stay on this device">${saved}</textarea>
@@ -159,7 +163,6 @@ function openPrintModal() {
     label.innerHTML = `<input type="checkbox" class="print-cb" data-idx="${i}" data-level="${level}" checked> ${h.textContent}`;
     opts.appendChild(label);
   });
-  // Parent selects children
   opts.querySelectorAll('.print-cb').forEach(cb => {
     cb.addEventListener('change', () => {
       const idx = parseInt(cb.dataset.idx, 10);
@@ -193,7 +196,6 @@ function doPrint() {
   });
   closePrintModal();
   window.print();
-  // Restore
   heads.forEach(h => {
     h.style.display = '';
     let el = h;
