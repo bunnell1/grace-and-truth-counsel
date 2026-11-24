@@ -23,6 +23,7 @@
       <a href="modules.html" class="active">Modules</a>
       <a href="toolkit.html">Toolkit</a>
       <a href="scripture.html">Scripture</a>
+      <a href="prayer.html">Prayer</a>
       <a href="about.html">About</a>
     </nav>
   </div>
@@ -59,9 +60,16 @@ function renderModules() {
 function showModule(m) {
   const detail = document.getElementById('module-detail');
   const notesKey = 'module-notes-' + m.id;
+  let reading = '';
+  if (m.furtherReading && m.furtherReading.length) {
+    reading = '<h3>For Further Reading</h3><ul>' +
+      m.furtherReading.map(b => `<li><a href="${b.url}" target="_blank" rel="noopener">${b.title}</a>${b.note ? ' — ' + b.note : ''}</li>`).join('') +
+      '</ul>';
+  }
   detail.innerHTML = `
     <button class="btn secondary" onclick="hideDetail()">Back to list</button>
     ${m.content || ''}
+    ${reading}
     <h3>Your Notes</h3>
     <textarea class="notes-area" id="mod-notes" placeholder="Notes stay on this device">${localStorage.getItem(notesKey) || ''}</textarea>
     <button class="btn" onclick="localStorage.setItem('${notesKey}', document.getElementById('mod-notes').value); alert('Saved')">Save Notes</button>
