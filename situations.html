@@ -42,6 +42,17 @@
   <div id="issue-detail" class="hidden card"></div>
 </main>
 
+<div id="print-modal" class="hidden" style="position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:300;display:flex;align-items:center;justify-content:center;padding:1rem;">
+  <div class="card" style="max-width:420px;width:100%;max-height:80vh;overflow:auto;">
+    <h3 style="margin-top:0;">Choose what to print</h3>
+    <div id="print-options"></div>
+    <div class="btn-row" style="margin-top:1rem;">
+      <button class="btn" onclick="doPrint()">Print</button>
+      <button class="btn secondary" onclick="closePrintModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <footer>
   <a href="https://graceandtruthministry.com">Grace & Truth Ministry</a> ·
   <a href="https://graceandtruthministry.com/privacy.html">Privacy</a> ·
@@ -109,29 +120,11 @@ function showIssue(issue) {
       '</ul>';
   }
 
-  // Build print selector from content headings
-  let printSelector = '';
-  if (issue.content) {
-    const tmp = document.createElement('div');
-    tmp.innerHTML = issue.content;
-    const heads = tmp.querySelectorAll('h2, h3, h4');
-    if (heads.length) {
-      printSelector = '<h3>Choose what to print</h3><div class="print-select">';
-      heads.forEach((h, i) => {
-        const level = h.tagName === 'H2' ? 0 : h.tagName === 'H3' ? 1 : 2;
-        const indent = level * 1.2;
-        printSelector += `<label class="check-item" style="margin-left:${indent}rem"><input type="checkbox" class="print-cb" data-idx="${i}" data-level="${level}" checked> ${h.textContent}</label>`;
-      });
-      printSelector += '</div>';
-    }
-  }
-
   detail.innerHTML = `
     <h2>${issue.title}</h2>
     <p>${issue.summary || ''}</p>
     <div id="issue-content">${issue.content || ''}</div>
     ${reading}
-    ${printSelector}
     <h3>Your Notes</h3>
     <textarea class="notes-area" id="iss-notes" placeholder="Notes stay on this device">${saved}</textarea>
     <div class="icon-row">
@@ -141,35 +134,54 @@ function showIssue(issue) {
       <button class="icon-btn" title="Upload" onclick="document.getElementById('upload-issue').click()">↑</button>
       <input type="file" id="upload-issue" accept=".txt,.json" style="display:none" onchange="uploadIssueNotes('${notesKey}', this)">
       <button class="icon-btn" title="Clear" onclick="if(confirm('Clear notes?')) clearIssueNotes('${notesKey}')">✕</button>
-      <button class="icon-btn" title="Print selected" onclick="printSelected()">⎙</button>
+      <button class="icon-btn" title="Print" onclick="openPrintModal()">⎙</button>
     </div>
   `;
-
-  // Wire print checkboxes: parent selects children
-  detail.querySelectorAll('.print-cb').forEach(cb => {
-    cb.addEventListener('change', () => {
-      const idx = parseInt(cb.dataset.idx, 10);
-      const level = parseInt(cb.dataset.level, 10);
-      const all = Array.from(detail.querySelectorAll('.print-cb'));
-      for (let j = idx + 1; j < all.length; j++) {
-        if (parseInt(all[j].dataset.level, 10) <= level) break;
-        all[j].checked = cb.checked;
-      }
-    });
-  });
 
   detail.classList.remove('hidden');
   document.getElementById('issue-list').classList.add('hidden');
   document.getElementById('issues-intro').classList.add('hidden');
 }
 
-function printSelected() {
-  const detail = document.getElementById('issue-detail');
-  const content = detail.querySelector('#issue-content');
+function openPrintModal() {
+  const content = document.getElementById('issue-content');
+  const opts = document.getElementById('print-options');
   if (!content) { window.print(); return; }
   const heads = content.querySelectorAll('h2, h3, h4');
-  const cbs = Array.from(detail.querySelectorAll('.print-cb'));
-  // Hide unchecked sections for print
+  if (!heads.length) { window.print(); return; }
+  opts.innerHTML = '';
+  heads.forEach((h, i) => {
+    const level = h.tagName === 'H2' ? 0 : h.tagName === 'H3' ? 1 : 2;
+    const indent = level * 1.1;
+    const label = document.createElement('label');
+    label.className = 'check-item';
+    label.style.marginLeft = indent + 'rem';
+    label.innerHTML = `<input type="checkbox" class="print-cb" data-idx="${i}" data-level="${level}" checked> ${h.textContent}`;
+    opts.appendChild(label);
+  });
+  // Parent selects children
+  opts.querySelectorAll('.print-cb').forEach(cb => {
+    cb.addEventListener('change', () => {
+      const idx = parseInt(cb.dataset.idx, 10);
+      const level = parseInt(cb.dataset.level, 10);
+      const all = Array.from(opts.querySelectorAll('.print-cb'));
+      for (let j = idx + 1; j < all.length; j++) {
+        if (parseInt(all[j].dataset.level, 10) <= level) break;
+        all[j].checked = cb.checked;
+      }
+    });
+  });
+  document.getElementById('print-modal').classList.remove('hidden');
+}
+
+function closePrintModal() {
+  document.getElementById('print-modal').classList.add('hidden');
+}
+
+function doPrint() {
+  const content = document.getElementById('issue-content');
+  const cbs = Array.from(document.querySelectorAll('#print-options .print-cb'));
+  const heads = content.querySelectorAll('h2, h3, h4');
   heads.forEach((h, i) => {
     const checked = cbs[i] && cbs[i].checked;
     let el = h;
@@ -179,6 +191,7 @@ function printSelected() {
     }
     h.style.display = checked ? '' : 'none';
   });
+  closePrintModal();
   window.print();
   // Restore
   heads.forEach(h => {
