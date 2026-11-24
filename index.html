@@ -96,6 +96,14 @@ function buildCatalog() {
   return cat;
 }
 
+function pageFor(type) {
+  const t = (type || '').toLowerCase();
+  if (t === 'issue' || t === 'issues') return 'situations.html';
+  if (t === 'module' || t === 'modules') return 'modules.html';
+  if (t === 'toolkit' || t === 'tool') return 'toolkit.html';
+  return 'situations.html';
+}
+
 async function aiSearch() {
   const q = document.getElementById('home-search').value.trim();
   const box = document.getElementById('home-results');
@@ -111,7 +119,7 @@ async function aiSearch() {
       return;
     }
     box.innerHTML = matches.map(m => {
-      const href = m.type === 'issue' ? 'situations.html' : m.type === 'module' ? 'modules.html' : 'toolkit.html';
+      const href = pageFor(m.type) + (m.id ? '?id=' + encodeURIComponent(m.id) : '');
       return `<div class="module-item"><div><strong>${m.title || 'Result'}</strong><p>${m.why || ''}</p><a href="${href}">Open</a></div></div>`;
     }).join('');
   } catch (e) {
