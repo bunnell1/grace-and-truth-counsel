@@ -13,7 +13,7 @@
   --shadow: 0 8px 24px rgba(31, 77, 58, 0.05);
   --font-serif: "Source Serif 4", "Iowan Old Style", Georgia, serif;
   --font-sans: "Avenir Next", "Segoe UI", system-ui, sans-serif;
-  --header-bg: rgba(247, 243, 236, 0.9);
+  --header-bg: #F7F3EC;
   --input-bg: #ffffff;
   --hover: #FDFBF7;
 }
@@ -29,7 +29,7 @@ html[data-theme="dark"] {
   --gold-soft: #2C2822;
   --border: #33403A;
   --shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
-  --header-bg: rgba(20, 24, 22, 0.92);
+  --header-bg: #1E2420;
   --input-bg: #171C19;
   --hover: #26302B;
 }
@@ -37,9 +37,7 @@ html[data-theme="dark"] {
 html { scroll-behavior: smooth; }
 body {
   margin: 0;
-  background:
-    radial-gradient(1200px 500px at 50% -180px, rgba(176,141,87,0.16), transparent 60%),
-    var(--bg);
+  background: var(--bg);
   color: var(--text);
   font-family: var(--font-sans);
   line-height: 1.65;
@@ -71,7 +69,6 @@ header {
   top: 0;
   z-index: 20;
   background: var(--header-bg);
-  backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
 }
 .header-inner {
@@ -118,6 +115,7 @@ nav a, nav button {
 }
 nav a:hover, nav button:hover { color: var(--accent); background: rgba(31,77,58,0.05); }
 nav a.active, nav button.active { color: var(--accent); font-weight: 650; box-shadow: inset 0 -2px 0 var(--gold); border-radius: 0; background: transparent; }
+nav svg { width: 18px; height: 18px; flex-shrink: 0; }
 
 main { max-width: 980px; margin: 0 auto; padding: 2.2rem 1.25rem 4rem; }
 .hero { text-align: center; padding: 1.2rem 0 1.6rem; }
@@ -200,6 +198,7 @@ html[data-theme="dark"] .btn.secondary:hover { color: #0F241C; }
   padding: 0.8rem 1rem;
   border-radius: 0 10px 10px 0;
   font-size: 0.95rem;
+  color: var(--text);
 }
 .verse {
   background: var(--accent-light);
@@ -298,6 +297,7 @@ footer {
   .hero h2 { font-size: 2.15rem; }
 }
 @media (max-width: 520px) {
+  nav a span, nav button span { display: none; }
   nav a, nav button { font-size: 0; gap: 0; padding: 0.42rem; }
   nav a svg, nav button svg { width: 18px; height: 18px; }
   .brand-name { font-size: 1rem; }
@@ -315,7 +315,7 @@ footer {
   .print-only img { width: 56px; height: 56px; object-fit: cover; }
   .print-site { font-family: Georgia, serif; font-size: 1.15rem; color: #1F4D3A; }
   .print-form { font-size: 0.95rem; color: #6B6560; }
-  body { background: var(--input-bg); }
+  body { background: #fff; color: #1c1c1c; }
   main { max-width: none; padding: 0; }
   .card, .module-item, .module-card { box-shadow: none; }
   .hidden { display: none !important; }
