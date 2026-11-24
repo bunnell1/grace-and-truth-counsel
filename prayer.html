@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prayer | Grace & Truth Counsel</title>
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="stylesheet" href="styles.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="brand">
+      <img src="logo.png" alt="" class="brand-mark">
+      <div>
+        <span class="brand-name">Grace & Truth Counsel</span>
+        <span class="brand-sub">Biblical Counseling</span>
+      </div>
+    </a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="situations.html">Issues</a>
+      <a href="modules.html">Modules</a>
+      <a href="toolkit.html">Toolkit</a>
+      <a href="scripture.html">Scripture</a>
+      <a href="prayer.html" class="active">Prayer</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <h1>Prayer</h1>
+  <p class="note">A short prayer a counselor could pray, shaped by Scripture.</p>
+  <div class="card">
+    <label for="prayer-q">What are you praying about?</label>
+    <input type="text" id="prayer-q" class="search" placeholder="e.g. help for a struggling marriage" style="margin-top:0.4rem;">
+    <label for="prayer-verses" style="margin-top:0.8rem;">Related passages (optional, one per line or separated by commas)</label>
+    <textarea id="prayer-verses" class="notes-area" placeholder="Philippians 4:6-7&#10;1 Peter 5:7"></textarea>
+    <button class="btn" onclick="generatePrayer()" style="margin-top:0.6rem;">Write a Prayer</button>
+    <div id="prayer-result" style="margin-top:1.2rem;"></div>
+  </div>
+</main>
+
+<footer>
+  <a href="https://graceandtruthministry.com">Grace & Truth Ministry</a> ·
+  <a href="https://graceandtruthministry.com/privacy.html">Privacy</a> ·
+  <a href="https://graceandtruthministry.com/terms.html">Terms</a>
+  <p>© 2026 Grace & Truth Counsel</p>
+</footer>
+
+<script>
+const SUPABASE_URL = 'https://vsrasasxkbxiitbvonjw.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_4-d9tlhIQu1OqeI5bGTHTQ_OSLgPFoC';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+async function generatePrayer() {
+  const q = document.getElementById('prayer-q').value.trim();
+  const versesRaw = document.getElementById('prayer-verses').value.trim();
+  const result = document.getElementById('prayer-result');
+  if (!q) { result.innerHTML = '<p class="note">Enter what you are praying about.</p>'; return; }
+  const verses = versesRaw ? versesRaw.split(/[,\n]+/).map(s => s.trim()).filter(Boolean) : [];
+  result.innerHTML = '<p class="note">Writing…</p>';
+  try {
+    const { data, error } = await sb.functions.invoke('pray', { body: { q, verses } });
+    if (error) throw error;
+    if (!data || !data.prayer) {
+      result.innerHTML = '<p class="note">No prayer returned. Try again.</p>';
+      return;
+    }
+    result.innerHTML = `<div class="verse">${data.prayer.replace(/\n/g, '<br>')}</div>`;
+  } catch (e) {
+    result.innerHTML = '<p class="note">Prayer generation is temporarily unavailable.</p>';
+    console.error(e);
+  }
+}
+</script>
+</body>
+</html>
