@@ -11,7 +11,7 @@
 <header>
   <div class="header-inner">
     <a href="index.html" class="brand">
-      <img src="icon-192.png" alt="" class="brand-mark">
+      <img src="logo.png" alt="" class="brand-mark">
       <div>
         <span class="brand-name">Grace & Truth Counsel</span>
         <span class="brand-sub">Biblical Counseling</span>
@@ -30,34 +30,47 @@
 
 <main>
   <h1>Growth Modules</h1>
-  <p class="note">Structured preparation on listening, gospel clarity, heart issues, and more.</p>
+  <p class="note">Structured preparation on listening, gospel clarity, heart issues, and more. Click a module for full content and a notes field.</p>
   <div id="module-list" class="module-list"></div>
+  <div id="module-detail" class="hidden card"></div>
 </main>
 
 <footer>
-  <a href="https://graceandtruthministry.com/privacy.html">Privacy Policy</a> ·
-  <a href="https://graceandtruthministry.com/terms.html">Terms of Use</a><br>
-  <div style="margin-top:0.6rem;">
-    <a href="https://graceandtruthministry.com" target="_blank" rel="noopener">Grace & Truth Ministry</a>
-    ·
-    <a href="https://witness.graceandtruthministry.com" target="_blank" rel="noopener">Grace & Truth Witness</a>
-    ·
-    <a href="https://steward.graceandtruthministry.com" target="_blank" rel="noopener">Grace & Truth Steward</a>
-  </div>
-  <span style="font-size:0.8rem;">© 2026 Grace & Truth Counsel</span>
+  <a href="https://graceandtruthministry.com">Grace & Truth Ministry</a> ·
+  <a href="https://graceandtruthministry.com/privacy.html">Privacy</a> ·
+  <a href="https://graceandtruthministry.com/terms.html">Terms</a>
+  <p>© 2026 Grace & Truth Counsel</p>
 </footer>
 
 <script src="modules.js"></script>
 <script>
 function renderModules() {
   const list = document.getElementById('module-list');
-  const modules = window.modules || [];
-  modules.forEach(m => {
+  list.innerHTML = '';
+  (window.modules || []).forEach(m => {
     const div = document.createElement('div');
     div.className = 'module-item';
     div.innerHTML = `<div><strong>${m.title}</strong><p>${m.summary || ''}</p></div>`;
+    div.onclick = () => showModule(m);
     list.appendChild(div);
   });
+}
+function showModule(m) {
+  const detail = document.getElementById('module-detail');
+  const notesKey = 'module-notes-' + m.id;
+  detail.innerHTML = `
+    <button class="btn secondary" onclick="hideDetail()">Back to list</button>
+    ${m.content || ''}
+    <h3>Your Notes</h3>
+    <textarea class="notes-area" id="mod-notes" placeholder="Notes stay on this device">${localStorage.getItem(notesKey) || ''}</textarea>
+    <button class="btn" onclick="localStorage.setItem('${notesKey}', document.getElementById('mod-notes').value); alert('Saved')">Save Notes</button>
+  `;
+  detail.classList.remove('hidden');
+  document.getElementById('module-list').classList.add('hidden');
+}
+function hideDetail() {
+  document.getElementById('module-detail').classList.add('hidden');
+  document.getElementById('module-list').classList.remove('hidden');
 }
 renderModules();
 </script>
