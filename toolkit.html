@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toolkit | Grace & Truth Counsel</title>
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="brand">
+      <img src="icon-192.png" alt="" class="brand-mark">
+      <div>
+        <span class="brand-name">Grace & Truth Counsel</span>
+        <span class="brand-sub">Biblical Counseling</span>
+      </div>
+    </a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="situations.html">Issues</a>
+      <a href="modules.html">Modules</a>
+      <a href="toolkit.html" class="active">Toolkit</a>
+      <a href="scripture.html">Scripture</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <h1>Toolkit</h1>
+  <p class="note">Session checklists, homework, notes, and printable forms. Data stays on your device.</p>
+  <div id="toolkit-list" class="module-list"></div>
+</main>
+
+<footer>
+  <a href="https://graceandtruthministry.com/privacy.html">Privacy Policy</a> ·
+  <a href="https://graceandtruthministry.com/terms.html">Terms of Use</a><br>
+  <div style="margin-top:0.6rem;">
+    <a href="https://graceandtruthministry.com" target="_blank" rel="noopener">Grace & Truth Ministry</a>
+    ·
+    <a href="https://witness.graceandtruthministry.com" target="_blank" rel="noopener">Grace & Truth Witness</a>
+    ·
+    <a href="https://steward.graceandtruthministry.com" target="_blank" rel="noopener">Grace & Truth Steward</a>
+  </div>
+  <span style="font-size:0.8rem;">© 2026 Grace & Truth Counsel</span>
+</footer>
+
+<script src="toolkit.js"></script>
+<script>
+function renderToolkit() {
+  const list = document.getElementById('toolkit-list');
+  const tools = window.toolkit || [];
+  tools.forEach(t => {
+    const div = document.createElement('div');
+    div.className = 'module-item';
+    div.innerHTML = `<div><strong>${t.title}</strong><p>${t.description || ''}</p></div>`;
+    list.appendChild(div);
+  });
+}
+renderToolkit();
+</script>
+</body>
+</html>
