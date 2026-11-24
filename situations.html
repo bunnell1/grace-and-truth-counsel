@@ -32,8 +32,8 @@
 
 <main>
   <h1>Counseling Issues</h1>
-  <p class="note">Search by struggle. Applicable Scripture, biblical principles, and session questions. Notes stay on your device.</p>
-  <div style="display:flex;gap:0.5rem;align-items:center;margin-bottom:1rem;">
+  <p class="note" id="issues-intro">Search by struggle. Applicable Scripture, biblical principles, and session questions. Notes stay on your device.</p>
+  <div id="search-bar" style="display:flex;gap:0.5rem;align-items:center;margin-bottom:1rem;">
     <input type="text" id="search" class="search" placeholder="Search issues…" style="margin:0;flex:1;">
     <button class="btn" onclick="doSearch()">Find</button>
   </div>
@@ -108,25 +108,25 @@ function showIssue(issue) {
       '</ul>';
   }
   detail.innerHTML = `
-    <div class="btn-row" style="margin-bottom:1rem;">
-      <button class="btn secondary" onclick="hideDetail()">Back</button>
-      <button class="btn" onclick="saveIssueNotes('${notesKey}')">Save</button>
-      <button class="btn secondary" onclick="downloadIssueNotes('${notesKey}', '${issue.title}')">Download</button>
-      <button class="btn secondary" onclick="document.getElementById('upload-issue').click()">Upload</button>
-      <input type="file" id="upload-issue" accept=".txt,.json" style="display:none" onchange="uploadIssueNotes('${notesKey}', this)">
-      <button class="btn secondary" onclick="if(confirm('Clear notes?')) clearIssueNotes('${notesKey}')">Clear</button>
-      <button class="btn secondary" onclick="window.print()">Print</button>
-    </div>
     <h2>${issue.title}</h2>
     <p>${issue.summary || ''}</p>
     ${issue.content || ''}
     ${reading}
     <h3>Your Notes</h3>
     <textarea class="notes-area" id="iss-notes" placeholder="Notes stay on this device">${saved}</textarea>
+    <div class="icon-row">
+      <button class="icon-btn" title="Back" onclick="hideDetail()">←</button>
+      <button class="icon-btn" title="Save" onclick="saveIssueNotes('${notesKey}')">✓</button>
+      <button class="icon-btn" title="Download" onclick="downloadIssueNotes('${notesKey}', '${issue.title}')">↓</button>
+      <button class="icon-btn" title="Upload" onclick="document.getElementById('upload-issue').click()">↑</button>
+      <input type="file" id="upload-issue" accept=".txt,.json" style="display:none" onchange="uploadIssueNotes('${notesKey}', this)">
+      <button class="icon-btn" title="Clear" onclick="if(confirm('Clear notes?')) clearIssueNotes('${notesKey}')">✕</button>
+      <button class="icon-btn" title="Print" onclick="window.print()">⎙</button>
+    </div>
   `;
   detail.classList.remove('hidden');
   document.getElementById('issue-list').classList.add('hidden');
-  document.getElementById('search').parentElement.classList.add('hidden');
+  document.getElementById('issues-intro').classList.add('hidden');
 }
 
 function saveIssueNotes(key) {
@@ -163,7 +163,7 @@ function clearIssueNotes(key) {
 function hideDetail() {
   document.getElementById('issue-detail').classList.add('hidden');
   document.getElementById('issue-list').classList.remove('hidden');
-  document.getElementById('search').parentElement.classList.remove('hidden');
+  document.getElementById('issues-intro').classList.remove('hidden');
 }
 document.getElementById('search').addEventListener('input', e => renderIssues(e.target.value));
 document.getElementById('search').addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
