@@ -31,7 +31,7 @@
 
 <main>
   <h1>Toolkit</h1>
-  <p class="note">Session checklists, homework, notes, and printable forms. Data stays on your device. Click a tool to open it.</p>
+  <p class="note" id="toolkit-intro">Session checklists, homework, notes, and printable forms. Data stays on your device. Click a tool to open it.</p>
   <div id="toolkit-list" class="module-list"></div>
   <div id="toolkit-detail" class="hidden card"></div>
 </main>
@@ -63,21 +63,24 @@ function showTool(t) {
   const key = 'tool-' + (t.id || t.title);
   const saved = JSON.parse(localStorage.getItem(key) || '{}');
 
+  // Strip the leading <h2> from content to avoid duplicate title
+  let content = t.content || '';
+  content = content.replace(/<h2>[\s\S]*?<\/h2>/i, '');
+
   detail.innerHTML = `
-    <div class="btn-row" style="margin-bottom:1rem;">
-      <button class="btn secondary" onclick="hideDetail()">Back</button>
-      <button class="btn" onclick="saveTool('${key}')">Save</button>
-      <button class="btn secondary" onclick="downloadTool('${key}', '${t.title}')">Download</button>
-      <button class="btn secondary" onclick="document.getElementById('upload-${t.id}').click()">Upload</button>
-      <input type="file" id="upload-${t.id}" accept=".json" style="display:none" onchange="uploadTool('${key}', this)">
-      <button class="btn secondary" onclick="if(confirm('Clear this form?')) clearTool('${key}')">Clear</button>
-      <button class="btn secondary" onclick="window.print()">Print</button>
-    </div>
     <h2>${t.title}</h2>
-    <div id="tool-form">${t.content || ''}</div>
+    <div id="tool-form">${content}</div>
+    <div class="icon-row">
+      <button class="icon-btn" title="Back" onclick="hideDetail()">←</button>
+      <button class="icon-btn" title="Save" onclick="saveTool('${key}')">✓</button>
+      <button class="icon-btn" title="Download" onclick="downloadTool('${key}', '${t.title}')">↓</button>
+      <button class="icon-btn" title="Upload" onclick="document.getElementById('upload-${t.id}').click()">↑</button>
+      <input type="file" id="upload-${t.id}" accept=".json" style="display:none" onchange="uploadTool('${key}', this)">
+      <button class="icon-btn" title="Clear" onclick="if(confirm('Clear this form?')) clearTool('${key}')">✕</button>
+      <button class="icon-btn" title="Print" onclick="window.print()">⎙</button>
+    </div>
   `;
 
-  // Restore saved values
   Object.keys(saved).forEach(id => {
     const el = detail.querySelector('#' + id);
     if (el) {
@@ -88,6 +91,7 @@ function showTool(t) {
 
   detail.classList.remove('hidden');
   document.getElementById('toolkit-list').classList.add('hidden');
+  document.getElementById('toolkit-intro').classList.add('hidden');
 }
 
 function collectForm(key) {
@@ -125,7 +129,6 @@ function uploadTool(key, input) {
     try {
       const data = JSON.parse(reader.result);
       localStorage.setItem(key, JSON.stringify(data));
-      // re-render current tool
       const tools = toolkit || [];
       const t = tools.find(x => 'tool-' + (x.id || x.title) === key);
       if (t) showTool(t);
@@ -148,6 +151,7 @@ function clearTool(key) {
 function hideDetail() {
   document.getElementById('toolkit-detail').classList.add('hidden');
   document.getElementById('toolkit-list').classList.remove('hidden');
+  document.getElementById('toolkit-intro').classList.remove('hidden');
 }
 
 renderToolkit();
