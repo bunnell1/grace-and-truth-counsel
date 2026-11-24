@@ -11,7 +11,7 @@
 <header>
   <div class="header-inner">
     <a href="index.html" class="brand">
-      <img src="icon-192.png" alt="" class="brand-mark">
+      <img src="logo.png" alt="" class="brand-mark">
       <div>
         <span class="brand-name">Grace & Truth Counsel</span>
         <span class="brand-sub">Biblical Counseling</span>
@@ -30,34 +30,60 @@
 
 <main>
   <h1>Toolkit</h1>
-  <p class="note">Session checklists, homework, notes, and printable forms. Data stays on your device.</p>
+  <p class="note">Session checklists, homework, notes, and printable forms. Data stays on your device. Click a tool to open it.</p>
   <div id="toolkit-list" class="module-list"></div>
+  <div id="toolkit-detail" class="hidden card"></div>
 </main>
 
 <footer>
-  <a href="https://graceandtruthministry.com/privacy.html">Privacy Policy</a> ·
-  <a href="https://graceandtruthministry.com/terms.html">Terms of Use</a><br>
-  <div style="margin-top:0.6rem;">
-    <a href="https://graceandtruthministry.com" target="_blank" rel="noopener">Grace & Truth Ministry</a>
-    ·
-    <a href="https://witness.graceandtruthministry.com" target="_blank" rel="noopener">Grace & Truth Witness</a>
-    ·
-    <a href="https://steward.graceandtruthministry.com" target="_blank" rel="noopener">Grace & Truth Steward</a>
-  </div>
-  <span style="font-size:0.8rem;">© 2026 Grace & Truth Counsel</span>
+  <a href="https://graceandtruthministry.com">Grace & Truth Ministry</a> ·
+  <a href="https://graceandtruthministry.com/privacy.html">Privacy</a> ·
+  <a href="https://graceandtruthministry.com/terms.html">Terms</a>
+  <p>© 2026 Grace & Truth Counsel</p>
 </footer>
 
 <script src="toolkit.js"></script>
 <script>
 function renderToolkit() {
   const list = document.getElementById('toolkit-list');
-  const tools = window.toolkit || [];
-  tools.forEach(t => {
+  list.innerHTML = '';
+  (window.toolkit || []).forEach(t => {
     const div = document.createElement('div');
     div.className = 'module-item';
     div.innerHTML = `<div><strong>${t.title}</strong><p>${t.description || ''}</p></div>`;
+    div.onclick = () => showTool(t);
     list.appendChild(div);
   });
+}
+function showTool(t) {
+  const detail = document.getElementById('toolkit-detail');
+  const key = 'tool-' + (t.id || t.title);
+  detail.innerHTML = `
+    <button class="btn secondary" onclick="hideDetail()">Back to list</button>
+    <h2>${t.title}</h2>
+    <p>${t.description || ''}</p>
+    <div class="toolkit-form">
+      ${t.fields ? t.fields.map(f => `<label>${f.label}</label><textarea class="notes-area" data-field="${f.id}">${localStorage.getItem(key+'-'+f.id) || ''}</textarea>`).join('') : '<textarea class="notes-area" id="tool-notes">' + (localStorage.getItem(key) || '') + '</textarea>'}
+    </div>
+    <div class="btn-row" style="margin-top:1rem">
+      <button class="btn" onclick="saveTool('${key}')">Save</button>
+      <button class="btn secondary" onclick="window.print()">Print</button>
+      <button class="btn secondary" onclick="if(confirm('Clear this form?')){document.querySelectorAll('#toolkit-detail textarea').forEach(el=>el.value='');}">Clear</button>
+    </div>
+  `;
+  detail.classList.remove('hidden');
+  document.getElementById('toolkit-list').classList.add('hidden');
+}
+function saveTool(key) {
+  document.querySelectorAll('#toolkit-detail textarea').forEach(el => {
+    const field = el.dataset.field || 'notes';
+    localStorage.setItem(key + (field === 'notes' ? '' : '-' + field), el.value);
+  });
+  alert('Saved on this device');
+}
+function hideDetail() {
+  document.getElementById('toolkit-detail').classList.add('hidden');
+  document.getElementById('toolkit-list').classList.remove('hidden');
 }
 renderToolkit();
 </script>
