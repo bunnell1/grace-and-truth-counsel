@@ -9,6 +9,9 @@
 <link rel="stylesheet" href="styles.css">
 <link rel="icon" type="image/png" href="icon-192.png">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="counselingIssues.js"></script>
+<script src="modules.js"></script>
+<script src="toolkit.js"></script>
 </head>
 <body>
 <header>
@@ -83,21 +86,32 @@ const SUPABASE_URL = 'https://vsrasasxkbxiitbvonjw.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_4-d9tlhIQu1OqeI5bGTHTQ_OSLgPFoC';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+function buildCatalog() {
+  const cat = [];
+  (counselingIssues || []).forEach(i => cat.push({ type: 'issue', id: i.id, title: i.title, summary: i.summary || '' }));
+  (modules || []).forEach(m => cat.push({ type: 'module', id: m.id, title: m.title, summary: m.summary || '' }));
+  (toolkit || []).forEach(t => cat.push({ type: 'toolkit', id: t.id, title: t.title, summary: t.description || '' }));
+  return cat;
+}
+
 async function aiSearch() {
   const q = document.getElementById('home-search').value.trim();
   const box = document.getElementById('home-results');
   if (!q) { box.innerHTML = '<p class="note">Enter a word or phrase.</p>'; return; }
   box.innerHTML = '<p class="note">Searching…</p>';
   try {
-    const { data, error } = await sb.functions.invoke('search', { body: { query: q, type: 'counsel' } });
+    const catalog = buildCatalog();
+    const { data, error } = await sb.functions.invoke('find', { body: { q, catalog } });
     if (error) throw error;
-    if (!data || !data.results || !data.results.length) {
+    const matches = (data && data.matches) || [];
+    if (!matches.length) {
       box.innerHTML = '<p class="note">No close matches. Try the Issues or Scripture pages.</p>';
       return;
     }
-    box.innerHTML = data.results.map(r =>
-      `<div class="module-item"><div><strong>${r.title || r.reference || 'Result'}</strong><p>${r.summary || r.text || ''}</p>${r.url ? `<a href="${r.url}">Open</a>` : ''}</div></div>`
-    ).join('');
+    box.innerHTML = matches.map(m => {
+      const href = m.type === 'issue' ? 'situations.html' : m.type === 'module' ? 'modules.html' : 'toolkit.html';
+      return `<div class="module-item"><div><strong>${m.title || 'Result'}</strong><p>${m.why || ''}</p><a href="${href}">Open</a></div></div>`;
+    }).join('');
   } catch (e) {
     box.innerHTML = '<p class="note">Search is temporarily unavailable. You can still browse Issues or look up a verse directly.</p>';
     console.error(e);
