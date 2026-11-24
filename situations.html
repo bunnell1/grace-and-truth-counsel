@@ -100,19 +100,59 @@ async function doSearch() {
 function showIssue(issue) {
   const detail = document.getElementById('issue-detail');
   const notesKey = 'issue-notes-' + (issue.id || issue.title);
+  const saved = localStorage.getItem(notesKey) || '';
   detail.innerHTML = `
-    <button class="btn secondary" onclick="hideDetail()">Back to list</button>
+    <div class="btn-row" style="margin-bottom:1rem;">
+      <button class="btn secondary" onclick="hideDetail()">Back</button>
+      <button class="btn" onclick="saveIssueNotes('${notesKey}')">Save</button>
+      <button class="btn secondary" onclick="downloadIssueNotes('${notesKey}', '${issue.title}')">Download</button>
+      <button class="btn secondary" onclick="document.getElementById('upload-issue').click()">Upload</button>
+      <input type="file" id="upload-issue" accept=".txt,.json" style="display:none" onchange="uploadIssueNotes('${notesKey}', this)">
+      <button class="btn secondary" onclick="if(confirm('Clear notes?')) clearIssueNotes('${notesKey}')">Clear</button>
+      <button class="btn secondary" onclick="window.print()">Print</button>
+    </div>
     <h2>${issue.title}</h2>
     <p>${issue.summary || ''}</p>
     ${issue.content || ''}
     <h3>Your Notes</h3>
-    <textarea class="notes-area" id="iss-notes" placeholder="Notes stay on this device">${localStorage.getItem(notesKey) || ''}</textarea>
-    <button class="btn" onclick="localStorage.setItem('${notesKey}', document.getElementById('iss-notes').value); alert('Saved')">Save Notes</button>
+    <textarea class="notes-area" id="iss-notes" placeholder="Notes stay on this device">${saved}</textarea>
   `;
   detail.classList.remove('hidden');
   document.getElementById('issue-list').classList.add('hidden');
   document.getElementById('search').parentElement.classList.add('hidden');
 }
+
+function saveIssueNotes(key) {
+  const val = document.getElementById('iss-notes').value;
+  localStorage.setItem(key, val);
+  alert('Saved');
+}
+function downloadIssueNotes(key, title) {
+  const val = document.getElementById('iss-notes').value;
+  const blob = new Blob([val], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = (title || 'notes').replace(/\s+/g, '-') + '-notes.txt';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+function uploadIssueNotes(key, input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    document.getElementById('iss-notes').value = reader.result;
+    localStorage.setItem(key, reader.result);
+    alert('Loaded');
+  };
+  reader.readAsText(file);
+  input.value = '';
+}
+function clearIssueNotes(key) {
+  document.getElementById('iss-notes').value = '';
+  localStorage.removeItem(key);
+}
+
 function hideDetail() {
   document.getElementById('issue-detail').classList.add('hidden');
   document.getElementById('issue-list').classList.remove('hidden');
