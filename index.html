@@ -81,7 +81,7 @@
 <script>
 const SUPABASE_URL = 'https://vsrasasxkbxiitbvonjw.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_4-d9tlhIQu1OqeI5bGTHTQ_OSLgPFoC';
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 async function aiSearch() {
   const q = document.getElementById('home-search').value.trim();
@@ -89,7 +89,7 @@ async function aiSearch() {
   if (!q) { box.innerHTML = '<p class="note">Enter a word or phrase.</p>'; return; }
   box.innerHTML = '<p class="note">Searching…</p>';
   try {
-    const { data, error } = await supabase.functions.invoke('search', { body: { query: q, type: 'counsel' } });
+    const { data, error } = await sb.functions.invoke('search', { body: { query: q, type: 'counsel' } });
     if (error) throw error;
     if (!data || !data.results || !data.results.length) {
       box.innerHTML = '<p class="note">No close matches. Try the Issues or Scripture pages.</p>';
