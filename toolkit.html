@@ -47,7 +47,8 @@
 function renderToolkit() {
   const list = document.getElementById('toolkit-list');
   list.innerHTML = '';
-  (window.toolkit || []).forEach(t => {
+  const tools = (typeof toolkit !== 'undefined' ? toolkit : []);
+  tools.forEach(t => {
     const div = document.createElement('div');
     div.className = 'module-item';
     div.innerHTML = `<div><strong>${t.title}</strong><p>${t.description || ''}</p></div>`;
@@ -63,23 +64,16 @@ function showTool(t) {
     <h2>${t.title}</h2>
     <p>${t.description || ''}</p>
     <div class="toolkit-form">
-      ${t.fields ? t.fields.map(f => `<label>${f.label}</label><textarea class="notes-area" data-field="${f.id}">${localStorage.getItem(key+'-'+f.id) || ''}</textarea>`).join('') : '<textarea class="notes-area" id="tool-notes">' + (localStorage.getItem(key) || '') + '</textarea>'}
+      <textarea class="notes-area" id="tool-notes">${localStorage.getItem(key) || ''}</textarea>
     </div>
     <div class="btn-row" style="margin-top:1rem">
-      <button class="btn" onclick="saveTool('${key}')">Save</button>
+      <button class="btn" onclick="localStorage.setItem('${key}', document.getElementById('tool-notes').value); alert('Saved')">Save</button>
       <button class="btn secondary" onclick="window.print()">Print</button>
-      <button class="btn secondary" onclick="if(confirm('Clear this form?')){document.querySelectorAll('#toolkit-detail textarea').forEach(el=>el.value='');}">Clear</button>
+      <button class="btn secondary" onclick="if(confirm('Clear?')) document.getElementById('tool-notes').value=''">Clear</button>
     </div>
   `;
   detail.classList.remove('hidden');
   document.getElementById('toolkit-list').classList.add('hidden');
-}
-function saveTool(key) {
-  document.querySelectorAll('#toolkit-detail textarea').forEach(el => {
-    const field = el.dataset.field || 'notes';
-    localStorage.setItem(key + (field === 'notes' ? '' : '-' + field), el.value);
-  });
-  alert('Saved on this device');
 }
 function hideDetail() {
   document.getElementById('toolkit-detail').classList.add('hidden');
