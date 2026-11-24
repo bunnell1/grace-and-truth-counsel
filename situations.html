@@ -31,7 +31,10 @@
 <main>
   <h1>Counseling Issues</h1>
   <p class="note">Search by struggle. Applicable Scripture, biblical principles, and session questions. Notes stay on your device.</p>
-  <input type="text" id="search" class="search" placeholder="Search issues…">
+  <div style="display:flex;gap:0.5rem;align-items:center;margin-bottom:1rem;">
+    <input type="text" id="search" class="search" placeholder="Search issues…" style="margin:0;flex:1;">
+    <button class="btn" onclick="renderIssues(document.getElementById('search').value)">Find</button>
+  </div>
   <div id="issue-list" class="module-list"></div>
   <div id="issue-detail" class="hidden card"></div>
 </main>
@@ -72,15 +75,21 @@ function showIssue(issue) {
   `;
   detail.classList.remove('hidden');
   document.getElementById('issue-list').classList.add('hidden');
-  document.getElementById('search').classList.add('hidden');
+  document.getElementById('search').parentElement.classList.add('hidden');
 }
 function hideDetail() {
   document.getElementById('issue-detail').classList.add('hidden');
   document.getElementById('issue-list').classList.remove('hidden');
-  document.getElementById('search').classList.remove('hidden');
+  document.getElementById('search').parentElement.classList.remove('hidden');
 }
 document.getElementById('search').addEventListener('input', e => renderIssues(e.target.value));
-renderIssues();
+document.getElementById('search').addEventListener('keydown', e => { if (e.key === 'Enter') renderIssues(e.target.value); });
+
+// Honor ?q= from home page
+const params = new URLSearchParams(location.search);
+const initial = params.get('q') || '';
+if (initial) document.getElementById('search').value = initial;
+renderIssues(initial);
 </script>
 </body>
 </html>
