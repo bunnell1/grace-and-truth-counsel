@@ -51,7 +51,7 @@
 <script>
 const SUPABASE_URL = 'https://vsrasasxkbxiitbvonjw.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_4-d9tlhIQu1OqeI5bGTHTQ_OSLgPFoC';
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 async function lookup() {
   const q = document.getElementById('verse-search').value.trim();
@@ -59,7 +59,7 @@ async function lookup() {
   if (!q) { result.innerHTML = '<p>Enter a reference or phrase.</p>'; return; }
   result.innerHTML = '<p class="note">Looking up…</p>';
   try {
-    const { data, error } = await supabase.functions.invoke('search', { body: { query: q, type: 'scripture' } });
+    const { data, error } = await sb.functions.invoke('search', { body: { query: q, type: 'scripture' } });
     if (error) throw error;
     if (!data || (!data.text && !data.results)) {
       result.innerHTML = '<p class="note">No passage found. Try a clearer reference (e.g. John 3:16).</p>';
