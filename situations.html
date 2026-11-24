@@ -120,7 +120,6 @@ function showIssue(issue) {
       '</ul>';
   }
 
-  // Strip leading h2 from content to avoid duplicate title
   let content = issue.content || '';
   content = content.replace(/<h2>[\s\S]*?<\/h2>/i, '');
 
@@ -129,8 +128,10 @@ function showIssue(issue) {
     <p>${issue.summary || ''}</p>
     <div id="issue-content">${content}</div>
     ${reading}
-    <h3>Your Notes</h3>
-    <textarea class="notes-area" id="iss-notes" placeholder="Notes stay on this device">${saved}</textarea>
+    <div id="notes-block">
+      <h3>Your Notes</h3>
+      <textarea class="notes-area" id="iss-notes" placeholder="Notes stay on this device">${saved}</textarea>
+    </div>
     <div class="icon-row">
       <button class="icon-btn" title="Back" onclick="hideDetail()">←</button>
       <button class="icon-btn" title="Save" onclick="saveIssueNotes('${notesKey}')">✓</button>
@@ -150,10 +151,8 @@ function showIssue(issue) {
 function openPrintModal() {
   const content = document.getElementById('issue-content');
   const opts = document.getElementById('print-options');
-  if (!content) { window.print(); return; }
-  const heads = content.querySelectorAll('h2, h3, h4');
-  if (!heads.length) { window.print(); return; }
   opts.innerHTML = '';
+  const heads = content ? content.querySelectorAll('h2, h3, h4') : [];
   heads.forEach((h, i) => {
     const level = h.tagName === 'H2' ? 0 : h.tagName === 'H3' ? 1 : 2;
     const indent = level * 1.1;
@@ -163,6 +162,12 @@ function openPrintModal() {
     label.innerHTML = `<input type="checkbox" class="print-cb" data-idx="${i}" data-level="${level}" checked> ${h.textContent}`;
     opts.appendChild(label);
   });
+  // Notes option
+  const notesLabel = document.createElement('label');
+  notesLabel.className = 'check-item';
+  notesLabel.innerHTML = `<input type="checkbox" id="print-notes" checked> Your Notes`;
+  opts.appendChild(notesLabel);
+
   opts.querySelectorAll('.print-cb').forEach(cb => {
     cb.addEventListener('change', () => {
       const idx = parseInt(cb.dataset.idx, 10);
@@ -184,7 +189,7 @@ function closePrintModal() {
 function doPrint() {
   const content = document.getElementById('issue-content');
   const cbs = Array.from(document.querySelectorAll('#print-options .print-cb'));
-  const heads = content.querySelectorAll('h2, h3, h4');
+  const heads = content ? content.querySelectorAll('h2, h3, h4') : [];
   heads.forEach((h, i) => {
     const checked = cbs[i] && cbs[i].checked;
     let el = h;
@@ -194,8 +199,14 @@ function doPrint() {
     }
     h.style.display = checked ? '' : 'none';
   });
+  const notesBlock = document.getElementById('notes-block');
+  const printNotes = document.getElementById('print-notes');
+  if (notesBlock) notesBlock.style.display = (printNotes && printNotes.checked) ? '' : 'none';
+
   closePrintModal();
   window.print();
+
+  // Restore
   heads.forEach(h => {
     h.style.display = '';
     let el = h;
@@ -204,6 +215,7 @@ function doPrint() {
       el.style.display = '';
     }
   });
+  if (notesBlock) notesBlock.style.display = '';
 }
 
 function saveIssueNotes(key) {
