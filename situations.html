@@ -6,6 +6,7 @@
 <title>Counseling Issues | Grace & Truth Counsel</title>
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="stylesheet" href="styles.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 <header>
@@ -23,6 +24,7 @@
       <a href="modules.html">Modules</a>
       <a href="toolkit.html">Toolkit</a>
       <a href="scripture.html">Scripture</a>
+      <a href="prayer.html">Prayer</a>
       <a href="about.html">About</a>
     </nav>
   </div>
@@ -33,7 +35,7 @@
   <p class="note">Search by struggle. Applicable Scripture, biblical principles, and session questions. Notes stay on your device.</p>
   <div style="display:flex;gap:0.5rem;align-items:center;margin-bottom:1rem;">
     <input type="text" id="search" class="search" placeholder="Search issues…" style="margin:0;flex:1;">
-    <button class="btn" onclick="renderIssues(document.getElementById('search').value)">Find</button>
+    <button class="btn" onclick="doSearch()">Find</button>
   </div>
   <div id="issue-list" class="module-list"></div>
   <div id="issue-detail" class="hidden card"></div>
@@ -48,19 +50,47 @@
 
 <script src="counselingIssues.js"></script>
 <script>
-function renderIssues(filter = '') {
+const SUPABASE_URL = 'https://vsrasasxkbxiitbvonjw.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_4-d9tlhIQu1OqeI5bGTHTQ_OSLgPFoC';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+function renderIssues(filter = '', aiIds = null) {
   const list = document.getElementById('issue-list');
   list.innerHTML = '';
-  const issues = (typeof counselingIssues !== 'undefined' ? counselingIssues : []);
-  issues.filter(i => !filter || (i.title || '').toLowerCase().includes(filter.toLowerCase()) || (i.summary || '').toLowerCase().includes(filter.toLowerCase()))
-    .forEach(issue => {
-      const div = document.createElement('div');
-      div.className = 'module-item';
-      div.innerHTML = `<div><strong>${issue.title}</strong><p>${issue.summary || ''}</p></div>`;
-      div.onclick = () => showIssue(issue);
-      list.appendChild(div);
-    });
+  let issues = (typeof counselingIssues !== 'undefined' ? counselingIssues : []);
+  if (aiIds && aiIds.length) {
+    issues = issues.filter(i => aiIds.includes(i.id));
+  } else if (filter) {
+    const f = filter.toLowerCase();
+    issues = issues.filter(i => (i.title || '').toLowerCase().includes(f) || (i.summary || '').toLowerCase().includes(f));
+  }
+  issues.forEach(issue => {
+    const div = document.createElement('div');
+    div.className = 'module-item';
+    div.innerHTML = `<div><strong>${issue.title}</strong><p>${issue.summary || ''}</p></div>`;
+    div.onclick = () => showIssue(issue);
+    list.appendChild(div);
+  });
+  if (!issues.length) list.innerHTML = '<p class="note">No matching issues.</p>';
 }
+
+async function doSearch() {
+  const q = document.getElementById('search').value.trim();
+  if (!q) { renderIssues(); return; }
+  // Try AI first
+  try {
+    const catalog = (counselingIssues || []).map(i => ({ type: 'issue', id: i.id, title: i.title, summary: i.summary || '' }));
+    const { data, error } = await sb.functions.invoke('find', { body: { q, catalog } });
+    if (!error && data && data.matches && data.matches.length) {
+      const ids = data.matches.map(m => m.id).filter(Boolean);
+      renderIssues(q, ids);
+      return;
+    }
+  } catch (e) { console.error(e); }
+  // Fallback to local
+  renderIssues(q);
+}
+
 function showIssue(issue) {
   const detail = document.getElementById('issue-detail');
   const notesKey = 'issue-notes-' + (issue.id || issue.title);
@@ -83,13 +113,19 @@ function hideDetail() {
   document.getElementById('search').parentElement.classList.remove('hidden');
 }
 document.getElementById('search').addEventListener('input', e => renderIssues(e.target.value));
-document.getElementById('search').addEventListener('keydown', e => { if (e.key === 'Enter') renderIssues(e.target.value); });
+document.getElementById('search').addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
 
-// Honor ?q= from home page
+// Honor ?q= and ?id= from home page
 const params = new URLSearchParams(location.search);
-const initial = params.get('q') || '';
-if (initial) document.getElementById('search').value = initial;
-renderIssues(initial);
+const initialQ = params.get('q') || '';
+const initialId = params.get('id') || '';
+if (initialQ) document.getElementById('search').value = initialQ;
+if (initialId) {
+  const issue = (counselingIssues || []).find(i => i.id === initialId);
+  if (issue) { showIssue(issue); } else { renderIssues(initialQ); }
+} else {
+  renderIssues(initialQ);
+}
 </script>
 </body>
 </html>
