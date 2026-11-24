@@ -71,13 +71,20 @@ function renderIssues(filter = '', aiIds = null) {
     div.onclick = () => showIssue(issue);
     list.appendChild(div);
   });
-  if (!issues.length) list.innerHTML = '<p class="note">No matching issues.</p>';
+  if (!issues.length) {
+    if (filter && filter.length >= 2 && !aiIds) {
+      list.innerHTML = '<p class="note">No quick matches. Click <strong>Find</strong> to search by meaning.</p>';
+    } else {
+      list.innerHTML = '<p class="note">No matching issues.</p>';
+    }
+  }
 }
 
 async function doSearch() {
   const q = document.getElementById('search').value.trim();
   if (!q) { renderIssues(); return; }
-  // Try AI first
+  const list = document.getElementById('issue-list');
+  list.innerHTML = '<p class="note">Searching…</p>';
   try {
     const catalog = (counselingIssues || []).map(i => ({ type: 'issue', id: i.id, title: i.title, summary: i.summary || '' }));
     const { data, error } = await sb.functions.invoke('find', { body: { q, catalog } });
@@ -87,7 +94,6 @@ async function doSearch() {
       return;
     }
   } catch (e) { console.error(e); }
-  // Fallback to local
   renderIssues(q);
 }
 
@@ -115,7 +121,6 @@ function hideDetail() {
 document.getElementById('search').addEventListener('input', e => renderIssues(e.target.value));
 document.getElementById('search').addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
 
-// Honor ?q= and ?id= from home page
 const params = new URLSearchParams(location.search);
 const initialQ = params.get('q') || '';
 const initialId = params.get('id') || '';
