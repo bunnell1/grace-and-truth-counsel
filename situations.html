@@ -101,6 +101,12 @@ function showIssue(issue) {
   const detail = document.getElementById('issue-detail');
   const notesKey = 'issue-notes-' + (issue.id || issue.title);
   const saved = localStorage.getItem(notesKey) || '';
+  let reading = '';
+  if (issue.furtherReading && issue.furtherReading.length) {
+    reading = '<h3>For Further Reading</h3><ul>' +
+      issue.furtherReading.map(b => `<li><a href="${b.url}" target="_blank" rel="noopener">${b.title}</a>${b.note ? ' — ' + b.note : ''}</li>`).join('') +
+      '</ul>';
+  }
   detail.innerHTML = `
     <div class="btn-row" style="margin-bottom:1rem;">
       <button class="btn secondary" onclick="hideDetail()">Back</button>
@@ -114,6 +120,7 @@ function showIssue(issue) {
     <h2>${issue.title}</h2>
     <p>${issue.summary || ''}</p>
     ${issue.content || ''}
+    ${reading}
     <h3>Your Notes</h3>
     <textarea class="notes-area" id="iss-notes" placeholder="Notes stay on this device">${saved}</textarea>
   `;
