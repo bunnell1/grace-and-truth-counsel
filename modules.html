@@ -31,7 +31,7 @@
 
 <main>
   <h1>Growth Modules</h1>
-  <p class="note">Structured preparation on listening, gospel clarity, heart issues, and more. Click a module for full content and a notes field.</p>
+  <p class="note" id="modules-intro">Structured preparation on listening, gospel clarity, heart issues, and more. Click a module for full content and a notes field.</p>
   <div id="module-list" class="module-list"></div>
   <div id="module-detail" class="hidden card"></div>
 </main>
@@ -67,19 +67,24 @@ function showModule(m) {
       '</ul>';
   }
   detail.innerHTML = `
-    <button class="btn secondary" onclick="hideDetail()">Back to list</button>
     ${m.content || ''}
     ${reading}
     <h3>Your Notes</h3>
     <textarea class="notes-area" id="mod-notes" placeholder="Notes stay on this device">${localStorage.getItem(notesKey) || ''}</textarea>
-    <button class="btn" onclick="localStorage.setItem('${notesKey}', document.getElementById('mod-notes').value); alert('Saved')">Save Notes</button>
+    <div class="icon-row">
+      <button class="icon-btn" title="Back" onclick="hideDetail()">←</button>
+      <button class="icon-btn" title="Save" onclick="localStorage.setItem('${notesKey}', document.getElementById('mod-notes').value); alert('Saved')">✓</button>
+      <button class="icon-btn" title="Print" onclick="window.print()">⎙</button>
+    </div>
   `;
   detail.classList.remove('hidden');
   document.getElementById('module-list').classList.add('hidden');
+  document.getElementById('modules-intro').classList.add('hidden');
 }
 function hideDetail() {
   document.getElementById('module-detail').classList.add('hidden');
   document.getElementById('module-list').classList.remove('hidden');
+  document.getElementById('modules-intro').classList.remove('hidden');
 }
 renderModules();
 </script>
