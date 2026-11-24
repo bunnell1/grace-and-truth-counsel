@@ -59,17 +59,16 @@ async function lookup() {
   if (!q) { result.innerHTML = '<p>Enter a reference or phrase.</p>'; return; }
   result.innerHTML = '<p class="note">Looking up…</p>';
   try {
-    const { data, error } = await sb.functions.invoke('search', { body: { query: q, type: 'scripture' } });
+    const { data, error } = await sb.functions.invoke('passage', { body: { q } });
     if (error) throw error;
-    if (!data || (!data.text && !data.results)) {
+    const passages = (data && data.passages) || [];
+    if (!passages.length) {
       result.innerHTML = '<p class="note">No passage found. Try a clearer reference (e.g. John 3:16).</p>';
       return;
     }
-    if (data.text) {
-      result.innerHTML = `<div class="verse">${data.text}</div>${data.reference ? `<p><a href="https://www.esv.org/${encodeURIComponent(data.reference)}" target="_blank" rel="noopener">${data.reference} on ESV.org</a></p>` : ''}`;
-    } else {
-      result.innerHTML = data.results.map(r => `<div class="verse">${r.text || r.summary || ''}</div>`).join('');
-    }
+    result.innerHTML = passages.map(p =>
+      `<div class="verse">${p.text || ''}</div><p><a href="https://www.esv.org/${encodeURIComponent(p.ref || '')}" target="_blank" rel="noopener">${p.ref || 'Open on ESV.org'}</a></p>`
+    ).join('');
   } catch (e) {
     result.innerHTML = '<p class="note">Lookup is temporarily unavailable. You can open ESV.org directly.</p>';
     console.error(e);
