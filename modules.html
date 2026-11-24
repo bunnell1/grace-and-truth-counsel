@@ -47,7 +47,8 @@
 function renderModules() {
   const list = document.getElementById('module-list');
   list.innerHTML = '';
-  (window.modules || []).forEach(m => {
+  const mods = (typeof modules !== 'undefined' ? modules : []);
+  mods.forEach(m => {
     const div = document.createElement('div');
     div.className = 'module-item';
     div.innerHTML = `<div><strong>${m.title}</strong><p>${m.summary || ''}</p></div>`;
