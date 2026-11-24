@@ -52,34 +52,104 @@ function renderToolkit() {
   tools.forEach(t => {
     const div = document.createElement('div');
     div.className = 'module-item';
-    div.innerHTML = `<div><strong>${t.title}</strong><p>${t.summary || t.description || ''}</p></div>`;
+    div.innerHTML = `<div><strong>${t.title}</strong><p>${t.summary || ''}</p></div>`;
     div.onclick = () => showTool(t);
     list.appendChild(div);
   });
 }
+
 function showTool(t) {
   const detail = document.getElementById('toolkit-detail');
   const key = 'tool-' + (t.id || t.title);
+  const saved = JSON.parse(localStorage.getItem(key) || '{}');
+
   detail.innerHTML = `
-    <button class="btn secondary" onclick="hideDetail()">Back to list</button>
-    <h2>${t.title}</h2>
-    <p>${t.summary || t.description || ''}</p>
-    <div class="toolkit-form">
-      <textarea class="notes-area" id="tool-notes">${localStorage.getItem(key) || ''}</textarea>
-    </div>
-    <div class="btn-row" style="margin-top:1rem">
-      <button class="btn" onclick="localStorage.setItem('${key}', document.getElementById('tool-notes').value); alert('Saved')">Save</button>
+    <div class="btn-row" style="margin-bottom:1rem;">
+      <button class="btn secondary" onclick="hideDetail()">Back</button>
+      <button class="btn" onclick="saveTool('${key}')">Save</button>
+      <button class="btn secondary" onclick="downloadTool('${key}', '${t.title}')">Download</button>
+      <button class="btn secondary" onclick="document.getElementById('upload-${t.id}').click()">Upload</button>
+      <input type="file" id="upload-${t.id}" accept=".json" style="display:none" onchange="uploadTool('${key}', this)">
+      <button class="btn secondary" onclick="if(confirm('Clear this form?')) clearTool('${key}')">Clear</button>
       <button class="btn secondary" onclick="window.print()">Print</button>
-      <button class="btn secondary" onclick="if(confirm('Clear?')) document.getElementById('tool-notes').value=''">Clear</button>
     </div>
+    <h2>${t.title}</h2>
+    <div id="tool-form">${t.content || ''}</div>
   `;
+
+  // Restore saved values
+  Object.keys(saved).forEach(id => {
+    const el = detail.querySelector('#' + id);
+    if (el) {
+      if (el.type === 'checkbox') el.checked = !!saved[id];
+      else el.value = saved[id] || '';
+    }
+  });
+
   detail.classList.remove('hidden');
   document.getElementById('toolkit-list').classList.add('hidden');
 }
+
+function collectForm(key) {
+  const detail = document.getElementById('toolkit-detail');
+  const data = {};
+  detail.querySelectorAll('input, textarea, select').forEach(el => {
+    if (!el.id) return;
+    if (el.type === 'checkbox') data[el.id] = el.checked;
+    else data[el.id] = el.value;
+  });
+  return data;
+}
+
+function saveTool(key) {
+  const data = collectForm(key);
+  localStorage.setItem(key, JSON.stringify(data));
+  alert('Saved on this device');
+}
+
+function downloadTool(key, title) {
+  const data = collectForm(key);
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = (title || 'form').replace(/\s+/g, '-') + '.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function uploadTool(key, input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const data = JSON.parse(reader.result);
+      localStorage.setItem(key, JSON.stringify(data));
+      // re-render current tool
+      const tools = toolkit || [];
+      const t = tools.find(x => 'tool-' + (x.id || x.title) === key);
+      if (t) showTool(t);
+      alert('Loaded');
+    } catch (e) {
+      alert('Could not read that file');
+    }
+  };
+  reader.readAsText(file);
+  input.value = '';
+}
+
+function clearTool(key) {
+  localStorage.removeItem(key);
+  const tools = toolkit || [];
+  const t = tools.find(x => 'tool-' + (x.id || x.title) === key);
+  if (t) showTool(t);
+}
+
 function hideDetail() {
   document.getElementById('toolkit-detail').classList.add('hidden');
   document.getElementById('toolkit-list').classList.remove('hidden');
 }
+
 renderToolkit();
 </script>
 </body>
