@@ -23,6 +23,7 @@
       <a href="modules.html">Modules</a>
       <a href="toolkit.html" class="active">Toolkit</a>
       <a href="scripture.html">Scripture</a>
+      <a href="prayer.html">Prayer</a>
       <a href="about.html">About</a>
     </nav>
   </div>
@@ -51,7 +52,7 @@ function renderToolkit() {
   tools.forEach(t => {
     const div = document.createElement('div');
     div.className = 'module-item';
-    div.innerHTML = `<div><strong>${t.title}</strong><p>${t.description || ''}</p></div>`;
+    div.innerHTML = `<div><strong>${t.title}</strong><p>${t.summary || t.description || ''}</p></div>`;
     div.onclick = () => showTool(t);
     list.appendChild(div);
   });
@@ -62,7 +63,7 @@ function showTool(t) {
   detail.innerHTML = `
     <button class="btn secondary" onclick="hideDetail()">Back to list</button>
     <h2>${t.title}</h2>
-    <p>${t.description || ''}</p>
+    <p>${t.summary || t.description || ''}</p>
     <div class="toolkit-form">
       <textarea class="notes-area" id="tool-notes">${localStorage.getItem(key) || ''}</textarea>
     </div>
