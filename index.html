@@ -8,6 +8,7 @@
 <link rel="canonical" href="https://graceandtruthcounsel.com/">
 <link rel="stylesheet" href="styles.css">
 <link rel="icon" type="image/png" href="icon-192.png">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 <header>
@@ -35,10 +36,13 @@
     <img src="logo.png" alt="Grace & Truth Counsel" class="hero-logo">
     <h1>Welcome, Counselor</h1>
     <p class="tagline">Biblical wisdom. Practical tools. Spirit-led care.<br>Equipping you to counsel with grace and truth.</p>
-    <form action="situations.html" method="get" style="max-width:420px;margin:1.2rem auto 0;display:flex;gap:0.5rem;">
-      <input type="text" name="q" class="search" placeholder="Find an issue…" style="margin:0;flex:1;">
-      <button type="submit" class="btn">Find</button>
-    </form>
+    <div style="max-width:480px;margin:1.2rem auto 0;">
+      <div style="display:flex;gap:0.5rem;">
+        <input type="text" id="home-search" class="search" placeholder="Find an issue, module, or Scripture…" style="margin:0;flex:1;">
+        <button class="btn" onclick="aiSearch()">Find</button>
+      </div>
+      <div id="home-results" style="margin-top:0.8rem;text-align:left;"></div>
+    </div>
     <div class="btn-row" style="margin-top:1rem;">
       <a class="btn" href="situations.html">Browse Issues</a>
       <a class="btn" href="scripture.html">Look up a Verse</a>
@@ -73,5 +77,33 @@
   <a href="https://graceandtruthministry.com/terms.html">Terms</a>
   <p>© 2026 Grace & Truth Counsel</p>
 </footer>
+
+<script>
+const SUPABASE_URL = 'https://vsrasasxkbxiitbvonjw.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_4-d9tlhIQu1OqeI5bGTHTQ_OSLgPFoC';
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+async function aiSearch() {
+  const q = document.getElementById('home-search').value.trim();
+  const box = document.getElementById('home-results');
+  if (!q) { box.innerHTML = '<p class="note">Enter a word or phrase.</p>'; return; }
+  box.innerHTML = '<p class="note">Searching…</p>';
+  try {
+    const { data, error } = await supabase.functions.invoke('search', { body: { query: q, type: 'counsel' } });
+    if (error) throw error;
+    if (!data || !data.results || !data.results.length) {
+      box.innerHTML = '<p class="note">No close matches. Try the Issues or Scripture pages.</p>';
+      return;
+    }
+    box.innerHTML = data.results.map(r =>
+      `<div class="module-item"><div><strong>${r.title || r.reference || 'Result'}</strong><p>${r.summary || r.text || ''}</p>${r.url ? `<a href="${r.url}">Open</a>` : ''}</div></div>`
+    ).join('');
+  } catch (e) {
+    box.innerHTML = '<p class="note">Search is temporarily unavailable. You can still browse Issues or look up a verse directly.</p>';
+    console.error(e);
+  }
+}
+document.getElementById('home-search').addEventListener('keydown', e => { if (e.key === 'Enter') aiSearch(); });
+</script>
 </body>
 </html>
