@@ -119,6 +119,8 @@ function renderIssues(filter = '', aiIds = null) {
 }
 
 async function doSearch() {
+  // If a detail is open, close it so results are visible
+  hideDetail();
   const q = document.getElementById('search').value.trim();
   if (!q) { renderIssues(); return; }
   const list = document.getElementById('issue-list');
@@ -278,7 +280,12 @@ function hideDetail() {
   document.getElementById('issue-list').classList.remove('hidden');
   document.getElementById('issues-intro').classList.remove('hidden');
 }
-document.getElementById('search').addEventListener('input', e => renderIssues(e.target.value));
+
+// When user types or searches while a detail is open, close it and show results
+document.getElementById('search').addEventListener('input', e => {
+  hideDetail();
+  renderIssues(e.target.value);
+});
 document.getElementById('search').addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
 
 const params = new URLSearchParams(location.search);
