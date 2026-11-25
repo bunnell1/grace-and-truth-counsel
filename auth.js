@@ -9,9 +9,11 @@ async function initAuth() {
   const { data: { session } } = await sb.auth.getSession();
   currentUser = session?.user || null;
   updateAuthButton();
-  if (currentUser) loadFavorites();
+  if (currentUser) {
+    loadFavorites();
+    maybeShowWeekly();
+  }
   trackLastViewed();
-  maybeShowWeekly();
 }
 
 function updateAuthButton() {
@@ -67,6 +69,8 @@ async function signOut() {
   await sb.auth.signOut();
   currentUser = null;
   updateAuthButton();
+  const box = document.getElementById('weekly-suggestion');
+  if (box) box.classList.add('hidden');
 }
 
 // Favorites
@@ -110,7 +114,7 @@ function getLastViewed() {
   return localStorage.getItem('lastViewed');
 }
 
-// Weekly suggestion
+// Weekly suggestion (signed-in only)
 const weeklyTopics = [
   'Review one Growth Module you have not opened recently.',
   'Choose one Issue and write a short prayer for the person you might counsel.',
@@ -121,6 +125,7 @@ const weeklyTopics = [
   'Reflect on one session: what heart theme did you notice? Write it down.'
 ];
 function maybeShowWeekly() {
+  if (!currentUser) return;
   const last = localStorage.getItem('weeklyShown');
   const now = Date.now();
   if (last && now - parseInt(last, 10) < 7 * 24 * 60 * 60 * 1000) return;
