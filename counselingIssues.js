@@ -12,7 +12,7 @@ const counselingIssues = [
     content: `
       <h2>Envy & Coveting</h2>
       <div style="margin:1rem 0;">
-        <iframe width="100%" height="315" src="https://www.youtube.com/embed/Pyw0xeGwi6A" title="Envy & Coveting" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="max-width:560px;border-radius:8px;"></iframe>
+        <iframe width="100%" height="315" src="https://www.youtube.com/embed/iHwRNix6qDE" title="Envy & Coveting" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="max-width:560px;border-radius:8px;"></iframe>
         <p style="font-size:0.85rem;color:#6B6560;margin-top:0.4rem;">Short video illustration. A preparation aid, not a counseling session.</p>
       </div>
       <p>Envy is not admiration. It is sorrow at another person’s good, and a demand that God should have given it to me. Biblical counseling names it as sin and points to a God who is enough.</p>
