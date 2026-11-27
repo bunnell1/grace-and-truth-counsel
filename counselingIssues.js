@@ -54,6 +54,10 @@ const counselingIssues = [
     ],
     content: `
       <h2>Loneliness</h2>
+      <div style="margin:1rem 0;">
+        <iframe width="100%" height="315" src="https://www.youtube.com/embed/8ByBN3J0x1E" title="Loneliness" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="max-width:560px;border-radius:8px;"></iframe>
+        <p style="font-size:0.85rem;color:#6B6560;margin-top:0.4rem;">Short video illustration. A preparation aid, not a counseling session.</p>
+      </div>
       <p>Loneliness is a real ache. It is not proof that God has left. Biblical counseling makes room for the pain and refuses to treat people as the cure.</p>
       <div class="verse">“Turn to me and be gracious to me, for I am lonely and afflicted.” — Psalm 25:16</div>
       <div class="verse">“I will never leave you nor forsake you.” — Hebrews 13:5</div>
