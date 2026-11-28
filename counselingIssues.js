@@ -182,6 +182,10 @@ const counselingIssues = [
     ],
     content: `
       <h2>Rebellion</h2>
+      <div style="margin:1rem 0;">
+        <iframe width="100%" height="315" src="https://www.youtube.com/embed/5vVeyOh1lqs" title="Rebellion" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="max-width:560px;border-radius:8px;"></iframe>
+        <p style="font-size:0.85rem;color:#6B6560;margin-top:0.4rem;">Short video illustration. A preparation aid, not a counseling session.</p>
+      </div>
       <p>Rebellion is more than a hard day. It is a settled refusal of rightful authority. In a child it is a heart issue. In an adult it is the same heart, aimed at God, a parent, a church, or an employer.</p>
       <div class="verse">“Children, obey your parents in the Lord, for this is right.” — Ephesians 6:1</div>
       <div class="verse">“Whoever resists the authorities resists what God has appointed.” — Romans 13:2</div>
