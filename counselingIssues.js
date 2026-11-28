@@ -98,6 +98,10 @@ const counselingIssues = [
     ],
     content: `
       <h2>Deception & Lying</h2>
+      <div style="margin:1rem 0;">
+        <iframe width="100%" height="315" src="https://www.youtube.com/embed/xhLcsdtE_ng" title="Deception & Lying" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="max-width:560px;border-radius:8px;"></iframe>
+        <p style="font-size:0.85rem;color:#6B6560;margin-top:0.4rem;">Short video illustration. A preparation aid, not a counseling session.</p>
+      </div>
       <p>A lie protects something. An image, a relationship, or an escape from consequence. Biblical counseling tells the truth about the lie and points to the God who already knows.</p>
       <div class="verse">“Therefore, having put away falsehood, let each one of you speak the truth with his neighbor.” — Ephesians 4:25</div>
       <div class="verse">“You will know the truth, and the truth will set you free.” — John 8:32</div>
